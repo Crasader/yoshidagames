@@ -135,6 +135,7 @@ bool HelloWorld::onTouchBegan(Touch* pTouch, Event* pEvent)
 
 	_yosidaManeger->touchCall(touchPos, true);
 	_yosidaManeger->touchStateCall(touchPos);
+	_yoshidaCamera->moveOn();
 
 	//windEffect(touchPos);
 

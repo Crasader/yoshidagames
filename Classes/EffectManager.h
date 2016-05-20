@@ -18,8 +18,13 @@ public:
 	void touchEffectCreate(Vec2 Pos);
 
 	void watageBakusan(Vec2 bakusanPos);
+	void hamonCreate(Vec2 Pos);
+	void hunsyaBusya(Vec2 Pos);
+	void createBokujyu(Vec2 Pos);
 
 	Sprite* _kirakira;
+	Sprite* _hamon;
+	Sprite* _smoke;
 
 };
 #endif

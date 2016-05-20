@@ -32,9 +32,12 @@ bool YoshidaCamera::init()
 	return true;
 }
 
-void YoshidaCamera::update(float dt) 
+void YoshidaCamera::update(float dt)
 {
-	scrollMove();
+	if (_isMoved)
+	{
+		scrollMove();
+	}
 }
 
 void YoshidaCamera::scrollMove()
@@ -42,4 +45,12 @@ void YoshidaCamera::scrollMove()
 	Vec2 myPos = getPosition();
 	myPos.x += _speed;
 	this->setPosition(myPos);
+}
+
+void YoshidaCamera::moveOn() 
+{
+	if (!_isMoved)
+	{
+		_isMoved = true;
+	}
 }

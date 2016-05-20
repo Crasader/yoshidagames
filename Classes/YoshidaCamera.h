@@ -16,6 +16,7 @@ public:
 	bool init();
 	void update(float dt);
 	void scrollMove();
+	void moveOn();
 
 	float _speed;
 	bool _isMoved;
