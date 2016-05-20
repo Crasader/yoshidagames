@@ -6,7 +6,7 @@ bool StageCreater::init(Sprite *uekibati)
 {
 	if (!Node::init())return false;
 
-	Sprite *backGround = Sprite::create("pix/buck/stage.png");
+	/*Sprite *backGround = Sprite::create("pix/buck/stage.png");
 	backGround->setAnchorPoint(Vec2(0.0f, 0.0f));
 	addChild(backGround);
 
@@ -18,7 +18,7 @@ bool StageCreater::init(Sprite *uekibati)
 	Sprite *ki = Sprite::create("pix/buck/ki.png");
 	ki->setAnchorPoint(Vec2(0.0f, 0.0f));
 	addChild(ki);
-
+*/
 	Sprite *yajirushi = Sprite::create("pix/stageSozai/yajirushi.png");
 	yajirushi->setAnchorPoint(Vec2(0.0f, 0.0f));
 	yajirushi->setScale(0.7f);

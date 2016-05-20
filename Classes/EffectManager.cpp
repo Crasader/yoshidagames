@@ -37,12 +37,12 @@ void EffectManager::touchEffectCreate(Vec2 Pos)
 	int kirakiraDeru = 20;
 	for (int i = 0; i<kirakiraDeru; i++)
 	{
-		_kirakira = Sprite::create("maru.png");
+		_kirakira = Sprite::create("pix/eff/maru.png");
 		_kirakira->setTextureRect(Rect(0, 0, 32, 32));
 		_kirakira->setColor(Color3B(255, 255, 100));
 		//CCLOG("%f",Pos);
 		_kirakira->setPosition(Pos);
-		_kirakira->setScale(3);
+		_kirakira->setScale(1);
 		_kirakira->setColor(Color3B(155 + rand()%100,
 			                        155 + rand()%100,
                                     155 + rand()%100));

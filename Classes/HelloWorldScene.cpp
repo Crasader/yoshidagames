@@ -33,6 +33,11 @@ bool HelloWorld::init()
 	_backGround->setAnchorPoint(Vec2(0.0f, 0.0f));
 	addChild(_backGround);
 
+	Sprite *backGround2 = Sprite::create("pix/buck/stage.png");
+	backGround2->setAnchorPoint(Vec2(0.0f, 0.0f));
+	backGround2->setPosition(Vec2(_backGround->getBoundingBox().size.width, 0));
+	addChild(backGround2);
+
 	Sprite *ki = Sprite::create("pix/buck/ki.png");
 	ki->setAnchorPoint(Vec2(0.0f, 0.0f));
 	addChild(ki);
@@ -42,18 +47,6 @@ bool HelloWorld::init()
 	uekibathi->setAnchorPoint(Vec2(0.0f, 0.0f));
 	uekibathi->setScale(0.7f);
 	uekibathi->setPosition(Vec2(designResolutionSize.width*1.5f, designResolutionSize.height*0.24f));
-
-	Sprite *yajirushi = Sprite::create("pix/stageSozai/yajirushi.png");
-	yajirushi->setAnchorPoint(Vec2(0.0f, 0.0f));
-	yajirushi->setScale(0.7f);
-	yajirushi->setPosition(Vec2(designResolutionSize.width*0.77f, designResolutionSize.height*0.5f));
-	addChild(yajirushi);
-
-	auto upAct = MoveBy::create(0.5, Vec2(0,20));
-	auto downAct = MoveBy::create(0.5, Vec2(0, -20));
-	auto seq = Sequence::create(upAct, downAct, nullptr);
-	auto rep = RepeatForever::create(seq);
-	yajirushi->runAction(rep);
 
 	_stageCreater = new StageCreater();
 	_stageCreater->init(uekibathi);
