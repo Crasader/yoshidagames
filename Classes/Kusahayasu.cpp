@@ -58,7 +58,7 @@ void Kusahayasu::kusahayasu(Vec2 hayasuPos, int hayasuNam)
 
 	else
 	{
-		kusa = Sprite::create("pix/stageSozai/ne.png");
+		kusa = Sprite::create("pix/stageSozai/zasou.png");
 		kusa->setAnchorPoint(Vec2(0.5f, 1.0f));
 	}
 	
