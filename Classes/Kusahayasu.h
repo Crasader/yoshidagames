@@ -24,11 +24,15 @@ public:
 	bool init();
 	void update(float dt);
 	
-	void kusahayasu(Vec2 hayasuPos,int hayasuNam);
+	void kusahayasu(Vec2 hayasuPos);
 	void scorePlus(int myNum);
+	void shiniHayasu(Vec2 shiniPos, int kakudoNum);
+	vector<Sprite*> getShinikusa();
+	void kusaHaneAction(Sprite* target, Vec2 muki);
 
 	int _score;
 	vector<Sprite*> _kusa;
+	vector<Sprite*> _shiniKusa;
 
 	void goResult();
 
