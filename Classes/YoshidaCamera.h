@@ -20,6 +20,7 @@ public:
 
 	float _speed;
 	bool _isMoved;
+	bool _isScroll;
 
 };
 

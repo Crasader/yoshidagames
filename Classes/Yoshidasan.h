@@ -30,9 +30,10 @@ public:
 	void speedKeisan();
 	//rotateの計算
 	void rotateKeisan();
+	//speedを反転
+	void speedFlip();
 	//speedを調べる
 	Vec2 getSpeed();
-
 
 	//吉田アクションず
 	//始めの飛び出し
@@ -43,6 +44,8 @@ public:
 	void allChangeReset();
 	//ゴーールした時の動き
 	void actionGoolMove(Vec2 centerPos, float dilay);
+	
+	void happaPiyon(Vec2 muki);
 
 	int _myNo;
 	bool _isGoRight;

@@ -30,7 +30,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_kusahayasu = kusahayasu;
 
 	//ãgìcÇ≥ÇÒÇÃêî
-	int yoshidaSuu = 20;
+	int yoshidaSuu = 10;
 
 	_goolRect = _stageCrater->getGoolRect();
 
@@ -92,6 +92,13 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_touchSP->setScale(0.2f);
 	addChild(_touchSP);
 
+	_yajirushiSP = Sprite::create("pix/eff/yajirushiYoko.png");
+	_yajirushiSP->setScale(0.3);
+	addChild(_yajirushiSP);
+
+	_yajirushiPos = Vec2(_touchSP->getPosition());
+	_touchAngle = 0.0;
+
 	//touchÇµÇƒÇ¢ÇÈÇ©
 	_isTouch = true;
 
@@ -132,14 +139,17 @@ void YoshidasanNoManager::update(float dt)
 		yoshidaCenterCall();
 		_frmCount = 0;
 	}
-
-	yoshidaNoAtarihantei();
 	if (!_isTouch)kazeKeisan();
+	yoshidaNoAtarihantei();
 }
 
 void YoshidasanNoManager::touchCall(Vec2 touchPos, bool isTouch)
 {
 	_touchSP->setRotation(atan2( _touchStartPos.y - touchPos.y, touchPos.x - _touchStartPos.x) * 180 / M_PI);
+
+	_touchAngle = (atan2(_touchStartPos.y - touchPos.y, touchPos.x - _touchStartPos.x) * 180 / M_PI);
+
+	_yajirushiPos = Vec2(touchPos.x - _touchStartPos.x, touchPos.y - _touchStartPos.y);
 }
 
 void YoshidasanNoManager::touchStateCall(Vec2 touchPos)
@@ -153,6 +163,8 @@ void YoshidasanNoManager::touchEndCall(Vec2 touchPos)
 {
 	_touchEndPos = touchPos;
 	_isTouch = false;
+
+	_effectManager->kazeNagareru(_touchStartPos, _touchEndPos, _touchAngle);
 }
 
 void YoshidasanNoManager::yosidaLiveingCheck()
@@ -165,93 +177,147 @@ void YoshidasanNoManager::yosidaLiveingCheck()
 
 void YoshidasanNoManager::yoshidaNoAtarihantei()
 {
+	vector<Sprite*> shinikusa = _kusahayasu->getShinikusa();
+
 	for (int target = 0; target < _yoshida.size(); target++)
 	{
-		Rect targetRect = _yoshida.at(target)->getBoundingBox();
-		float yoshidaSize = targetRect.size.width;
-
-		targetRect = Rect{
-			targetRect.getMinX() + yoshidaSize*0.45f,
-			targetRect.getMinY() + yoshidaSize*0.25f,
-			yoshidaSize*0.40f,
-			yoshidaSize*0.40f };
-
-		//Ç≤Å[ÇÈÇ∆ìñÇΩÇ¡ÇƒÇ¢ÇÈÇ©
-		if (targetRect.intersectsRect(_goolRect) && !_yoshida.at(target)->_isGool)
+		if (!_yoshida.at(target)->_isGool)
 		{
-			float dilayTime = 1.0f;
+			Rect targetRect = _yoshida.at(target)->getBoundingBox();
+			float yoshidaSize = targetRect.size.width;
+			_effectManager->creatKirakira(_yoshida.at(target)->getPosition());
+			targetRect = Rect{
+				targetRect.getMinX() + yoshidaSize*0.45f,
+				targetRect.getMinY() + yoshidaSize*0.25f,
+				yoshidaSize*0.40f,
+				yoshidaSize*0.40f };
 
-			int targetNo = _yoshida.at(target)->_myNo;
-			_yoshida.at(target)->actionGoolMove(Vec2(_goolRect.getMidX(), _goolRect.getMidY()), dilayTime);
-			_yoshida.erase(_yoshida.begin() + target);
-			_kusahayasu->scorePlus(targetNo);
-			auto dilay = DelayTime::create(dilayTime + 0.2f);
-			auto func = CallFunc::create([=]()
+			//Ç≤Å[ÇÈÇ∆ìñÇΩÇ¡ÇƒÇ¢ÇÈÇ©
+			if (targetRect.intersectsRect(_goolRect))//&& !_yoshida.at(target)->_isGool
 			{
-				_kusahayasu->kusahayasu(
-					Vec2(_goolRect.getMinX() + 20 + rand() % (int)((_goolRect.getMaxX() - 20) - _goolRect.getMinX()), _goolRect.getMidY()),
-					0);
-				if (_yoshida.size() == 0)
-				{
-					_kusahayasu->goResult();
-				}
-			});
-			auto seq = Sequence::create(dilay, func, nullptr);
-			runAction(seq);
-			break;
-		}
+				float dilayTime = 1.0f;
 
-
-		//è·äQï®Ç∆ìñÇΩÇ¡ÇƒÇ¢ÇÈÇ©
-		for (int i = 0; i < _syougaibutu.size(); i++)
-		{
-			Rect syougaiRect = _syougaibutu[i]->getBoundingBox();
-			Size syougaiSize = Size(syougaiRect.size.width, syougaiRect.size.height);
-			syougaiRect = Rect{ syougaiRect.getMinX() + syougaiSize.width * 0.05f,
-				syougaiRect.getMinY(),
-				syougaiSize.width - syougaiSize.width * 0.1f,
-				syougaiSize.height + 5 };
-
-			if (targetRect.intersectsRect(syougaiRect))
-			{
-				_effectManager->watageBakusan(_yoshida.at(target)->getPosition());
-				_kusahayasu->kusahayasu(_yoshida.at(target)->getPosition(),1);
-				_yoshida.at(target)->removeFromParentAndCleanup(true);
+				int targetNo = _yoshida.at(target)->_myNo;
+				_yoshida.at(target)->actionGoolMove(Vec2(_goolRect.getMidX(), _goolRect.getMidY()), dilayTime);
 				_yoshida.erase(_yoshida.begin() + target);
-				yosidaLiveingCheck();
+				_kusahayasu->scorePlus(targetNo);
+				auto dilay = DelayTime::create(dilayTime + 0.2f);
+				auto func = CallFunc::create([=]()
+				{
+					_kusahayasu->kusahayasu(
+						Vec2(_goolRect.getMinX() + 20 + rand() % (int)((_goolRect.getMaxX() - 20) - _goolRect.getMinX()), _goolRect.getMidY()));
+					if (_yoshida.size() == 0)
+					{
+						_kusahayasu->goResult();
+					}
+				});
+				auto seq = Sequence::create(dilay, func, nullptr);
+				runAction(seq);
+				break;
 			}
-		}
 
-		//ÇŸÇ©ÇÃãgìcÇ∆ìñÇΩÇ¡ÇƒÇ¢ÇÈÇ©
-		for (int ather = 0; ather < _yoshida.size() - target; ather++)
-		{
-			if (target == ather)continue;
-			Rect atherRect = _yoshida.at(ather)->getBoundingBox();
-			atherRect = Rect{
-				atherRect.getMinX() + yoshidaSize*0.5f,
-				atherRect.getMinY() + yoshidaSize*0.3f,
-				yoshidaSize*0.2f,
-				yoshidaSize*0.2f };
-			float targetVec = sqrt(
-				pow(_touchPos.x - _yoshida.at(target)->getPositionX(), 2) +
-				pow(_touchPos.y - _yoshida.at(target)->getPositionY(), 2));
-
-			if (targetRect.intersectsRect(atherRect))
+			//éÄÇÒÇæãgìcëÒòYÇ∆ìñÇΩÇ¡ÇƒÇ¢Ç‹Ç∑Ç©
+			for (int i = 0; i < shinikusa.size(); i++)
 			{
-				float atherVec = sqrt(
-					pow(_touchPos.x - _yoshida.at(ather)->getPositionX(), 2) +
-					pow(_touchPos.y - _yoshida.at(ather)->getPositionY(), 2));
-				if (targetVec >= atherVec)
+				Rect kusaRect = shinikusa[i]->getBoundingBox();
+				if (targetRect.intersectsRect(kusaRect) && !_yoshida.at(target)->_isGool)
 				{
-					Vec2 atherSpeed = _yoshida.at(ather)->getSpeed();
-					_yoshida.at(ather)->speedChange(-atherSpeed / _speedtyousei);
-					_yoshida.at(target)->speedChange(Vec2(atherSpeed.x / _speedtyousei, 0));
+					float angle = atan2(
+						_yoshida.at(target)->getPositionY() - kusaRect.getMidY(),
+						_yoshida.at(target)->getPositionX() - kusaRect.getMidX())
+						* 180 / M_PI;
+					//âEï”(-1.0)ç∂ï”(1,0)è„ï”(0.-1)â∫ï”(0.1)
+					if (45 < angle && angle < 135 && _yoshida.at(target)->_isGoDown)
+					{
+						_yoshida.at(target)->setPositionY(kusaRect.getMaxY());
+						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(0, -1));
+						break;
+					}
+					else if (135 < angle && angle < 180 || -180 < angle && angle < -135 && _yoshida.at(target)->_isGoRight)
+					{
+						_yoshida.at(target)->setPositionX(kusaRect.getMinX());
+						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(1, 0));
+						break;
+					}
+					else if (-135 < angle && angle < -45 && !(_yoshida.at(target)->_isGoDown))
+					{
+						_yoshida.at(target)->setPositionY(kusaRect.getMinY());
+						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(0, 1));
+						break;
+					}
+					else if (-45 < angle && angle < 45 && !(_yoshida.at(target)->_isGoRight))
+					{
+						_yoshida.at(target)->setPositionX(kusaRect.getMaxX());
+						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(-1, 0));
+						break;
+					}
 				}
-				if (targetVec < atherVec)
+			}
+
+			//è·äQï®Ç∆ìñÇΩÇ¡ÇƒÇ¢ÇÈÇ©
+			for (int i = 0; i < _syougaibutu.size(); i++)
+			{
+				Rect syougaiRect = _syougaibutu[i]->getBoundingBox();
+				Size syougaiSize = Size(syougaiRect.size.width, syougaiRect.size.height);
+				syougaiRect = Rect{ syougaiRect.getMinX() + syougaiSize.width * 0.05f,
+					syougaiRect.getMinY(),
+					syougaiSize.width - syougaiSize.width * 0.1f,
+					syougaiSize.height + 5 };
+
+				if (targetRect.intersectsRect(syougaiRect))
 				{
-					Vec2 targetSpeed = _yoshida.at(target)->getSpeed();
-					_yoshida.at(ather)->speedChange(Vec2(targetSpeed.x / _speedtyousei, 0));
-					_yoshida.at(target)->speedChange(-targetSpeed / _speedtyousei);
+					float angle = atan2(
+						_yoshida.at(target)->getPositionY() - syougaiRect.getMidY(),
+						_yoshida.at(target)->getPositionX() - syougaiRect.getMidX())
+						* 180 / M_PI;
+					int angleNum = 0;
+					log("%f", angle);
+					if (45 < angle && angle < 135)angleNum = 0;
+					else if (135 < angle && angle < 180 || -180 < angle && angle < -135)angleNum = 3;
+					else if (-135 < angle && angle < -45)angleNum = 2;
+					else if (-45 < angle && angle < 45)angleNum = 1;
+					_effectManager->watageBakusan(_yoshida.at(target)->getPosition());
+					_kusahayasu->shiniHayasu(_yoshida.at(target)->getPosition(), angleNum);
+
+					_yoshida.at(target)->removeFromParentAndCleanup(true);
+					_yoshida.erase(_yoshida.begin() + target);
+					yosidaLiveingCheck();
+					break;
+				}
+
+			}
+
+			//ÇŸÇ©ÇÃãgìcÇ∆ìñÇΩÇ¡ÇƒÇ¢ÇÈÇ©
+			for (int ather = 0; ather < _yoshida.size() - target; ather++)
+			{
+				if (target == ather)continue;
+				Rect atherRect = _yoshida.at(ather)->getBoundingBox();
+				atherRect = Rect{
+					atherRect.getMinX() + yoshidaSize*0.5f,
+					atherRect.getMinY() + yoshidaSize*0.3f,
+					yoshidaSize*0.2f,
+					yoshidaSize*0.2f };
+				float targetVec = sqrt(
+					pow(_touchPos.x - _yoshida.at(target)->getPositionX(), 2) +
+					pow(_touchPos.y - _yoshida.at(target)->getPositionY(), 2));
+
+				if (targetRect.intersectsRect(atherRect))
+				{
+					float atherVec = sqrt(
+						pow(_touchPos.x - _yoshida.at(ather)->getPositionX(), 2) +
+						pow(_touchPos.y - _yoshida.at(ather)->getPositionY(), 2));
+					if (targetVec >= atherVec)
+					{
+						Vec2 atherSpeed = _yoshida.at(ather)->getSpeed();
+						_yoshida.at(ather)->speedChange(-atherSpeed / _speedtyousei);
+						_yoshida.at(target)->speedChange(Vec2(atherSpeed.x / _speedtyousei, 0));
+					}
+					if (targetVec < atherVec)
+					{
+						Vec2 targetSpeed = _yoshida.at(target)->getSpeed();
+						_yoshida.at(ather)->speedChange(Vec2(targetSpeed.x / _speedtyousei, 0));
+						_yoshida.at(target)->speedChange(-targetSpeed / _speedtyousei);
+					}
 				}
 			}
 		}
@@ -351,4 +417,11 @@ void YoshidasanNoManager::yoshidaCenterCall()
 	}
 	_yoshidaCenter = _yoshidaCenter / _yoshida.size();
 	//_yoshidaCamera->setPosition(_yoshidaCenter);
+}
+
+void YoshidasanNoManager::yajirushiSet()
+{
+	Vec2 kumoPos = _touchSP->getPosition();
+	_yajirushiSP->setRotation(_touchAngle);
+	_yajirushiSP->setPosition(kumoPos + _yajirushiPos);
 }

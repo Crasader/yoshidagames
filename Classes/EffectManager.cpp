@@ -32,7 +32,6 @@ bool EffectManager::init()
 	return true;
 }
 
-//キラキラした玉が飛び散る
 void EffectManager::touchEffectCreate(Vec2 Pos) 
 {
 	int kirakiraDeru = 20;
@@ -43,7 +42,7 @@ void EffectManager::touchEffectCreate(Vec2 Pos)
 		_kirakira->setColor(Color3B(255, 255, 100));
 		//CCLOG("%f",Pos);
 		_kirakira->setPosition(Pos);
-		_kirakira->setScale(3);
+		_kirakira->setScale(1);
 		_kirakira->setColor(Color3B(155 + rand()%100,
 			                        155 + rand()%100,
                                     155 + rand()%100));
@@ -68,19 +67,18 @@ void EffectManager::touchEffectCreate(Vec2 Pos)
 	}
 }
 
-//わたげが爆散する(白い玉が飛び散る)
 void EffectManager::watageBakusan(Vec2 bakusanPos) 
 {
 	int kirakiraDeru = 10;
 	int hani = 50;
 	for (int i = 0; i<kirakiraDeru; i++)
 	{
-		_kirakira = Sprite::create("pix/eff/maru.png");
-		_kirakira->setTextureRect(Rect(0, 0, 32, 32));
+		_kirakira = Sprite::create("pix/eff/watage.png");
+		//_kirakira->setTextureRect(Rect(0, 0, 32, 32));
 		_kirakira->setColor(Color3B(255, 255, 255));
 		//CCLOG("%f",Pos);
 		_kirakira->setPosition(bakusanPos);
-		//_kirakira->setScale(3);
+		_kirakira->setScale(0.3);
 		addChild(_kirakira);
 
 		//srand((unsigned)time(NULL));
@@ -102,82 +100,56 @@ void EffectManager::watageBakusan(Vec2 bakusanPos)
 	}
 }
 
-//波紋上に広がる
-void EffectManager::hamonCreate(Vec2 Pos)
+void EffectManager::kumoDeru(Vec2 Pos) 
 {
-	_hamon = Sprite::create("pix/eff/maru.png");
-	_hamon->setScale(2.0);
-	_hamon->setPosition(Pos);
-	addChild(_hamon);
-
-	// フェードアウト
-	auto act1 = FadeOut::create(0.5f);				//だんだん消えていく
-	auto act2 = ScaleTo::create(0.5f, 3.0);			//大きくする
-	auto spawn = Spawn::create(act1, act2, nullptr);	// アクションを同時に実行
-	auto act4 = RemoveSelf::create();						// 自分自身を削除
-	auto sequence = Sequence::create(spawn, act4, nullptr); // アクションを順番に実行
-	_hamon->runAction(sequence);
-}
-
-//下に煙が噴射される
-void EffectManager::hunsyaBusya(Vec2 Pos)
-{
-	for (int i = 0; i < 30; i++)
+	int kumoDeru = 20;
+	int hani = 10;
+	for (int i = 0; i<kumoDeru; i++)
 	{
-		_smoke = Sprite::create("pix/eff/busya_e.png");
-		_smoke->setPosition(Pos);
-		int col = (rand() % 15);
-		_smoke->setScale(0.8);
-		_smoke->setColor(Color3B(240 + col, 240 + col, 255));
-		addChild(_smoke);
+		_sprite = Sprite::create("pix/eff/watage.png");
+		//_kirakira->setTextureRect(Rect(0, 0, 32, 32));
+		_sprite->setColor(Color3B(255, 255, 255));
+		//CCLOG("%f",Pos);
+		_sprite->setPosition(Pos);
+		_sprite->setScale(0.3);
+		//_sprite->setOpacity(0);
+		addChild(_sprite);
 
-		//ランダムに配置する
-		float width = -200 + (rand() % 400); //*((rand() % 2 == 0) ? 1 : -1);
-		float height = -800 + (rand() % 300);
-		float speed = (rand() % 100 / 50) * 1 + 1.0;
+		//srand((unsigned)time(NULL));
+		//float ran = rand() % 100;
 
+		// くもをランダムに配置する
+		int width = -hani + (rand() % (hani * 2));//((int)designResolutionSize.width + 100));
+		int height = -hani + (rand() % (hani * 2));//((int)designResolutionSize.height + 100));
+		float randTime = (rand() % 10) * 0.5;
+		_sprite->setPosition(Pos.x+width,Pos.y+height);
 
-		// ランダムな方向へ透過させながら移動させる
-		// ジャンプのアクション
-		auto act1 = JumpBy::create(
-			speed,          // 期間
-			Vec2(width, height - 30), // 着地座標
-			height,        // 高さ
-			1              // 回数
-			);
-		auto act2 = FadeOut::create(speed);						//だんだん消える
-		auto spawn = Spawn::create(act1, act2, nullptr);	// アクションを同時に実行
-		auto act3 = RemoveSelf::create();						// 自分自身を削除
-		auto act4 = DelayTime::create((rand() % 80 / 100.0f));
-		auto sequence = Sequence::create(act4, spawn, act3, nullptr); // アクションを順番に実行
-		_smoke->runAction(sequence);
+	    // くもを発生させて消す
+		auto del = DelayTime::create(randTime);					//待つ
+		auto act1 = ScaleTo::create(1.0f, 0.5f);				// 270度回転した位置で止まる
+		auto act2 = FadeIn::create(1.0f);					//出てくる
+		auto act3 = FadeOut::create(1.0f);						//だんだん消える
+		//auto act4 = ScaleBy::create(1.0f, 0.2);					//小さくなる
+		auto spawn = Spawn::create(act1,act2, nullptr);	// アクションを同時に実行
+		auto act5 = RemoveSelf::create();						// 自分自身を削除
+		auto sequence = Sequence::create(del,spawn,act3, act5, nullptr); // アクションを順番に実行
+		_sprite->runAction(sequence);
 	}
 }
 
-//墨汁みたいな軌跡が出る
-void EffectManager::createBokujyu(Vec2 Pos)
+void EffectManager::kazeNagareru(Vec2 startPos, Vec2 endPos,float angle) 
 {
-	int kirasuu = 30;
-	float actionTime = 0.5f;
-	for (int i = 0; i < kirasuu; i++)
-	{
-		Sprite * kirakira = Sprite::create();
-		int kiraSize = random(10, 30);
-		kirakira->setTextureRect(Rect(0, 0, kiraSize, kiraSize));
-		Vec2 kirarandmPos = Vec2(random(-20, 20), random(-20, 20));
-		kirakira->setPosition(Pos + kirarandmPos);
-		//kirakira->setColor(Color3B(random(150,250), random(150, 250), random(150, 250)));
-		kirakira->setColor(Color3B::BLACK);
-		addChild(kirakira);
+	_wind = Sprite::create("pix/eff/wind.png");
+	_wind->setScale(0.3f);
+	_wind->setPosition(Vec2(startPos));
+	_wind->setRotation(angle);
+	addChild(_wind);
 
-		Vec2 kirakirandm = Vec2(random(-20, 20), random(-20, 20));
-		auto move = MoveBy::create(actionTime, kirakirandm);
-		auto eOutMove = EaseOut::create(move, 3);
-		auto mini = ScaleTo::create(actionTime, 0.0f);
-		auto kaiten = RotateBy::create(actionTime, 200);
-		auto mazeru = Spawn::create(eOutMove, mini, kaiten, nullptr);
-		auto desh = RemoveSelf::create();
-		auto seq = Sequence::create(mazeru, desh, nullptr);
-		kirakira->runAction(seq);
-	}
+	Vec2 movePos = endPos - startPos;
+	if (movePos.x >= 500)movePos.x = 500;
+	if (movePos.y >= 500)movePos.y = 500;
+	auto moveAct = MoveBy::create(0.5, movePos);
+	auto removeAct = RemoveSelf::create();						// 自分自身を削除
+	auto sequence = Sequence::create(moveAct, removeAct, nullptr); // アクションを順番に実行
+	_wind->runAction(sequence);
 }

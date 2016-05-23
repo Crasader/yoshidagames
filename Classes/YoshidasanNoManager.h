@@ -38,12 +38,13 @@ public:
 	void yoshidaNoAtarihantei();
 	void kazeKeisan();
 	void yoshidaCenterCall();
+	void yajirushiSet();
 
 
 	Vector<Yoshidasan*> _yoshida;
 	vector<Sprite*> _syougaibutu;
-
 	vector<int> _taisyouYoshida;
+
 	StageCreater *_stageCrater;
 	Kusahayasu *_kusahayasu;
 	EffectManager *_effectManager;
@@ -55,13 +56,16 @@ public:
 
 	float _speedtyousei;
 	float _kumomoAngle;
-	Vec2 _touchPos;
+	float _touchAngle;
 	Rect _goolRect;
 	bool _isTouch;
 	int _goolYoshidaNum;
 	Vec2 _touchStartPos;
 	Vec2 _touchEndPos;
+	Vec2 _yajirushiPos;
+	Vec2 _touchPos;
 	Sprite *_touchSP;
+	Sprite *_yajirushiSP;
 };
 
 #endif
