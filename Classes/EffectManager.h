@@ -19,6 +19,12 @@ public:
 
 	void watageBakusan(Vec2 bakusanPos);
 
+	void creatKirakira(Vec2 kiraPos);
+
+	void kazeNagareru(Vec2 startPos, Vec2 endPos, float angle);
+	
+	
+	Sprite* _wind;
 	Sprite* _kirakira;
 
 };

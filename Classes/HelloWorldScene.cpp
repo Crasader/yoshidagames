@@ -48,13 +48,15 @@ bool HelloWorld::init()
 	uekibathi->setScale(0.7f);
 	uekibathi->setPosition(Vec2(designResolutionSize.width*1.5f, designResolutionSize.height*0.24f));
 
+	_kusahayasu = Kusahayasu::create();
+	addChild(_kusahayasu);
+
 	_stageCreater = new StageCreater();
 	_stageCreater->init(uekibathi);
 	_stageCreater->autorelease();
 	addChild(_stageCreater);
 
-	_kusahayasu = Kusahayasu::create();
-	addChild(_kusahayasu);
+
 
 	_effectManger = new EffectManager();
 	_effectManger->init();
@@ -129,7 +131,9 @@ bool HelloWorld::onTouchBegan(Touch* pTouch, Event* pEvent)
 	_yosidaManeger->touchCall(touchPos, true);
 	_yosidaManeger->touchStateCall(touchPos);
 
-	//windEffect(touchPos);
+	_yosidaManeger->yajirushiSet();
+
+	_yoshidaCamera->_isMoved = true;
 
 	return true;
 }
@@ -152,6 +156,7 @@ void HelloWorld::onTouchMoved(Touch* pTouch, Event* pEvent)
 	}
 
 	_yosidaManeger->touchCall(touchPos, true);
+	_yosidaManeger->yajirushiSet();
 }
 
 //----------------------------------------------------------------------------------------------------------------

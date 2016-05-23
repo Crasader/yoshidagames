@@ -99,3 +99,52 @@ void EffectManager::watageBakusan(Vec2 bakusanPos)
 		_kirakira->runAction(sequence);
 	}
 }
+
+void EffectManager::creatKirakira(Vec2 kiraPos)
+{
+	int kirasuu = 1;
+	float actionTime = 0.5f;
+	for (int i = 0; i < kirasuu; i++)
+	{
+		Sprite * kirakira = Sprite::create();
+		int kiraSize = random(5, 10);
+		kirakira->setTextureRect(Rect(0, 0, kiraSize, kiraSize));
+		Vec2 kirarandmPos = Vec2(random(-20, 20), random(-20, 20));
+		kirakira->setPosition(kiraPos + kirarandmPos);
+		//kirakira->setColor(Color3B(random(150,250), random(150, 250), random(150, 250)));
+		kirakira->setColor(Color3B::BLACK);
+		/*kirakira->setColor(Color3B(243, 244, 237));
+		kirakira->setOpacity(150);*/
+		addChild(kirakira);
+
+		Vec2 kirakirandm = Vec2(random(-20, 20), random(-20, 20));
+		//auto move = MoveBy::create(actionTime, kirakirandm);
+		auto move = MoveBy::create(actionTime, Vec2(0,0));
+		auto eOutMove = EaseOut::create(move, 3);
+		auto mini = ScaleTo::create(actionTime, 0.0f);
+		auto kaiten = RotateBy::create(actionTime, 200);
+		auto mazeru = Spawn::create(eOutMove, mini, kaiten, nullptr);
+		auto desh = RemoveSelf::create();
+		auto seq = Sequence::create(mazeru, desh, nullptr);
+		kirakira->runAction(seq);
+
+
+	}
+}
+
+void EffectManager::kazeNagareru(Vec2 startPos, Vec2 endPos, float angle)
+{
+	_wind = Sprite::create("pix/eff/wind.png");
+	_wind->setScale(0.3f);
+	_wind->setPosition(Vec2(startPos));
+	_wind->setRotation(angle);
+	addChild(_wind);
+
+	Vec2 movePos = endPos - startPos;
+	if (movePos.x >= 500)movePos.x = 500;
+	if (movePos.y >= 500)movePos.y = 500;
+	auto moveAct = MoveBy::create(2.0, movePos);
+	auto removeAct = RemoveSelf::create();						// 自分自身を削除
+	auto sequence = Sequence::create(moveAct, removeAct, nullptr); // アクションを順番に実行
+	_wind->runAction(sequence);
+}

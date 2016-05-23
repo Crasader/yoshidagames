@@ -32,9 +32,11 @@ bool YoshidaCamera::init()
 	return true;
 }
 
-void YoshidaCamera::update(float dt) 
+void YoshidaCamera::update(float dt)
 {
-	scrollMove();
+	if (_isMoved) {
+		scrollMove();
+	}
 }
 
 void YoshidaCamera::scrollMove()

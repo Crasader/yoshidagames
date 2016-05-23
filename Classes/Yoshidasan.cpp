@@ -101,10 +101,10 @@ void Yoshidasan::speedKeisan()
 			}
 			_pSpeed.y += _gSpeed / p;
 		}
-
 		else
 		{
 			_pSpeed.y = _gSpeed;
+			_isGoDown = true;
 		}
 	}
 	else            //上向き
@@ -248,6 +248,25 @@ void Yoshidasan::startGo(Vec2 moveState, float dilayTime)
 
 }
 
+//葉っぱジャンプ！
+void Yoshidasan::happaPiyon(Vec2 muki)
+{
+	stopAllActions();
+	_isGool = false;
+	float actionTime = 0.1f;
+	int moveKyori = 30;
+	auto move = MoveBy::create(actionTime, muki * moveKyori);
+	auto moveEI = EaseIn::create(move, 3);
+	auto owari = CCCallFunc::create([=]()
+	{
+		_isGool = true;
+		actionYuraYura();
+	});
+	auto seq = Sequence::create(moveEI, owari, nullptr);
+	runAction(seq);
+
+}
+
 //変化を戻す
 void Yoshidasan::allChangeReset()
 {
@@ -277,3 +296,12 @@ void Yoshidasan::actionGoolMove(Vec2 centerPos, float dilayTime)
 		runAction(seq);
 	}
 }
+
+//speedを反転
+void Yoshidasan::speedFlip()
+{
+	_pSpeed = -_pSpeed;
+	_isGoDown != _isGoDown;
+	_isGoRight != _isGoRight;
+}
+

@@ -1,5 +1,5 @@
 #include "Kusahayasu.h"
-
+#include "Yoshidasan.h"
 Kusahayasu * Kusahayasu::create()
 {
 
@@ -28,14 +28,16 @@ bool Kusahayasu::init()
 
 	_score = 0;
 
-	 _goalYoshida = 0;
-	 _goalGirl = 0;
-	 _goalDebu = 0;
-	 _goalYanki = 0;
+	_goalYoshida = 0;
+	_goalGirl = 0;
+	_goalDebu = 0;
+	_goalYanki = 0;
 
-	 _isChangeScene = false;
+	_isChangeScene = false;
 
 	_kusa.clear();
+	_shiniKusa.clear();
+
 	this->scheduleUpdate();
 	return true;
 }
@@ -45,33 +47,20 @@ void Kusahayasu::update(float dt)
 
 }
 
-void Kusahayasu::kusahayasu(Vec2 hayasuPos, int hayasuNam)
+void Kusahayasu::kusahayasu(Vec2 hayasuPos)
 {
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	audio->playEffect("Pon.mp3");
 	Sprite * kusa;
-	if (hayasuNam == 0)
-	{
-		kusa = Sprite::create("pix/stageSozai/hana.png");
-		kusa->setAnchorPoint(Vec2(0.5f, 1.0f));
-	}
 
-	else
-	{
-		kusa = Sprite::create("pix/stageSozai/zasou.png");
-		kusa->setAnchorPoint(Vec2(0.5f, 1.0f));
-	}
-	
+	kusa = Sprite::create("pix/stageSozai/hana.png");
+	kusa->setAnchorPoint(Vec2(0.5f, 1.0f));
 	addChild(kusa);
 	kusa->setPosition(hayasuPos);
 	_kusa.push_back(kusa);
-	
-	if (hayasuNam == 0)
-	{
-		auto up = MoveBy::create(1.0f, Vec2(0, kusa->getBoundingBox().size.height));
-		auto eas = EaseOut::create(up, 3);
-		kusa->runAction(eas);
-	}
+	auto up = MoveBy::create(1.0f, Vec2(0, kusa->getBoundingBox().size.height));
+	auto eas = EaseOut::create(up, 3);
+	kusa->runAction(eas);
 }
 
 void Kusahayasu::scorePlus(int myNum)
@@ -96,10 +85,61 @@ void Kusahayasu::scorePlus(int myNum)
 	_score++;
 }
 
+
+
 void Kusahayasu::goResult()
 {
-	if (!_isChangeScene) {
+	if (!_isChangeScene)
+	{
 		Director::getInstance()->replaceScene(TransitionFade::create(1.0f, ResultScene::createScene(_goalYoshida, _goalGirl, _goalDebu, _goalYanki)));
 		_isChangeScene = true;
+	}
+}
+
+void Kusahayasu::shiniHayasu(Vec2 shiniPos, int kakudoNum)
+{
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	audio->playEffect("Pon.mp3");
+	Sprite * kusa;
+	kusa = Sprite::create("pix/stageSozai/ne.png");
+	kusa->setAnchorPoint(Vec2(0.5f, 0.5f));
+	kusa->setRotation(90 * kakudoNum);
+	addChild(kusa);
+	kusa->setPosition(shiniPos);
+	_shiniKusa.push_back(kusa);
+}
+
+vector<Sprite*> Kusahayasu::getShinikusa()
+{
+	return _shiniKusa;
+}
+
+//‰E•Ó(-1.0)¶•Ó(1,0)ã•Ó(0.-1)‰º•Ó(0.1)
+void Kusahayasu::kusaHaneAction(Sprite* target,Vec2 muki)
+{
+	int ugokiti = 20;
+	float ugokiJikan = 0.5f;
+	if (!(target->numberOfRunningActions()))
+	{
+		auto iku = MoveBy::create(ugokiJikan, muki * ugokiti);
+		auto tizi = ScaleTo::create(ugokiJikan, 1 + fabs(muki.y)*0.1f, 1 + fabs(muki.x)*0.1f);
+		auto tizimi = Spawn::create(iku, tizi, nullptr);
+		auto iitizimi = EaseIn::create(tizimi, 2);
+
+		auto del = DelayTime::create(0.2f);
+
+		auto modo = MoveBy::create(ugokiJikan, -muki * ugokiti);
+		auto nobi = ScaleTo::create(ugokiJikan, 1);
+		auto nobiru = Spawn::create(modo, nobi, nullptr);
+		auto iinobiru = EaseIn::create(nobiru, 2);
+
+		auto func = CCCallFunc::create([=]()
+		{
+			Yoshidasan* targetYoshida = (Yoshidasan*)target;
+			targetYoshida->happaPiyon(-muki);
+		});
+
+		auto seq = Sequence::create(iitizimi,iinobiru,func, nullptr);
+		target->runAction(seq);
 	}
 }
