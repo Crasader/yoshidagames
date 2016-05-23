@@ -128,6 +128,9 @@ bool HelloWorld::onTouchBegan(Touch* pTouch, Event* pEvent)
 
 	_yosidaManeger->touchCall(touchPos, true);
 	_yosidaManeger->touchStateCall(touchPos);
+	_yosidaManeger->yajirushiSet();
+
+	_yoshidaCamera->_isMoved = true;
 
 	//windEffect(touchPos);
 
@@ -152,6 +155,7 @@ void HelloWorld::onTouchMoved(Touch* pTouch, Event* pEvent)
 	}
 
 	_yosidaManeger->touchCall(touchPos, true);
+	_yosidaManeger->yajirushiSet();
 }
 
 //----------------------------------------------------------------------------------------------------------------
@@ -181,7 +185,7 @@ void HelloWorld::windEffect(Vec2 touchPos)
 	int kirakiraDeru = 8;
 	for (int i = 0; i < kirakiraDeru; i++)
 	{
-		_wind = Sprite::create();//("pix/eff/wind.png");
+		_wind = Sprite::create();
 		_wind->setTextureRect(Rect(0, 0, 32, 32));
 		_wind->setColor(Color3B(255, 255, 100));
 		int width = 3.0 - (i * 1.5);

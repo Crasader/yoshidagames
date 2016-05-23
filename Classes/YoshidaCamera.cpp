@@ -26,6 +26,7 @@ bool YoshidaCamera::init()
 
 	_isMoved = false;
 	_speed = 0.5;
+	_isScroll = false;
 
 	scheduleUpdate();
 
@@ -34,7 +35,10 @@ bool YoshidaCamera::init()
 
 void YoshidaCamera::update(float dt) 
 {
-	scrollMove();
+	if (_isMoved) 
+	{
+		scrollMove();
+	}
 }
 
 void YoshidaCamera::scrollMove()

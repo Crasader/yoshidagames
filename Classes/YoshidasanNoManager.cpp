@@ -85,12 +85,20 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		_yoshida.pushBack(yoshida);
 		addChild(_yoshida.at(i));
 		_yoshida.at(i)->setPosition(100, designResolutionSize.height * 0.9f);
-		_yoshida.at(i)->startGo(Vec2(rand() % (int)designResolutionSize.width*0.2, -rand() % (int)designResolutionSize.height * 0.1f), 1);
+		_yoshida.at(i)->startGo(Vec2(rand() % (int)designResolutionSize.width*0.25, -rand() % (int)designResolutionSize.height * 0.1f), 1);
 	}
 
 	_touchSP = Sprite::create("pix/Title/kumomo.png");
 	_touchSP->setScale(0.2f);
 	addChild(_touchSP);
+	//------------------------------------------------------------------------------------------------------
+	_yajirushiSP = Sprite::create("pix/eff/yajirushiYoko.png");
+	_yajirushiSP->setScale(0.3);
+	addChild(_yajirushiSP);
+
+	_yajirushiPos = Vec2(_touchSP->getPosition());
+	_touchAngle = 0.0;
+	//-----------------------------------------------------------------------------------------------------
 
 	//touch‚µ‚Ä‚¢‚é‚©
 	_isTouch = true;
@@ -140,6 +148,10 @@ void YoshidasanNoManager::update(float dt)
 void YoshidasanNoManager::touchCall(Vec2 touchPos, bool isTouch)
 {
 	_touchSP->setRotation(atan2( _touchStartPos.y - touchPos.y, touchPos.x - _touchStartPos.x) * 180 / M_PI);
+	_touchAngle = (atan2(_touchStartPos.y - touchPos.y, touchPos.x - _touchStartPos.x) * 180 / M_PI);
+
+	_yajirushiPos = Vec2(touchPos.x - _touchStartPos.x, touchPos.y - _touchStartPos.y);
+
 }
 
 void YoshidasanNoManager::touchStateCall(Vec2 touchPos)
@@ -153,6 +165,7 @@ void YoshidasanNoManager::touchEndCall(Vec2 touchPos)
 {
 	_touchEndPos = touchPos;
 	_isTouch = false;
+	_effectManager->kazeNagareru(_touchStartPos, _touchEndPos, _touchAngle);
 }
 
 void YoshidasanNoManager::yosidaLiveingCheck()
@@ -351,4 +364,11 @@ void YoshidasanNoManager::yoshidaCenterCall()
 	}
 	_yoshidaCenter = _yoshidaCenter / _yoshida.size();
 	//_yoshidaCamera->setPosition(_yoshidaCenter);
+}
+
+void YoshidasanNoManager::yajirushiSet() 
+{
+	Vec2 kumoPos = _touchSP->getPosition();
+	_yajirushiSP->setRotation(_touchAngle);
+	_yajirushiSP->setPosition(kumoPos+_yajirushiPos);
 }

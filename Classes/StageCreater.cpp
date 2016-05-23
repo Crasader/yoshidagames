@@ -56,6 +56,20 @@ bool StageCreater::init(Sprite *uekibati)
 	iwa2->setPosition(Vec2(designResolutionSize.width*1.0f, designResolutionSize.height*0.12f));
 	_syougaibutu.push_back(iwa2);
 
+	Sprite *iwa3 = Sprite::create();
+	iwa3->setTextureRect(Rect(0, 0, 300, 300));
+	addChild(iwa3);
+	iwa3->setAnchorPoint(Vec2(0.0f, 0.0f));
+	iwa3->setPosition(Vec2(designResolutionSize.width*1.3f, designResolutionSize.height*0.78f));
+	_syougaibutu.push_back(iwa3);
+
+	Sprite *iwa4 = Sprite::create();
+	iwa4->setTextureRect(Rect(0, 0, 200, 600));
+	addChild(iwa4);
+	iwa4->setAnchorPoint(Vec2(0.0f, 0.0f));
+	iwa4->setPosition(Vec2(designResolutionSize.width*0.8f, designResolutionSize.height*0.6f));
+	_syougaibutu.push_back(iwa4);
+
 	Sprite *kirikabu = Sprite::create("pix/stageSozai/kirikabu.png");
 	addChild(kirikabu);
 	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));

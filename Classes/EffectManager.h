@@ -19,7 +19,13 @@ public:
 
 	void watageBakusan(Vec2 bakusanPos);
 
+	void kumoDeru(Vec2 Pos);
+
+	void kazeNagareru(Vec2 startPos, Vec2 endPos,float angle);
+
 	Sprite* _kirakira;
+	Sprite* _sprite;
+	Sprite* _wind;
 
 };
 #endif

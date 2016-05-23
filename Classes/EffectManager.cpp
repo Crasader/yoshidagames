@@ -73,12 +73,12 @@ void EffectManager::watageBakusan(Vec2 bakusanPos)
 	int hani = 50;
 	for (int i = 0; i<kirakiraDeru; i++)
 	{
-		_kirakira = Sprite::create("pix/eff/maru.png");
-		_kirakira->setTextureRect(Rect(0, 0, 32, 32));
+		_kirakira = Sprite::create("pix/eff/watage.png");
+		//_kirakira->setTextureRect(Rect(0, 0, 32, 32));
 		_kirakira->setColor(Color3B(255, 255, 255));
 		//CCLOG("%f",Pos);
 		_kirakira->setPosition(bakusanPos);
-		//_kirakira->setScale(3);
+		_kirakira->setScale(0.3);
 		addChild(_kirakira);
 
 		//srand((unsigned)time(NULL));
@@ -98,4 +98,58 @@ void EffectManager::watageBakusan(Vec2 bakusanPos)
 		auto sequence = Sequence::create(spawn, act5, nullptr); // アクションを順番に実行
 		_kirakira->runAction(sequence);
 	}
+}
+
+void EffectManager::kumoDeru(Vec2 Pos) 
+{
+	int kumoDeru = 20;
+	int hani = 10;
+	for (int i = 0; i<kumoDeru; i++)
+	{
+		_sprite = Sprite::create("pix/eff/watage.png");
+		//_kirakira->setTextureRect(Rect(0, 0, 32, 32));
+		_sprite->setColor(Color3B(255, 255, 255));
+		//CCLOG("%f",Pos);
+		_sprite->setPosition(Pos);
+		_sprite->setScale(0.3);
+		//_sprite->setOpacity(0);
+		addChild(_sprite);
+
+		//srand((unsigned)time(NULL));
+		//float ran = rand() % 100;
+
+		// くもをランダムに配置する
+		int width = -hani + (rand() % (hani * 2));//((int)designResolutionSize.width + 100));
+		int height = -hani + (rand() % (hani * 2));//((int)designResolutionSize.height + 100));
+		float randTime = (rand() % 10) * 0.5;
+		_sprite->setPosition(Pos.x+width,Pos.y+height);
+
+	    // くもを発生させて消す
+		auto del = DelayTime::create(randTime);					//待つ
+		auto act1 = ScaleTo::create(1.0f, 0.5f);				// 270度回転した位置で止まる
+		auto act2 = FadeIn::create(1.0f);					//出てくる
+		auto act3 = FadeOut::create(1.0f);						//だんだん消える
+		//auto act4 = ScaleBy::create(1.0f, 0.2);					//小さくなる
+		auto spawn = Spawn::create(act1,act2, nullptr);	// アクションを同時に実行
+		auto act5 = RemoveSelf::create();						// 自分自身を削除
+		auto sequence = Sequence::create(del,spawn,act3, act5, nullptr); // アクションを順番に実行
+		_sprite->runAction(sequence);
+	}
+}
+
+void EffectManager::kazeNagareru(Vec2 startPos, Vec2 endPos,float angle) 
+{
+	_wind = Sprite::create("pix/eff/wind.png");
+	_wind->setScale(0.3f);
+	_wind->setPosition(Vec2(startPos));
+	_wind->setRotation(angle);
+	addChild(_wind);
+
+	Vec2 movePos = endPos - startPos;
+	if (movePos.x >= 500)movePos.x = 500;
+	if (movePos.y >= 500)movePos.y = 500;
+	auto moveAct = MoveBy::create(0.5, movePos);
+	auto removeAct = RemoveSelf::create();						// 自分自身を削除
+	auto sequence = Sequence::create(moveAct, removeAct, nullptr); // アクションを順番に実行
+	_wind->runAction(sequence);
 }
