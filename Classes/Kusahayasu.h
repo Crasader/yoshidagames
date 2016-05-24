@@ -11,7 +11,7 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "MultiResolution.h"
-
+#include "Yoshidasan.h"
 #include "ResultScene.h"
 
 using namespace cocos2d;
@@ -28,11 +28,12 @@ public:
 	void scorePlus(int myNum);
 	void shiniHayasu(Vec2 shiniPos, int kakudoNum);
 	vector<Sprite*> getShinikusa();
-	void kusaHaneAction(Sprite* target, Vec2 muki);
+	void kusaHaneAction(Sprite* target, Vec2 muki, Yoshidasan *targetYoshida);
 
 	int _score;
 	vector<Sprite*> _kusa;
 	vector<Sprite*> _shiniKusa;
+	vector<Yoshidasan*> _hitYoshida;
 
 	void goResult();
 

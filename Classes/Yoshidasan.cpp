@@ -252,14 +252,14 @@ void Yoshidasan::startGo(Vec2 moveState, float dilayTime)
 void Yoshidasan::happaPiyon(Vec2 muki)
 {
 	stopAllActions();
-	_isGool = false;
+	_isGool = true;
 	float actionTime = 0.1f;
-	int moveKyori = 30;
+	int moveKyori = 50;
 	auto move = MoveBy::create(actionTime, muki * moveKyori);
 	auto moveEI = EaseIn::create(move, 3);
 	auto owari = CCCallFunc::create([=]()
 	{
-		_isGool = true;
+		_isGool = false;
 		actionYuraYura();
 	});
 	auto seq = Sequence::create(moveEI, owari, nullptr);

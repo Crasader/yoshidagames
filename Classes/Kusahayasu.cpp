@@ -1,5 +1,4 @@
 #include "Kusahayasu.h"
-#include "Yoshidasan.h"
 Kusahayasu * Kusahayasu::create()
 {
 
@@ -37,6 +36,7 @@ bool Kusahayasu::init()
 
 	_kusa.clear();
 	_shiniKusa.clear();
+	_hitYoshida.clear();
 
 	this->scheduleUpdate();
 	return true;
@@ -102,7 +102,7 @@ void Kusahayasu::shiniHayasu(Vec2 shiniPos, int kakudoNum)
 	audio->playEffect("Pon.mp3");
 	Sprite * kusa;
 	kusa = Sprite::create("pix/stageSozai/ne.png");
-	kusa->setAnchorPoint(Vec2(0.5f, 0.5f));
+	kusa->setAnchorPoint(Vec2(0.5f, 0.7f));
 	kusa->setRotation(90 * kakudoNum);
 	addChild(kusa);
 	kusa->setPosition(shiniPos);
@@ -115,12 +115,14 @@ vector<Sprite*> Kusahayasu::getShinikusa()
 }
 
 //‰E•Ó(-1.0)¶•Ó(1,0)ã•Ó(0.-1)‰º•Ó(0.1)
-void Kusahayasu::kusaHaneAction(Sprite* target,Vec2 muki)
+void Kusahayasu::kusaHaneAction(Sprite* target,Vec2 muki, Yoshidasan *targetYoshida)
 {
-	int ugokiti = 20;
-	float ugokiJikan = 0.5f;
+	_hitYoshida.push_back(targetYoshida);
+	
 	if (!(target->numberOfRunningActions()))
 	{
+		int ugokiti = 20;
+		float ugokiJikan = 0.3f;
 		auto iku = MoveBy::create(ugokiJikan, muki * ugokiti);
 		auto tizi = ScaleTo::create(ugokiJikan, 1 + fabs(muki.y)*0.1f, 1 + fabs(muki.x)*0.1f);
 		auto tizimi = Spawn::create(iku, tizi, nullptr);
@@ -135,8 +137,12 @@ void Kusahayasu::kusaHaneAction(Sprite* target,Vec2 muki)
 
 		auto func = CCCallFunc::create([=]()
 		{
-			Yoshidasan* targetYoshida = (Yoshidasan*)target;
-			targetYoshida->happaPiyon(-muki);
+			for (auto yoshi : _hitYoshida)
+			{
+				if (yoshi)targetYoshida->happaPiyon(-muki);
+			}
+			_hitYoshida.clear();
+			
 		});
 
 		auto seq = Sequence::create(iitizimi,iinobiru,func, nullptr);

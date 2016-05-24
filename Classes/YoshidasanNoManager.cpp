@@ -185,7 +185,7 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 		{
 			Rect targetRect = _yoshida.at(target)->getBoundingBox();
 			float yoshidaSize = targetRect.size.width;
-			_effectManager->creatKirakira(_yoshida.at(target)->getPosition());
+			//_effectManager->creatKirakira(_yoshida.at(target)->getPosition());
 			targetRect = Rect{
 				targetRect.getMinX() + yoshidaSize*0.45f,
 				targetRect.getMinY() + yoshidaSize*0.25f,
@@ -230,25 +230,25 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 					if (45 < angle && angle < 135 && _yoshida.at(target)->_isGoDown)
 					{
 						_yoshida.at(target)->setPositionY(kusaRect.getMaxY());
-						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(0, -1));
+						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(0, -1), _yoshida.at(target));
 						break;
 					}
 					else if (135 < angle && angle < 180 || -180 < angle && angle < -135 && _yoshida.at(target)->_isGoRight)
 					{
 						_yoshida.at(target)->setPositionX(kusaRect.getMinX());
-						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(1, 0));
+						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(1, 0), _yoshida.at(target));
 						break;
 					}
 					else if (-135 < angle && angle < -45 && !(_yoshida.at(target)->_isGoDown))
 					{
 						_yoshida.at(target)->setPositionY(kusaRect.getMinY());
-						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(0, 1));
+						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(0, 1), _yoshida.at(target));
 						break;
 					}
 					else if (-45 < angle && angle < 45 && !(_yoshida.at(target)->_isGoRight))
 					{
 						_yoshida.at(target)->setPositionX(kusaRect.getMaxX());
-						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(-1, 0));
+						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(-1, 0), _yoshida.at(target));
 						break;
 					}
 				}
@@ -407,6 +407,7 @@ void YoshidasanNoManager::yoshidaCenterCall()
 		if (yoshidaPos.x < (sinkou.x - designResolutionSize.width / 2 - 50))
 		{
 			_effectManager->watageBakusan(_yoshida.at(i)->getPosition());
+			_yoshida.at(i)->stopAllActions();
 			_yoshida.at(i)->removeFromParentAndCleanup(true);
 			_yoshida.erase(_yoshida.begin() + i);
 			if (_yoshida.size() == 0)
