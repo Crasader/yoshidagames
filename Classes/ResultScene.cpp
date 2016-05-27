@@ -98,44 +98,6 @@ bool ResultScene::init(int yoshida, int girl, int debu, int yanki)
 		NULL),
 		-1));
 
-	/*
-	CCLOG("%d", label1->getStringLength());
-	for (int i = 0; i < label1->getStringLength(); i++) {
-		CCLOG("呼ばれていますヨ");
-		auto act1 = DelayTime::create(0.2f);
-		auto act2 = FadeIn::create(0.2f);
-		auto act3 = Sequence::create(act1, act2, nullptr);
-		label1->getLetter(i)->runAction(act3);
-	}
-
-	for (int i = 0; i < label1->getStringLength(); i++) {
-		auto AChar = label1->getLetter(i);
-		if (nullptr != AChar) {
-			AChar->setVisible(false);
-			auto act1 = DelayTime::create(0.2f*i);
-			auto act2 = Show::create();
-			auto act3 = Sequence::create(act1, act2, nullptr);
-			AChar->runAction(act3);
-		}
-	}
-	*/
-
-	//テキストの設定　Label::createWithSystemFont("文字列", "フォントの種類", 文字サイズ);
-	//auto text = Label::createWithSystemFont("今回は", _mojiFontPas, 60,designResolutionSize);
-	//画面の中央に表示
-	//text->setPosition(Vec2(designResolutionSize.width / 2, designResolutionSize.height / 2));
-	//this->addChild(text);
-
-	/*
-	char yoshida_fileName[256];
-	sprintf(yoshida_fileName, "yoshida.png", rand() % 5);
-	Sprite *_yoshidaSp = Sprite::create(yoshida_fileName);
-	_yoshidaSp->setPosition(Vec2(designResolutionSize.width * 0.8,
-		designResolutionSize.height * 0.1));
-	_yoshidaSp->setAnchorPoint(Vec2(0.5, 0));
-	addChild(_yoshidaSp);
-	*/
-
 	scheduleUpdate();
 	return true;
 }

@@ -424,5 +424,8 @@ void YoshidasanNoManager::yajirushiSet()
 {
 	Vec2 kumoPos = _touchSP->getPosition();
 	_yajirushiSP->setRotation(_touchAngle);
-	_yajirushiSP->setPosition(kumoPos + _yajirushiPos);
+	float radians = _touchAngle * M_PI / 180.0f;
+	float x = cos(radians);
+	float y = sin(radians);
+	_yajirushiSP->setPosition(kumoPos + Vec2(x,y));
 }
