@@ -139,7 +139,7 @@ void Kusahayasu::kusaHaneAction(Sprite* target,Vec2 muki, Yoshidasan *targetYosh
 		{
 			for (auto yoshi : _hitYoshida)
 			{
-				if (yoshi)targetYoshida->happaPiyon(-muki);
+				//if (yoshi)targetYoshida->happaPiyon(-muki);
 			}
 			_hitYoshida.clear();
 			
