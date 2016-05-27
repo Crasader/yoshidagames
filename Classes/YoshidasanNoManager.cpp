@@ -185,7 +185,7 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 		{
 			Rect targetRect = _yoshida.at(target)->getBoundingBox();
 			float yoshidaSize = targetRect.size.width;
-			_effectManager->creatKirakira(_yoshida.at(target)->getPosition());
+			//_effectManager->creatKirakira(_yoshida.at(target)->getPosition());
 			targetRect = Rect{
 				targetRect.getMinX() + yoshidaSize*0.45f,
 				targetRect.getMinY() + yoshidaSize*0.25f,
@@ -423,5 +423,8 @@ void YoshidasanNoManager::yajirushiSet()
 {
 	Vec2 kumoPos = _touchSP->getPosition();
 	_yajirushiSP->setRotation(_touchAngle);
-	_yajirushiSP->setPosition(kumoPos + _yajirushiPos);
+	float radians = _touchAngle * M_PI / 180.0f;
+	float x = cos(radians);
+	float y = sin(radians);
+	_yajirushiSP->setPosition(kumoPos + Vec2(x,y));
 }
