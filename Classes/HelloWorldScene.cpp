@@ -69,12 +69,19 @@ bool HelloWorld::init()
 	addChild(_yoshidaCamera);
 
 	_yosidaManeger = new YoshidasanNoManager();
+	_yosidaManeger->_effectManager = _effectManger;
 	_yosidaManeger->init(_stageCreater, _kusahayasu);
 	_yosidaManeger->autorelease();
-	_yosidaManeger->_effectManager = _effectManger;
+	
 	_yosidaManeger->_yoshidaCamera = _yoshidaCamera;
 	addChild(_yosidaManeger);
 
+	_kumomo = new Kumomo();
+	_kumomo->_yoshiMana = _yosidaManeger;
+	_kumomo->_effectManager = _effectManger;
+	_kumomo->init();
+	_kumomo->autorelease();
+	addChild(_kumomo);
 	
 
 	// タッチイベントを有効にする
@@ -117,6 +124,8 @@ bool HelloWorld::onTouchBegan(Touch* pTouch, Event* pEvent)
 	Vec2 touchPos = pTouch->getLocation();
 	Vec2 yoshidaPos = _yoshidaCamera->getPosition();
 
+	_kumomo->touchStartCall(touchPos);
+
 	if (yoshidaPos.x >= designResolutionSize.width / 2)
 	{
 		touchPos.x += (yoshidaPos.x - designResolutionSize.width / 2);
@@ -128,16 +137,7 @@ bool HelloWorld::onTouchBegan(Touch* pTouch, Event* pEvent)
 	
 	if((touchPos.x <= 50) && (touchPos.y <= 50))Director::getInstance()->replaceScene(HelloWorld::createScene());
 
-	_yosidaManeger->touchCall(touchPos, true);
-	_yosidaManeger->touchStateCall(touchPos);
-	_yosidaManeger->yajirushiSet();
-
-	_yoshidaCamera->_isMoved = true;
-
-	_yosidaManeger->yajirushiSet();
-
-	_yoshidaCamera->_isMoved = true;
-
+	
 	return true;
 }
 
@@ -158,8 +158,7 @@ void HelloWorld::onTouchMoved(Touch* pTouch, Event* pEvent)
 		touchPos.x -= yoshidaPos.x - designResolutionSize.width*1.5;
 	}
 
-	_yosidaManeger->touchCall(touchPos, true);
-	_yosidaManeger->yajirushiSet();
+	_kumomo->touchCall(touchPos);
 }
 
 //----------------------------------------------------------------------------------------------------------------
@@ -169,6 +168,7 @@ void HelloWorld::onTouchEnded(Touch* pTouch, Event* pEvent)
 {
 	Vec2 touchPos = pTouch->getLocation();
 	Vec2 yoshidaPos = _yoshidaCamera->getPosition();
+	_kumomo->touchEndCall(touchPos);
 
 	if (yoshidaPos.x >= designResolutionSize.width / 2)
 	{

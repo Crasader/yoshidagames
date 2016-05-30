@@ -1,7 +1,5 @@
 #include "YoshidasanNoManager.h"
 
-
-
 //YoshidasanNoManager *YoshidasanNoManager::create()
 //{
 //
@@ -88,17 +86,6 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		_yoshida.at(i)->startGo(Vec2(rand() % (int)designResolutionSize.width*0.2, -rand() % (int)designResolutionSize.height * 0.1f), 1);
 	}
 
-	_touchSP = Sprite::create("pix/Title/kumomo.png");
-	_touchSP->setScale(0.2f);
-	addChild(_touchSP);
-
-	_yajirushiSP = Sprite::create("pix/eff/yajirushiYoko.png");
-	_yajirushiSP->setScale(0.3);
-	addChild(_yajirushiSP);
-
-	_yajirushiPos = Vec2(_touchSP->getPosition());
-	_touchAngle = 0.0;
-
 	//touchしているか
 	_isTouch = true;
 
@@ -113,14 +100,12 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 
 	_syougaibutu = _stageCrater->getSyougaibutu();
 
-	_touchStartPos = Vec2::ZERO;
-	_touchEndPos = Vec2::ZERO;
+	_touchStartPos = Vec2(0, 0);
+	_touchEndPos = Vec2(0, 0);
 
 	_yoshidaCenter = Vec2(0, 0);
 
 	_yoshidaCenterPos = Vec2(0, 0);
-
-	_kumomoAngle = 0;
 
 	_taisyouYoshida.clear();
 
@@ -145,17 +130,12 @@ void YoshidasanNoManager::update(float dt)
 
 void YoshidasanNoManager::touchCall(Vec2 touchPos, bool isTouch)
 {
-	_touchSP->setRotation(atan2( _touchStartPos.y - touchPos.y, touchPos.x - _touchStartPos.x) * 180 / M_PI);
-
-	_touchAngle = (atan2(_touchStartPos.y - touchPos.y, touchPos.x - _touchStartPos.x) * 180 / M_PI);
-
-	_yajirushiPos = Vec2(touchPos.x - _touchStartPos.x, touchPos.y - _touchStartPos.y);
+	
 }
 
 void YoshidasanNoManager::touchStateCall(Vec2 touchPos)
 {
 	_touchStartPos = touchPos;
-	_touchSP->setPosition(touchPos);
 	_isTouch = true;
 }
 
@@ -163,8 +143,6 @@ void YoshidasanNoManager::touchEndCall(Vec2 touchPos)
 {
 	_touchEndPos = touchPos;
 	_isTouch = false;
-
-	_effectManager->kazeNagareru(_touchStartPos, _touchEndPos, _touchAngle);
 }
 
 void YoshidasanNoManager::yosidaLiveingCheck()
@@ -309,8 +287,8 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 					if (targetVec >= atherVec)
 					{
 						Vec2 atherSpeed = _yoshida.at(ather)->getSpeed();
-						_yoshida.at(ather)->speedChange(-atherSpeed / _speedtyousei);
 						_yoshida.at(target)->speedChange(Vec2(atherSpeed.x / _speedtyousei, 0));
+						_yoshida.at(ather)->speedChange(-atherSpeed / _speedtyousei);
 					}
 					if (targetVec < atherVec)
 					{
@@ -331,7 +309,6 @@ void YoshidasanNoManager::kazeKeisan()
 
 	//タッチしはじめと終わりのベクトルから角度を算出（右から上でひだりまでに0~+180,右から下で左までに0~-180）
 	float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x) * 180.0f / M_PI;
-	_kumomoAngle = angle;
 
 	//左ギリギリ上
 	if (angle > 180 - hanniAngle)
@@ -418,14 +395,4 @@ void YoshidasanNoManager::yoshidaCenterCall()
 	}
 	_yoshidaCenter = _yoshidaCenter / _yoshida.size();
 	//_yoshidaCamera->setPosition(_yoshidaCenter);
-}
-
-void YoshidasanNoManager::yajirushiSet()
-{
-	Vec2 kumoPos = _touchSP->getPosition();
-	_yajirushiSP->setRotation(_touchAngle);
-	float radians = _touchAngle * M_PI / 180.0f;
-	float x = cos(radians);
-	float y = sin(radians);
-	_yajirushiSP->setPosition(kumoPos + Vec2(x,y));
 }
