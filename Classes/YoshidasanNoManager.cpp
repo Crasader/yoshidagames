@@ -1,7 +1,5 @@
 #include "YoshidasanNoManager.h"
 
-
-
 //YoshidasanNoManager *YoshidasanNoManager::create()
 //{
 //
@@ -50,25 +48,25 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		case 0://いつもの
 			yoshidaPas = "pix/actor/yoshidasan.png";
 			gravity = -0.98f;
-			maxSpeed = 12;
+			maxSpeed = 10;
 			myNo = 0;
 			break;
 		case 1://女
 			yoshidaPas = "pix/actor/yoshidagirl.png";
 			gravity = -0.8f;
-			maxSpeed = 14;
+			maxSpeed = 12;
 			myNo = 1;
 			break;
 		case 2://でぶ
 			yoshidaPas = "pix/actor/yoshidadebu.png";
 			gravity = -1.1f;
-			maxSpeed = 10;
+			maxSpeed = 6;
 			myNo = 2;
 			break;
 		case 3://ヤンキー
 			yoshidaPas = "pix/actor/yoshidasanyanki.png";
 			gravity = -0.98f;
-			maxSpeed = 10;
+			maxSpeed = 8;
 			yankiCheck = true;
 			myNo = 3;
 			break;
@@ -88,17 +86,6 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		_yoshida.at(i)->startGo(Vec2(rand() % (int)designResolutionSize.width*0.2, -rand() % (int)designResolutionSize.height * 0.1f), 1);
 	}
 
-	_touchSP = Sprite::create("pix/Title/kumomo.png");
-	_touchSP->setScale(0.2f);
-	addChild(_touchSP);
-
-	_yajirushiSP = Sprite::create("pix/eff/yajirushiYoko.png");
-	_yajirushiSP->setScale(0.3);
-	addChild(_yajirushiSP);
-
-	_yajirushiPos = Vec2(_touchSP->getPosition());
-	_touchAngle = 0.0;
-
 	//touchしているか
 	_isTouch = true;
 
@@ -106,21 +93,19 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_touchPos = Vec2(0, 0);
 
 	//当たった時に渡すスピードの割合 speed/_speedtyousei
-	_speedtyousei = 0.5f;
+	_speedtyousei = 4.0f;
 
 	//ゴーールした吉田の数
 	_goolYoshidaNum = 0;
 
 	_syougaibutu = _stageCrater->getSyougaibutu();
 
-	_touchStartPos = Vec2::ZERO;
-	_touchEndPos = Vec2::ZERO;
+	_touchStartPos = Vec2(0, 0);
+	_touchEndPos = Vec2(0, 0);
 
 	_yoshidaCenter = Vec2(0, 0);
 
 	_yoshidaCenterPos = Vec2(0, 0);
-
-	_kumomoAngle = 0;
 
 	_taisyouYoshida.clear();
 
@@ -134,7 +119,6 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 void YoshidasanNoManager::update(float dt)
 {
 	_frmCount += dt;
-	yoshidaWatashi();
 	if ((int)_frmCount % 5 == 0)
 	{
 		yoshidaCenterCall();
@@ -146,17 +130,12 @@ void YoshidasanNoManager::update(float dt)
 
 void YoshidasanNoManager::touchCall(Vec2 touchPos, bool isTouch)
 {
-	_touchSP->setRotation(atan2( _touchStartPos.y - touchPos.y, touchPos.x - _touchStartPos.x) * 180 / M_PI);
-
-	_touchAngle = (atan2(_touchStartPos.y - touchPos.y, touchPos.x - _touchStartPos.x) * 180 / M_PI);
-
-	_yajirushiPos = Vec2(touchPos.x - _touchStartPos.x, touchPos.y - _touchStartPos.y);
+	
 }
 
 void YoshidasanNoManager::touchStateCall(Vec2 touchPos)
 {
 	_touchStartPos = touchPos;
-	_touchSP->setPosition(touchPos);
 	_isTouch = true;
 }
 
@@ -164,8 +143,6 @@ void YoshidasanNoManager::touchEndCall(Vec2 touchPos)
 {
 	_touchEndPos = touchPos;
 	_isTouch = false;
-
-	_effectManager->kazeNagareru(_touchStartPos, _touchEndPos, _touchAngle);
 }
 
 void YoshidasanNoManager::yosidaLiveingCheck()
@@ -217,24 +194,11 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 				break;
 			}
 
-			for (auto enemy:_enemyManager->_enemyArr)
-			{
-				Rect enemyRect = enemy->getBoundingBox();
-				if (targetRect.intersectsRect(enemyRect))
-				{
-					_effectManager->watageBakusan(_yoshida.at(target)->getPosition());
-
-					_yoshida.at(target)->removeFromParentAndCleanup(true);
-					_yoshida.erase(_yoshida.begin() + target);
-					yosidaLiveingCheck();
-				}
-			}
-
 			//死んだ吉田拓郎と当たっていますか
 			for (int i = 0; i < shinikusa.size(); i++)
 			{
 				Rect kusaRect = shinikusa[i]->getBoundingBox();
-				if (targetRect.intersectsRect(kusaRect))
+				if (targetRect.intersectsRect(kusaRect) && !_yoshida.at(target)->_isGool)
 				{
 					float angle = atan2(
 						_yoshida.at(target)->getPositionY() - kusaRect.getMidY(),
@@ -323,16 +287,14 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 					if (targetVec >= atherVec)
 					{
 						Vec2 atherSpeed = _yoshida.at(ather)->getSpeed();
-						_yoshida.at(ather)->speedChange(-atherSpeed / _speedtyousei);
-						_yoshida.at(ather)->_isGoRight != _yoshida.at(ather)->_isGoRight;
 						_yoshida.at(target)->speedChange(Vec2(atherSpeed.x / _speedtyousei, 0));
+						_yoshida.at(ather)->speedChange(-atherSpeed / _speedtyousei);
 					}
 					if (targetVec < atherVec)
 					{
 						Vec2 targetSpeed = _yoshida.at(target)->getSpeed();
 						_yoshida.at(ather)->speedChange(Vec2(targetSpeed.x / _speedtyousei, 0));
 						_yoshida.at(target)->speedChange(-targetSpeed / _speedtyousei);
-						_yoshida.at(target)->_isGoRight != _yoshida.at(target)->_isGoRight;
 					}
 				}
 			}
@@ -347,7 +309,6 @@ void YoshidasanNoManager::kazeKeisan()
 
 	//タッチしはじめと終わりのベクトルから角度を算出（右から上でひだりまでに0~+180,右から下で左までに0~-180）
 	float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x) * 180.0f / M_PI;
-	_kumomoAngle = angle;
 
 	//左ギリギリ上
 	if (angle > 180 - hanniAngle)
@@ -361,6 +322,7 @@ void YoshidasanNoManager::kazeKeisan()
 			if ((yoshidaAngle >= angle - hanniAngle && yoshidaAngle <= angle + hanniAngle) ||
 				(yoshidaAngle <= -180.0f + overAngle && yoshidaAngle >= -180.0f))
 			{
+
 				_taisyouYoshida.push_back(i);
 			}
 		}
@@ -433,20 +395,4 @@ void YoshidasanNoManager::yoshidaCenterCall()
 	}
 	_yoshidaCenter = _yoshidaCenter / _yoshida.size();
 	//_yoshidaCamera->setPosition(_yoshidaCenter);
-}
-
-void YoshidasanNoManager::yajirushiSet()
-{
-	Vec2 kumoPos = _touchSP->getPosition();
-	_yajirushiSP->setRotation(_touchAngle);
-	float radians = _touchAngle * M_PI / 180.0f;
-	float x = cos(radians);
-	float y = sin(radians);
-	_yajirushiSP->setPosition(kumoPos + Vec2(x,y));
-}
-
-
-void YoshidasanNoManager::yoshidaWatashi() 
-{
-	_enemyManager->_yoshidaArr = _yoshida;
 }

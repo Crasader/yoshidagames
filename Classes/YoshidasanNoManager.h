@@ -18,8 +18,6 @@
 #include "ResultScene.h"
 #include "EffectManager.h"
 #include "YoshidaCamera.h"
-#include "Enemy.h"
-#include "EnemyManager.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -40,8 +38,6 @@ public:
 	void yoshidaNoAtarihantei();
 	void kazeKeisan();
 	void yoshidaCenterCall();
-	void yajirushiSet();
-	void yoshidaWatashi();
 
 
 	Vector<Yoshidasan*> _yoshida;
@@ -52,14 +48,12 @@ public:
 	Kusahayasu *_kusahayasu;
 	EffectManager *_effectManager;
 	YoshidaCamera* _yoshidaCamera;
-	EnemyManager* _enemyManager;
 
 	float _frmCount;
 	Vec2 _yoshidaCenter;
 	Vec2 _yoshidaCenterPos;
 
 	float _speedtyousei;
-	float _kumomoAngle;
 	float _touchAngle;
 	Rect _goolRect;
 	bool _isTouch;
@@ -68,8 +62,6 @@ public:
 	Vec2 _touchEndPos;
 	Vec2 _yajirushiPos;
 	Vec2 _touchPos;
-	Sprite *_touchSP;
-	Sprite *_yajirushiSP;
 };
 
 #endif

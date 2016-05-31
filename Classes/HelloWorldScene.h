@@ -9,7 +9,7 @@
 #include "Kusahayasu.h"
 #include "EffectManager.h"
 #include "YoshidaCamera.h"
-#include "EnemyManager.h"
+#include "Kumomo.h";
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -43,7 +43,7 @@ public:
 	Kusahayasu *_kusahayasu;
 	EffectManager *_effectManger;
 	YoshidaCamera *_yoshidaCamera;
-	EnemyManager *_enemyManager;
+	Kumomo *_kumomo;
 
 	Sprite *_wind;
 
