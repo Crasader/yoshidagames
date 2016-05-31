@@ -68,11 +68,18 @@ bool HelloWorld::init()
 	_yoshidaCamera->autorelease();
 	addChild(_yoshidaCamera);
 
+	_enemyManager = new EnemyManager();
+	_enemyManager->init();
+	_enemyManager->autorelease();
+	addChild(_enemyManager);
+
 	_yosidaManeger = new YoshidasanNoManager();
 	_yosidaManeger->init(_stageCreater, _kusahayasu);
 	_yosidaManeger->autorelease();
 	_yosidaManeger->_effectManager = _effectManger;
 	_yosidaManeger->_yoshidaCamera = _yoshidaCamera;
+	_yosidaManeger->_enemyManager = _enemyManager;
+	_enemyManager->
 	addChild(_yosidaManeger);
 
 	

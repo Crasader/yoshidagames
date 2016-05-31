@@ -24,6 +24,11 @@ class Enemy :public Yoshidasan
 public:
 	bool init(const char *fileName, int maxSpeed, float gravity, bool isYanki, int myNo);
 	void update(float dt);
+	void enemyMove();
+
+	float _speed;
+
+	Vec2 _yoshidaPos;
 };
 
 #endif

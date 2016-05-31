@@ -50,25 +50,25 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		case 0://いつもの
 			yoshidaPas = "pix/actor/yoshidasan.png";
 			gravity = -0.98f;
-			maxSpeed = 10;
+			maxSpeed = 12;
 			myNo = 0;
 			break;
 		case 1://女
 			yoshidaPas = "pix/actor/yoshidagirl.png";
 			gravity = -0.8f;
-			maxSpeed = 12;
+			maxSpeed = 14;
 			myNo = 1;
 			break;
 		case 2://でぶ
 			yoshidaPas = "pix/actor/yoshidadebu.png";
 			gravity = -1.1f;
-			maxSpeed = 6;
+			maxSpeed = 10;
 			myNo = 2;
 			break;
 		case 3://ヤンキー
 			yoshidaPas = "pix/actor/yoshidasanyanki.png";
 			gravity = -0.98f;
-			maxSpeed = 8;
+			maxSpeed = 10;
 			yankiCheck = true;
 			myNo = 3;
 			break;
@@ -106,7 +106,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_touchPos = Vec2(0, 0);
 
 	//当たった時に渡すスピードの割合 speed/_speedtyousei
-	_speedtyousei = 4.0f;
+	_speedtyousei = 0.5f;
 
 	//ゴーールした吉田の数
 	_goolYoshidaNum = 0;
@@ -134,6 +134,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 void YoshidasanNoManager::update(float dt)
 {
 	_frmCount += dt;
+	yoshidaWatashi();
 	if ((int)_frmCount % 5 == 0)
 	{
 		yoshidaCenterCall();
@@ -216,11 +217,24 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 				break;
 			}
 
+			for (auto enemy:_enemyManager->_enemyArr)
+			{
+				Rect enemyRect = enemy->getBoundingBox();
+				if (targetRect.intersectsRect(enemyRect))
+				{
+					_effectManager->watageBakusan(_yoshida.at(target)->getPosition());
+
+					_yoshida.at(target)->removeFromParentAndCleanup(true);
+					_yoshida.erase(_yoshida.begin() + target);
+					yosidaLiveingCheck();
+				}
+			}
+
 			//死んだ吉田拓郎と当たっていますか
 			for (int i = 0; i < shinikusa.size(); i++)
 			{
 				Rect kusaRect = shinikusa[i]->getBoundingBox();
-				if (targetRect.intersectsRect(kusaRect) && !_yoshida.at(target)->_isGool)
+				if (targetRect.intersectsRect(kusaRect))
 				{
 					float angle = atan2(
 						_yoshida.at(target)->getPositionY() - kusaRect.getMidY(),
@@ -310,6 +324,7 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 					{
 						Vec2 atherSpeed = _yoshida.at(ather)->getSpeed();
 						_yoshida.at(ather)->speedChange(-atherSpeed / _speedtyousei);
+						_yoshida.at(ather)->_isGoRight != _yoshida.at(ather)->_isGoRight;
 						_yoshida.at(target)->speedChange(Vec2(atherSpeed.x / _speedtyousei, 0));
 					}
 					if (targetVec < atherVec)
@@ -317,6 +332,7 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 						Vec2 targetSpeed = _yoshida.at(target)->getSpeed();
 						_yoshida.at(ather)->speedChange(Vec2(targetSpeed.x / _speedtyousei, 0));
 						_yoshida.at(target)->speedChange(-targetSpeed / _speedtyousei);
+						_yoshida.at(target)->_isGoRight != _yoshida.at(target)->_isGoRight;
 					}
 				}
 			}
@@ -345,7 +361,6 @@ void YoshidasanNoManager::kazeKeisan()
 			if ((yoshidaAngle >= angle - hanniAngle && yoshidaAngle <= angle + hanniAngle) ||
 				(yoshidaAngle <= -180.0f + overAngle && yoshidaAngle >= -180.0f))
 			{
-
 				_taisyouYoshida.push_back(i);
 			}
 		}
@@ -428,4 +443,10 @@ void YoshidasanNoManager::yajirushiSet()
 	float x = cos(radians);
 	float y = sin(radians);
 	_yajirushiSP->setPosition(kumoPos + Vec2(x,y));
+}
+
+
+void YoshidasanNoManager::yoshidaWatashi() 
+{
+	_enemyManager->_yoshidaArr = _yoshida;
 }

@@ -20,7 +20,7 @@ using namespace std;
 class Yoshidasan :public Sprite
 {
 public:
-	bool init(const char *fileName, int maxSpeed, float gravity, bool isYanki,int myNo);
+	virtual bool init(const char *fileName, int maxSpeed, float gravity, bool isYanki,int myNo);
 	void update(float dt);
 	//当たった時のspeed値イドウ
 	void speedChange(Vec2 plusSpeed);

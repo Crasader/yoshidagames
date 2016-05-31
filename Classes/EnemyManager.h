@@ -24,10 +24,13 @@ class EnemyManager :public Node
 public:
 	bool init();
 	void update(float dt);
+	void posCheck();
 
 	Vector<Enemy*> _enemyArr;
+	Vector<Yoshidasan*> _yoshidaArr;
 
 	EffectManager *_effectManager;
+
 
 };
 
