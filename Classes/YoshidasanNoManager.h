@@ -53,18 +53,16 @@ public:
 	EnemyManager* _enemyManager;
 
 	float _frmCount;
-	Vec2 _yoshidaCenter;
-	Vec2 _yoshidaCenterPos;
-
+	float _windRange;
 	float _speedtyousei;
-	float _touchAngle;
+	float _windCallCnt;
 	Rect _goolRect;
+
 	bool _isTouch;
-	int _goolYoshidaNum;
+
 	Vec2 _touchStartPos;
 	Vec2 _touchEndPos;
-	Vec2 _yajirushiPos;
-	Vec2 _touchPos;
+	Vec2 _yoshidaCenterPos;
 };
 
 #endif

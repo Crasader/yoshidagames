@@ -169,7 +169,7 @@ void HelloWorld::onTouchMoved(Touch* pTouch, Event* pEvent)
 }
 
 //----------------------------------------------------------------------------------------------------------------
-// タッチが離された時によばれるメソッド
+//+ タッチが離された時によばれるメソッド
 //----------------------------------------------------------------------------------------------------------------
 void HelloWorld::onTouchEnded(Touch* pTouch, Event* pEvent)
 {
@@ -185,9 +185,6 @@ void HelloWorld::onTouchEnded(Touch* pTouch, Event* pEvent)
 	{
 		touchPos.x -= yoshidaPos.x - designResolutionSize.width*1.5;
 	}
-	_yosidaManeger->touchCall(touchPos, false);
-	_yosidaManeger->touchEndCall(touchPos);
-	//_touchSP->setRotation(_yosidaManeger->_kumomoAngle);
 
 }
 

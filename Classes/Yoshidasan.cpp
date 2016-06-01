@@ -55,12 +55,14 @@ void Yoshidasan::update(float dt)
 }
 
 //風からの移動量の計算
-void Yoshidasan::vecKeisan(Vec2 touchPos)
+void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange)
 {
+	//風の強さ調整用
+	float windTyousei = 2;
 	//実際移動量
 	float vecPulus = 0.0f;
 	//適用範囲
-	float hani = 500.0f;
+	float hani = windRange;
 
 	//移動値の計算
 	if ((sqrt(
@@ -79,7 +81,7 @@ void Yoshidasan::vecKeisan(Vec2 touchPos)
 	//角度の計算
 	float angle = atan2(getPositionY() - touchPos.y, getPositionX() - touchPos.x);
 	//移動量の適用
-	_pSpeed = Vec2(vecPulus * cos(angle), vecPulus * sin(angle));
+	_pSpeed = Vec2(vecPulus * cos(angle) * windTyousei, vecPulus * sin(angle) * windTyousei);
 
 	//移動方向の変更X
 	if (touchPos.x - getPositionX() <= 0)_isGoRight = true;

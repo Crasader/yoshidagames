@@ -17,9 +17,14 @@
 //	}
 //}
 
+
+static const float WINDMAXRANGE = 500.0f;//風の最大範囲
+static const float WINDCALLMAXTIME = 1.0f;//風が流れ切るまでの最大時間
+
 bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu)
 {
 	if (!Node::init())return false;
+
 
 	//stage作るクラス
 	_stageCrater = stageCrater;
@@ -89,26 +94,19 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	//touchしているか
 	_isTouch = true;
 
-	//touchしている場所
-	_touchPos = Vec2(0, 0);
-
 	//当たった時に渡すスピードの割合 speed/_speedtyousei
 	_speedtyousei = 4.0f;
-
-	//ゴーールした吉田の数
-	_goolYoshidaNum = 0;
 
 	_syougaibutu = _stageCrater->getSyougaibutu();
 
 	_touchStartPos = Vec2(0, 0);
 	_touchEndPos = Vec2(0, 0);
-
-	_yoshidaCenter = Vec2(0, 0);
-
 	_yoshidaCenterPos = Vec2(0, 0);
-
 	_taisyouYoshida.clear();
 
+	_windRange = 0.0f;
+	_windCallCnt = WINDCALLMAXTIME;
+	
 
 	// updateを毎フレーム実行するように登録する
 	this->scheduleUpdate();
@@ -124,7 +122,12 @@ void YoshidasanNoManager::update(float dt)
 		yoshidaCenterCall();
 		_frmCount = 0;
 	}
-	if (!_isTouch)kazeKeisan();
+	if (!_isTouch && _windCallCnt > 0)
+	{
+		_windCallCnt -= dt;
+		kazeKeisan();
+	}
+
 	yoshidaNoAtarihantei();
 	yoshidaWatashi();
 
@@ -144,6 +147,14 @@ void YoshidasanNoManager::touchStateCall(Vec2 touchPos)
 void YoshidasanNoManager::touchEndCall(Vec2 touchPos)
 {
 	_touchEndPos = touchPos;
+	_windRange = sqrt(pow(_touchEndPos.x - _touchStartPos.x, 2) + pow(_touchEndPos.y - _touchStartPos.y, 2));
+	if (_windRange > WINDMAXRANGE)_windRange = WINDMAXRANGE;
+	_windCallCnt = WINDCALLMAXTIME * _windRange / WINDMAXRANGE;
+	float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x);
+	Vec2 windEndPos = Vec2(cos(angle) * _windRange, sin(angle) * _windRange) + _touchStartPos;
+	angle = angle * 180 / M_PI;
+	log("%f", angle);
+	_effectManager->kazeNagareru(_touchStartPos, windEndPos, angle, _windCallCnt);
 	_isTouch = false;
 }
 
@@ -291,14 +302,14 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 					yoshidaSize*0.2f,
 					yoshidaSize*0.2f };
 				float targetVec = sqrt(
-					pow(_touchPos.x - _yoshida.at(target)->getPositionX(), 2) +
-					pow(_touchPos.y - _yoshida.at(target)->getPositionY(), 2));
+					pow(_touchStartPos.x - _yoshida.at(target)->getPositionX(), 2) +
+					pow(_touchStartPos.y - _yoshida.at(target)->getPositionY(), 2));
 
 				if (targetRect.intersectsRect(atherRect))
 				{
 					float atherVec = sqrt(
-						pow(_touchPos.x - _yoshida.at(ather)->getPositionX(), 2) +
-						pow(_touchPos.y - _yoshida.at(ather)->getPositionY(), 2));
+						pow(_touchStartPos.x - _yoshida.at(ather)->getPositionX(), 2) +
+						pow(_touchStartPos.y - _yoshida.at(ather)->getPositionY(), 2));
 					if (targetVec >= atherVec)
 					{
 						Vec2 atherSpeed = _yoshida.at(ather)->getSpeed();
@@ -337,7 +348,6 @@ void YoshidasanNoManager::kazeKeisan()
 			if ((yoshidaAngle >= angle - hanniAngle && yoshidaAngle <= angle + hanniAngle) ||
 				(yoshidaAngle <= -180.0f + overAngle && yoshidaAngle >= -180.0f))
 			{
-
 				_taisyouYoshida.push_back(i);
 			}
 		}
@@ -378,19 +388,19 @@ void YoshidasanNoManager::kazeKeisan()
 
 	for (int i = 0; i < _taisyouYoshida.size(); i++)
 	{
-		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos);
+		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (WINDCALLMAXTIME - _windCallCnt));
 	}
 
 }
 
 void YoshidasanNoManager::yoshidaCenterCall()
 {
-	_yoshidaCenter = Vec2(0, 0);
+	_yoshidaCenterPos = Vec2(0, 0);
 	Vec2 sinkou = _yoshidaCamera->getPosition();
 	float torima = 0;
 	for (int i = 0; i < _yoshida.size(); i++)
 	{
-		_yoshidaCenter += _yoshida.at(i)->getPosition();
+		_yoshidaCenterPos += _yoshida.at(i)->getPosition();
 	}
 
 	for (int i = 0; i < _yoshida.size(); i++)
@@ -408,7 +418,7 @@ void YoshidasanNoManager::yoshidaCenterCall()
 			}
 		}
 	}
-	_yoshidaCenter = _yoshidaCenter / _yoshida.size();
+	_yoshidaCenterPos = _yoshidaCenterPos / _yoshida.size();
 	//_yoshidaCamera->setPosition(_yoshidaCenter);
 }
 

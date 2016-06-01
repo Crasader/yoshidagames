@@ -21,7 +21,7 @@ public:
 
 	void kumoDeru(Vec2 Pos);
 
-	void kazeNagareru(Vec2 startPos, Vec2 endPos,float angle);
+	void kazeNagareru(Vec2 startPos, Vec2 endPos,float angle,float windCallTime);
 
 	Sprite* _kirakira;
 	Sprite* _sprite;
