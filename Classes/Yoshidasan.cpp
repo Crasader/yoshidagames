@@ -104,7 +104,7 @@ void Yoshidasan::speedChange(Vec2 plusSpeed)
 void Yoshidasan::speedKeisan()
 {
 	//重力をスピードの減少にどの程度反映するか調整
-	int p = 3;
+	int p = 5;
 
 	//y方向の運動量の計算-----------------------------------------------------
 	if (!_isGoDown)	//下向き
