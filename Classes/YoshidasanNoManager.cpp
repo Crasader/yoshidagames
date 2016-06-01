@@ -25,7 +25,6 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 {
 	if (!Node::init())return false;
 
-
 	//stage作るクラス
 	_stageCrater = stageCrater;
 
@@ -41,45 +40,39 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	for (int i = 0; i < yoshidaSuu; i++)
 	{
 		const char * yoshidaPas;
-		int r = rand() % 4;
 		//吉田のステ
 		bool yankiCheck = false;
-		float gravity = -0.5f;
+		float gravity = -0.98f;
 		int maxSpeed = 10;
-		int myNo = 0;
+		int myNo = rand() % 4;
 
-		switch (r)
+		switch (myNo)
 		{
 		case 0://いつもの
 			yoshidaPas = "pix/actor/yoshidasan.png";
-			gravity = -0.98f;
-			maxSpeed = 10;
-			myNo = 0;
+			gravity *= 1.0f;
+			maxSpeed *= 1.0f;
 			break;
 		case 1://女
 			yoshidaPas = "pix/actor/yoshidagirl.png";
-			gravity = -0.8f;
-			maxSpeed = 12;
-			myNo = 1;
+			gravity *= 0.8f;
+			maxSpeed *= 1.2f;
 			break;
 		case 2://でぶ
 			yoshidaPas = "pix/actor/yoshidadebu.png";
-			gravity = -1.1f;
-			maxSpeed = 6;
-			myNo = 2;
+			gravity *= 1.1f;
+			maxSpeed *= 0.6f;
 			break;
 		case 3://ヤンキー
 			yoshidaPas = "pix/actor/yoshidasanyanki.png";
-			gravity = -0.98f;
-			maxSpeed = 8;
+			gravity *= 1.0f;
+			maxSpeed = 0.8f;
 			yankiCheck = true;
-			myNo = 3;
 			break;
 		default://保険
 			yoshidaPas = "pix/actor/yoshidasan.png";
-			gravity = -0.5f;
-			maxSpeed = 10;
-			myNo = 0;
+			gravity *= 1.0f;
+			maxSpeed *= 1.0f;
 			break;
 		}
 		Yoshidasan *yoshida = new Yoshidasan();
