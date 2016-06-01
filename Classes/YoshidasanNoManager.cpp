@@ -33,7 +33,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_kusahayasu = kusahayasu;
 
 	//‹g“c‚³‚ñ‚Ì”
-	int yoshidaSuu = 10;
+	int yoshidaSuu = 2;
 
 	_goolRect = _stageCrater->getGoolRect();
 
