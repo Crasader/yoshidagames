@@ -25,7 +25,7 @@ public:
 	//当たった時のspeed値イドウ
 	void speedChange(Vec2 plusSpeed);
 	//風からの移動量の計算
-	void vecKeisan(Vec2 touchPos);
+	void vecKeisan(Vec2 touchPos,float windRange);
 	//speedの適用
 	void speedKeisan();
 	//rotateの計算

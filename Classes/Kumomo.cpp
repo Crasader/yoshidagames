@@ -47,7 +47,6 @@ void Kumomo::touchCall(Vec2 touchPos)
 {
 	_touchEndPos = touchPos;
 	_yoshiMana->touchCall(touchPos, true);
-
 	yajirushiSet();
 }
 

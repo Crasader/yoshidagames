@@ -137,7 +137,7 @@ void EffectManager::kumoDeru(Vec2 Pos)
 	}
 }
 
-void EffectManager::kazeNagareru(Vec2 startPos, Vec2 endPos,float angle) 
+void EffectManager::kazeNagareru(Vec2 startPos, Vec2 endPos,float angle,float windCallTime) 
 {
 	_wind = Sprite::create("pix/eff/wind.png");
 	_wind->setScale(0.3f);
@@ -145,10 +145,7 @@ void EffectManager::kazeNagareru(Vec2 startPos, Vec2 endPos,float angle)
 	_wind->setRotation(angle);
 	addChild(_wind);
 
-	Vec2 movePos = endPos - startPos;
-	if (movePos.x >= 500)movePos.x = 500;
-	if (movePos.y >= 500)movePos.y = 500;
-	auto moveAct = MoveBy::create(0.5, movePos);
+	auto moveAct = MoveTo::create(windCallTime, endPos);
 	auto removeAct = RemoveSelf::create();						// 自分自身を削除
 	auto sequence = Sequence::create(moveAct, removeAct, nullptr); // アクションを順番に実行
 	_wind->runAction(sequence);
