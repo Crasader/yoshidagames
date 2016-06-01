@@ -56,6 +56,9 @@ public:
 	int _maxSpeed;
 	float _gSpeed;
 	float _moveMaxX;
+	float _fripCoolCnt;
+	float _fripCoolTime;
+
 	Vec2 _pSpeed;
 	Rect _goolRect;
 	

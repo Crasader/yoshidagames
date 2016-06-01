@@ -25,6 +25,11 @@ bool Yoshidasan::init(const char *fileName, int maxSpeed, float gravity, bool is
 	//最大移動速度
 	_maxSpeed = maxSpeed;
 
+	//向きを変える処理を呼ぶクールタイム
+	_fripCoolTime = 5.0f;
+	//向きを変える処理を呼ぶクールタイムで使うカウント
+	_fripCoolCnt = 0.0f;
+
 	//ステージ内での最大移動量（X方向）
 	_moveMaxX = (designResolutionSize.width * 2) - 100;
 
@@ -38,6 +43,15 @@ void Yoshidasan::update(float dt)
 {
 	if (!_isGool)speedKeisan();
 	if (_isWind)rotateKeisan();
+
+	if (_fripCoolCnt > 0) 
+	{
+		_fripCoolCnt -= 0.1;
+		if (_fripCoolCnt < 0) 
+		{
+			_fripCoolCnt = 0;
+		}
+	}
 }
 
 //風からの移動量の計算
@@ -196,13 +210,17 @@ void Yoshidasan::speedKeisan()
 //rotateの計算
 void Yoshidasan::rotateKeisan()
 {
-	//自分の角度をspeedのベクトルから計算して適用　度 = ラジアン × 180 ÷ 円周率 + 90
-	setRotation((atan2(_pSpeed.y, _pSpeed.x) * 180.0f / M_PI) + 90);
-	bool xBool = false;
-	if (_isYanki) xBool = _isGoRight == _isGoDown;
-	else xBool = _isGoRight != _isGoDown;
-	setFlipX(xBool);
-	setFlipY(!_isGoDown);
+	if (_fripCoolCnt == 0) 
+	{
+		//自分の角度をspeedのベクトルから計算して適用　度 = ラジアン × 180 ÷ 円周率 + 90
+		setRotation((atan2(_pSpeed.y, _pSpeed.x) * 180.0f / M_PI) + 90);
+		bool xBool = false;
+		if (_isYanki) xBool = _isGoRight == _isGoDown;
+		else xBool = _isGoRight != _isGoDown;
+		_fripCoolCnt = _fripCoolTime;
+		setFlipX(xBool);
+		setFlipY(!_isGoDown);
+	}
 }
 
 //speedを調べる
@@ -215,8 +233,9 @@ Vec2 Yoshidasan::getSpeed()
 void Yoshidasan::actionYuraYura()
 {
 	stopAllActions();
-	setFlipY(false);
-	setFlipX(false);
+		_fripCoolCnt = _fripCoolTime;
+		setFlipY(false);
+		setFlipX(false);
 	auto modosu = RotateTo::create(0.5f, 0);
 	auto func = CallFunc::create([=]()
 	{
@@ -271,9 +290,9 @@ void Yoshidasan::happaPiyon(Vec2 muki)
 void Yoshidasan::allChangeReset()
 {
 	stopAllActions();
-	setFlipY(false);
-	setFlipX(false);
-	setRotation(0);
+		setFlipY(false);
+		setFlipX(false);
+		setRotation(0);
 }
 
 //ゴールした時の処理

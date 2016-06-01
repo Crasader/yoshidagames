@@ -126,6 +126,8 @@ void YoshidasanNoManager::update(float dt)
 	}
 	if (!_isTouch)kazeKeisan();
 	yoshidaNoAtarihantei();
+	yoshidaWatashi();
+
 }
 
 void YoshidasanNoManager::touchCall(Vec2 touchPos, bool isTouch)
@@ -192,6 +194,19 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 				auto seq = Sequence::create(dilay, func, nullptr);
 				runAction(seq);
 				break;
+			}
+
+			for (auto enemy : _enemyManager->_enemyArr)
+			{
+				Rect enemyRect = enemy->getBoundingBox();
+				if (targetRect.intersectsRect(enemyRect))
+				{
+					_effectManager->watageBakusan(_yoshida.at(target)->getPosition());
+
+					_yoshida.at(target)->removeFromParentAndCleanup(true);
+					_yoshida.erase(_yoshida.begin() + target);
+					yosidaLiveingCheck();
+				}
 			}
 
 			//Ž€‚ñ‚¾‹g“c‘ñ˜Y‚Æ“–‚½‚Á‚Ä‚¢‚Ü‚·‚©
@@ -395,4 +410,9 @@ void YoshidasanNoManager::yoshidaCenterCall()
 	}
 	_yoshidaCenter = _yoshidaCenter / _yoshida.size();
 	//_yoshidaCamera->setPosition(_yoshidaCenter);
+}
+
+void YoshidasanNoManager::yoshidaWatashi()
+{
+	_enemyManager->_yoshidaArr = _yoshida;
 }
