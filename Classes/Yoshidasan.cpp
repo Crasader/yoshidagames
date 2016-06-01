@@ -25,6 +25,8 @@ bool Yoshidasan::init(const char *fileName, int maxSpeed, float gravity, bool is
 	//最大移動速度
 	_maxSpeed = maxSpeed;
 
+	_windBoost = 1.0f;
+
 	//向きを変える処理を呼ぶクールタイム
 	_fripCoolTime = 5.0f;
 	//向きを変える処理を呼ぶクールタイムで使うカウント
@@ -55,14 +57,14 @@ void Yoshidasan::update(float dt)
 }
 
 //風からの移動量の計算
-void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange)
+void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange, float windBoost)
 {
-	//風の強さ調整用
-	float windTyousei = 2;
 	//実際移動量
 	float vecPulus = 0.0f;
 	//適用範囲
 	float hani = windRange;
+
+	_windBoost = windBoost;
 
 	//移動値の計算
 	if ((sqrt(
@@ -71,7 +73,7 @@ void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange)
 		<= hani)
 	{
 
-		vecPulus = _maxSpeed *
+		vecPulus = _maxSpeed * _windBoost *
 			(hani - (sqrt(
 				pow(touchPos.x - getPositionX(), 2) +
 				pow(touchPos.y - getPositionY(), 2))))
@@ -81,7 +83,7 @@ void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange)
 	//角度の計算
 	float angle = atan2(getPositionY() - touchPos.y, getPositionX() - touchPos.x);
 	//移動量の適用
-	_pSpeed = Vec2(vecPulus * cos(angle) * windTyousei, vecPulus * sin(angle) * windTyousei);
+	_pSpeed = Vec2(vecPulus * cos(angle), vecPulus * sin(angle));
 
 	//移動方向の変更X
 	if (touchPos.x - getPositionX() <= 0)_isGoRight = true;
@@ -111,9 +113,9 @@ void Yoshidasan::speedKeisan()
 	{
 		if (_pSpeed.y > _gSpeed)
 		{
-			if (_pSpeed.y >= _maxSpeed)
+			if (_pSpeed.y >= _maxSpeed * _windBoost)
 			{
-				_pSpeed.y = _maxSpeed;
+				_pSpeed.y = _maxSpeed * _windBoost;
 			}
 			_pSpeed.y += _gSpeed / p;
 		}
@@ -127,9 +129,9 @@ void Yoshidasan::speedKeisan()
 	{
 		if (_pSpeed.y < _gSpeed)
 		{
-			if (_pSpeed.y <= -_maxSpeed)
+			if (_pSpeed.y <= -_maxSpeed * _windBoost)
 			{
-				_pSpeed.y = -_maxSpeed;
+				_pSpeed.y = -_maxSpeed * _windBoost;
 			}
 			_pSpeed.y -= _gSpeed / p;
 		}
@@ -148,9 +150,9 @@ void Yoshidasan::speedKeisan()
 		{
 			if (_pSpeed.x > 0)
 			{
-				if (_pSpeed.x >= _maxSpeed)
+				if (_pSpeed.x >= _maxSpeed * _windBoost)
 				{
-					_pSpeed.x = _maxSpeed;
+					_pSpeed.x = _maxSpeed * _windBoost;
 				}
 				_pSpeed.x += _gSpeed / p;
 				_isWind = true;
@@ -167,9 +169,9 @@ void Yoshidasan::speedKeisan()
 		{
 			if (_pSpeed.x < 0)
 			{
-				if (_pSpeed.x <= -_maxSpeed)
+				if (_pSpeed.x <= -_maxSpeed * _windBoost)
 				{
-					_pSpeed.x = -_maxSpeed;
+					_pSpeed.x = -_maxSpeed * _windBoost;
 				}
 				_pSpeed.x -= _gSpeed / p;
 				_isWind = true;

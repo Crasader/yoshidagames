@@ -56,6 +56,8 @@ public:
 	float _windRange;
 	float _speedtyousei;
 	float _windCallCnt;
+	float _windPowerBoost;
+
 	Rect _goolRect;
 
 	bool _isTouch;
