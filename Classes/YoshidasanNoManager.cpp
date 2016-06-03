@@ -66,7 +66,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		case 3://ƒ„ƒ“ƒL[
 			yoshidaPas = "pix/actor/yoshidasanyanki.png";
 			gravity *= 1.0f;
-			maxSpeed = 0.8f;
+			maxSpeed *= 0.8f;
 			yankiCheck = true;
 			break;
 		default://•ÛŒ¯
