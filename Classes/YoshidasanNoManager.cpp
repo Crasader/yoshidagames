@@ -42,7 +42,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		const char * yoshidaPas;
 		//‹g“c‚ÌƒXƒe
 		bool yankiCheck = false;
-		float gravity = -0.50f;
+		float gravity = -0.30f;
 		int maxSpeed = 10;
 		int myNo = rand() % 4;
 

@@ -239,7 +239,7 @@ void Yoshidasan::actionYuraYura()
 	stopAllActions();
 		_fripCoolCnt = _fripCoolTime;
 		setFlipY(false);
-		setFlipX(false);
+		//setFlipX(false);
 	auto modosu = RotateTo::create(0.5f, 0);
 	auto func = CallFunc::create([=]()
 	{
