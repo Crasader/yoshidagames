@@ -28,6 +28,7 @@ public:
 	void touchStartCall(Vec2 touchPos);
 	void touchEndCall(Vec2 touchPos);
 	void yajirushiSet();
+	void kumomoActhionTigimu();
 
 	YoshidasanNoManager *_yoshiMana;
 	EffectManager *_effectManager;
@@ -35,7 +36,8 @@ public:
 	Vec2 _touchStartPos;
 	Vec2 _touchEndPos;
 	Sprite *_yajirushiSP;
+	Sprite *_kazehaniSP;
 	bool _isTouch;
-
+	float _kumomoNomaX;
 };
 #endif

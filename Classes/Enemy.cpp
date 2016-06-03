@@ -42,7 +42,7 @@ void Enemy::update(float dt)
 {
 	if (!_isGool)speedKeisan();
 	if (_isWind)rotateKeisan();
-	//enemyMove();
+	enemyMove();
 }
 
 void Enemy::enemyMove() 
@@ -51,6 +51,5 @@ void Enemy::enemyMove()
 	Vec2 a = _yoshidaPos - myPos;
 	float kyori = sqrt(pow(a.x, 2) + pow(a.y, 2));
 	Vec2 idou = Vec2((a.x/kyori) *_speed, (a.y/kyori) * _speed);
-	//Vec2 idou = Vec2(_speed,_speed);
 	setPosition(myPos + idou);
 }

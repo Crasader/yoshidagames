@@ -46,6 +46,10 @@ void EnemyManager::posCheck()
 				minYoshidaPos = yoshidaPos;
 			}
 		}
-		enemy->_yoshidaPos = minYoshidaPos;
+		float tikasugiDame = 100;
+		if (minVec > tikasugiDame)
+		{
+			enemy->_yoshidaPos = minYoshidaPos;
+		}
 	}
 }
