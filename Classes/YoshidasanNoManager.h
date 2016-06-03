@@ -40,6 +40,7 @@ public:
 	void kazeKeisan();
 	void yoshidaCenterCall();
 	void yoshidaWatashi();
+	void getMaxRange();
 
 
 	Vector<Yoshidasan*> _yoshida;
