@@ -377,8 +377,6 @@ void YoshidasanNoManager::kazeKeisan()
 		}
 	}
 
-
-
 	for (int i = 0; i < _taisyouYoshida.size(); i++)
 	{
 		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (WINDCALLMAXTIME - _windCallCnt));
@@ -412,10 +410,11 @@ void YoshidasanNoManager::yoshidaCenterCall()
 		}
 	}
 	_yoshidaCenterPos = _yoshidaCenterPos / _yoshida.size();
-	//_yoshidaCamera->setPosition(_yoshidaCenter);
+	_yoshidaCamera->_yoshidaCenterPos = _yoshidaCenterPos;
 }
 
 void YoshidasanNoManager::yoshidaWatashi()
 {
 	_enemyManager->_yoshidaArr = _yoshida;
 }
+
