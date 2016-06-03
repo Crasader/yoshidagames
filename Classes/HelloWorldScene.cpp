@@ -83,9 +83,13 @@ bool HelloWorld::init()
 	_enemyManager->
 	addChild(_yosidaManeger);
 
+	Sprite *kazehaniSP = Sprite::create("pix/eff/windpoint.png");
+	addChild(kazehaniSP);
+
 	_kumomo = new Kumomo();
 	_kumomo->_yoshiMana = _yosidaManeger;
 	_kumomo->_effectManager = _effectManger;
+	_kumomo->_kazehaniSP = kazehaniSP;
 	_kumomo->init();
 	_kumomo->autorelease();
 	addChild(_kumomo);

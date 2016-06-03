@@ -424,3 +424,8 @@ void YoshidasanNoManager::yoshidaWatashi()
 {
 	_enemyManager->_yoshidaArr = _yoshida;
 }
+
+float YoshidasanNoManager::getMaxRange()
+{
+	return WINDMAXRANGE;
+}
