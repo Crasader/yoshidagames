@@ -36,16 +36,28 @@ void EnemyManager::posCheck()
 		float minVec = 20000;
 		Vec2 minYoshidaPos = Vec2(0, 0);
 
-		for (auto yoshida:_yoshidaArr)
+		for (auto yoshida : _yoshidaArr)
 		{
 			Vec2 yoshidaPos = yoshida->getPosition();
 			float kyori = sqrt(pow(yoshidaPos.x - enemyPos.x, 2) + pow(yoshidaPos.y - enemyPos.y, 2));
-			if (minVec > kyori) 
+			if (minVec > kyori)
 			{
 				minVec = kyori;
 				minYoshidaPos = yoshidaPos;
 			}
 		}
+		//敵の視覚範囲内に入ったら敵が動き出す
+		float targetIn = 800;
+		if (minYoshidaPos.x < enemyPos.x + targetIn && minYoshidaPos.x > enemyPos.x - targetIn)
+		{
+			enemy->_isMoved = true;
+		}
+		else 
+		{
+			enemy->_isMoved = false;
+		}
+
+		//近くに行くとホーミングをやめる
 		float tikasugiDame = 200;
 		if (minVec > tikasugiDame)
 		{

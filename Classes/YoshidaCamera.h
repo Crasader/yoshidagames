@@ -22,6 +22,7 @@ public:
 	float _speed;
 	bool _isMoved;
 	bool _isScroll;
+	Vec2 _scrollMAX;
 	Vec2 _yoshidaCenterPos;
 
 };

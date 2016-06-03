@@ -28,6 +28,7 @@ bool YoshidaCamera::init()
 	_isMoved = false;
 	_speed = 0.3;
 	_isScroll = false;
+	_scrollMAX = Vec2(0, 0);
 
 	_yoshidaCenterPos = Vec2(0, 0);
 
@@ -47,10 +48,14 @@ void YoshidaCamera::update(float dt)
 void YoshidaCamera::scrollMove()
 {
 	Vec2 myPos = getPosition();
-	myPos.x += _speed;
-	if (myPos.x < _yoshidaCenterPos.x)
+	if (myPos.x < (_scrollMAX.x - (designResolutionSize.width/2)))
 	{
-		myPos = _yoshidaCenterPos;
+		myPos.x += _speed;
+		if (myPos.x < _yoshidaCenterPos.x)
+		{
+			myPos = _yoshidaCenterPos;
+		}
+		this->setPosition(myPos);
 	}
-	this->setPosition(myPos);
+
 }

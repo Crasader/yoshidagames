@@ -27,6 +27,7 @@ public:
 	void enemyMove();
 
 	float _speed;
+	bool _isMoved;
 
 	Vec2 _yoshidaPos;
 };

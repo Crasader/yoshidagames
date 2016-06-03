@@ -102,7 +102,9 @@ bool HelloWorld::init()
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
 	//player‚ÌˆÚ“®‚É‰æ–Ê‚ª‚Â‚¢‚Ä‚¢‚­
-	this->runAction(Follow::create(_yoshidaCamera, Rect(0, 0, designResolutionSize.width * 2, designResolutionSize.height)));
+	_scrollMAX = Vec2(designResolutionSize.width * 2, designResolutionSize.height);
+	this->runAction(Follow::create(_yoshidaCamera, Rect(0, 0,_scrollMAX.x,_scrollMAX.y)));
+	_yoshidaCamera->_scrollMAX = _scrollMAX;
 	this->scheduleUpdate();
 
 

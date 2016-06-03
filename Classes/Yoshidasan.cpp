@@ -237,7 +237,7 @@ Vec2 Yoshidasan::getSpeed()
 void Yoshidasan::actionYuraYura()
 {
 	stopAllActions();
-		_fripCoolCnt = _fripCoolTime;
+		//_fripCoolCnt = _fripCoolTime;
 		setFlipY(false);
 		//setFlipX(false);
 	auto modosu = RotateTo::create(0.5f, 0);
@@ -295,7 +295,7 @@ void Yoshidasan::allChangeReset()
 {
 	stopAllActions();
 		setFlipY(false);
-		setFlipX(false);
+		//setFlipX(false);
 		setRotation(0);
 }
 

@@ -40,6 +40,8 @@ public:
 	void kazeKeisan();
 	void yoshidaCenterCall();
 	void yoshidaWatashi();
+	void yoshidaBorn();
+
 	float getMaxRange();
 
 

@@ -48,6 +48,7 @@ public:
 	Kumomo *_kumomo;
 
 	Sprite *_wind;
+	Vec2 _scrollMAX;
 
 	void windEffect(Vec2 touchPos);
 };

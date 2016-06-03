@@ -24,7 +24,9 @@ bool Enemy::init(const char *fileName, int maxSpeed, float gravity, bool isYanki
 	//最大移動速度
 	_maxSpeed = maxSpeed;
 
-	_speed = 1.2;
+	_speed = 1.0;
+
+	_isMoved = false;
 
 	//ステージ内での最大移動量（X方向）
 	_moveMaxX = (designResolutionSize.width * 2) - 100;
@@ -42,7 +44,7 @@ void Enemy::update(float dt)
 {
 	if (!_isGool)speedKeisan();
 	if (_isWind)rotateKeisan();
-	enemyMove();
+	if(_isMoved)enemyMove();
 }
 
 void Enemy::enemyMove() 
