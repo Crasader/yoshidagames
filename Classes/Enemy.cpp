@@ -34,6 +34,8 @@ bool Enemy::init(const char *fileName, int maxSpeed, float gravity, bool isYanki
 	//ˆê”Ô‹ß‚¢‹g“c‚³‚ñ‚ÌêŠ
 	_yoshidaPos = Vec2(0,0);
 
+	_yoshidatonoAngle = 0.0f;
+
 	// update‚ð–ˆƒtƒŒ[ƒ€ŽÀs‚·‚é‚æ‚¤‚É“o˜^‚·‚é
 	this->scheduleUpdate();
 
@@ -50,8 +52,10 @@ void Enemy::update(float dt)
 void Enemy::enemyMove() 
 {
 	Vec2 myPos = getPosition();
-	Vec2 a = _yoshidaPos - myPos;
-	float kyori = sqrt(pow(a.x, 2) + pow(a.y, 2));
-	Vec2 idou = Vec2((a.x/kyori) *_speed, (a.y/kyori) * _speed);
+	//Vec2 a = _yoshidaPos - myPos;
+	////float kyori = sqrt(pow(a.x, 2) + pow(a.y, 2));
+	//_yoshidatonoAngle = atan2(a.y, a.x);
+	Vec2 idou = Vec2(cos(_yoshidatonoAngle) * _speed, sin(_yoshidatonoAngle) * _speed);
+	//Vec2 idou = Vec2((a.x/kyori) *_speed, (a.y/kyori) * _speed);
 	setPosition(myPos + idou);
 }
