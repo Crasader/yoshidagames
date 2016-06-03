@@ -32,7 +32,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_kusahayasu = kusahayasu;
 
 	//‹g“c‚³‚ñ‚Ì”
-	int yoshidaSuu = 2;
+	int yoshidaSuu = 10;
 
 	_goolRect = _stageCrater->getGoolRect();
 
@@ -42,7 +42,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		const char * yoshidaPas;
 		//‹g“c‚ÌƒXƒe
 		bool yankiCheck = false;
-		float gravity = -0.30f;
+		float gravity = -0.50f;
 		int maxSpeed = 10;
 		int myNo = rand() % 4;
 
@@ -100,10 +100,8 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_windRange = 0.0f;
 	_windCallCnt = WINDCALLMAXTIME;
 	
-	//‘‚¢‚½ü‚ª’Z‚¢‚Ù‚Ç—Í‚ð‹­‚­‚·‚é‚â‚Â
-	_windPowerBoost = 1.0f;
 
-	//update‚ð–ˆƒtƒŒ[ƒ€ŽÀs‚·‚é‚æ‚¤‚É“o˜^‚·‚é
+	// update‚ð–ˆƒtƒŒ[ƒ€ŽÀs‚·‚é‚æ‚¤‚É“o˜^‚·‚é
 	this->scheduleUpdate();
 
 	return true;
@@ -147,9 +145,6 @@ void YoshidasanNoManager::touchEndCall(Vec2 touchPos)
 	_windCallCnt = WINDCALLMAXTIME * _windRange / WINDMAXRANGE;
 	float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x);
 	Vec2 windEndPos = Vec2(cos(angle) * _windRange, sin(angle) * _windRange) + _touchStartPos;
-
-	int maxboostPow = 2;
-	_windPowerBoost = (WINDMAXRANGE / _windRange) * maxboostPow + 1.0f;
 	angle = angle * 180 / M_PI;
 	log("%f", angle);
 	_effectManager->kazeNagareru(_touchStartPos, windEndPos, angle, _windCallCnt);
@@ -386,7 +381,7 @@ void YoshidasanNoManager::kazeKeisan()
 
 	for (int i = 0; i < _taisyouYoshida.size(); i++)
 	{
-		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (WINDCALLMAXTIME - _windCallCnt), _windPowerBoost);
+		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (WINDCALLMAXTIME - _windCallCnt));
 	}
 
 }
@@ -423,9 +418,4 @@ void YoshidasanNoManager::yoshidaCenterCall()
 void YoshidasanNoManager::yoshidaWatashi()
 {
 	_enemyManager->_yoshidaArr = _yoshida;
-}
-
-float YoshidasanNoManager::getMaxRange()
-{
-	return WINDMAXRANGE;
 }

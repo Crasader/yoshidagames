@@ -40,7 +40,6 @@ public:
 	void kazeKeisan();
 	void yoshidaCenterCall();
 	void yoshidaWatashi();
-	float getMaxRange();
 
 
 	Vector<Yoshidasan*> _yoshida;
@@ -57,9 +56,6 @@ public:
 	float _windRange;
 	float _speedtyousei;
 	float _windCallCnt;
-	float _windPowerBoost;
-
-
 	Rect _goolRect;
 
 	bool _isTouch;

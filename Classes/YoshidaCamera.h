@@ -18,6 +18,7 @@ public:
 	void scrollMove();
 	void moveOn();
 
+
 	float _speed;
 	bool _isMoved;
 	bool _isScroll;

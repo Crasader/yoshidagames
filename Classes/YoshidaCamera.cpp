@@ -1,4 +1,5 @@
 #include "YoshidaCamera.h"
+#include "YoshidasanNoManager.h"
 
 YoshidaCamera *YoshidaCamera::create()
 {
@@ -25,7 +26,7 @@ bool YoshidaCamera::init()
 	this->setPosition(startPos);
 
 	_isMoved = false;
-	_speed = 0.5;
+	_speed = 0.3;
 	_isScroll = false;
 
 	scheduleUpdate();
@@ -45,5 +46,10 @@ void YoshidaCamera::scrollMove()
 {
 	Vec2 myPos = getPosition();
 	myPos.x += _speed;
+	/*if (myPos.x < _yoshidaManager->_yoshidaCenterPos.x) 
+	{
+		myPos = _yoshidaManager->_yoshidaCenterPos;
+	}*/
+
 	this->setPosition(myPos);
 }
