@@ -27,7 +27,7 @@ public:
 	void enemyMove();
 
 	float _speed;
-
+	float _yoshidatonoAngle;
 	Vec2 _yoshidaPos;
 };
 

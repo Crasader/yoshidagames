@@ -46,10 +46,12 @@ void EnemyManager::posCheck()
 				minYoshidaPos = yoshidaPos;
 			}
 		}
-		float tikasugiDame = 200;
+		float tikasugiDame = 150;
 		if (minVec > tikasugiDame)
 		{
-			enemy->_yoshidaPos = minYoshidaPos;
+			Vec2 yosidaTonoKyori = minYoshidaPos - enemy->getPosition();
+			enemy->_yoshidatonoAngle = atan2(yosidaTonoKyori.y, yosidaTonoKyori.x);
+			//enemy->_yoshidaPos = minYoshidaPos;
 		}
 	}
 }
