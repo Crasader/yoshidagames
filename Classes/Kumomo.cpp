@@ -98,9 +98,6 @@ void Kumomo::yajirushiSet()
 
 void Kumomo::kumomoActhionTigimu()
 {
-
 	auto tizi = ScaleTo::create(0.1f, 0.2f);
-	runAction(tizi);
-	
-	
+	runAction(tizi);	
 }

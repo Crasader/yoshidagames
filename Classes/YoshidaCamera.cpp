@@ -48,10 +48,9 @@ void YoshidaCamera::scrollMove()
 {
 	Vec2 myPos = getPosition();
 	myPos.x += _speed;
-	if (myPos.x < _yoshidaCenterPos.x) 
+	if (myPos.x < _yoshidaCenterPos.x)
 	{
 		myPos = _yoshidaCenterPos;
 	}
-
 	this->setPosition(myPos);
 }
