@@ -28,6 +28,8 @@ bool YoshidaCamera::init()
 	_speed = 0.5;
 	_isScroll = false;
 
+	_yoshidaCenterPos = Vec2(0, 0);
+
 	scheduleUpdate();
 
 	return true;
@@ -45,5 +47,9 @@ void YoshidaCamera::scrollMove()
 {
 	Vec2 myPos = getPosition();
 	myPos.x += _speed;
+	if (myPos.x < _yoshidaCenterPos.x) 
+	{
+		myPos = _yoshidaCenterPos;
+	}
 	this->setPosition(myPos);
 }

@@ -417,7 +417,7 @@ void YoshidasanNoManager::yoshidaCenterCall()
 		}
 	}
 	_yoshidaCenterPos = _yoshidaCenterPos / _yoshida.size();
-	//_yoshidaCamera->setPosition(_yoshidaCenter);
+	_yoshidaCamera->_yoshidaCenterPos = _yoshidaCenterPos;
 }
 
 void YoshidasanNoManager::yoshidaWatashi()

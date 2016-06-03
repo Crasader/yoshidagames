@@ -22,6 +22,8 @@ public:
 	bool _isMoved;
 	bool _isScroll;
 
+	Vec2 _yoshidaCenterPos;
+
 };
 
 #endif
