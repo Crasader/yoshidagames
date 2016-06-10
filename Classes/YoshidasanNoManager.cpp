@@ -148,12 +148,16 @@ void YoshidasanNoManager::touchEndCall(Vec2 touchPos)
 	float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x);
 	Vec2 windEndPos = Vec2(cos(angle) * _windRange, sin(angle) * _windRange) + _touchStartPos;
 
-	int maxboostPow = 2;
-	_windPowerBoost = (WINDMAXRANGE / _windRange) * maxboostPow + 1.0f;
+	int maxBoostPow = 2;
+	_windPowerBoost = (WINDMAXRANGE / _windRange) * maxBoostPow + 1.0f;
 	angle = angle * 180 / M_PI;
-	log("%f", angle);
 	_effectManager->kazeNagareru(_touchStartPos, windEndPos, angle, _windCallCnt);
 	_isTouch = false;
+
+	for (auto yoshida : _yoshida) 
+	{
+		yoshida->_isWind = false;
+	}
 }
 
 void YoshidasanNoManager::yosidaLiveingCheck()
@@ -194,7 +198,8 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 				auto func = CallFunc::create([=]()
 				{
 					_kusahayasu->kusahayasu(
-						Vec2(_goolRect.getMinX() + 20 + rand() % (int)((_goolRect.getMaxX() - 20) - _goolRect.getMinX()), _goolRect.getMidY()));
+						Vec2(_goolRect.getMinX() + 20 + rand() % 
+							(int)((_goolRect.getMaxX() - 20) - _goolRect.getMinX()), _goolRect.getMidY()));
 					if (_yoshida.size() == 0)
 					{
 						_kusahayasu->goResult();
@@ -386,7 +391,8 @@ void YoshidasanNoManager::kazeKeisan()
 
 	for (int i = 0; i < _taisyouYoshida.size(); i++)
 	{
-		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (WINDCALLMAXTIME - _windCallCnt), _windPowerBoost);
+		_yoshida.at(_taisyouYoshida[i])->vecKeisan(
+			_touchStartPos, _windRange * (WINDCALLMAXTIME - _windCallCnt), _windPowerBoost, _windCallCnt);
 	}
 
 }

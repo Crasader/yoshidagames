@@ -25,7 +25,7 @@ public:
 	//当たった時のspeed値イドウ
 	void speedChange(Vec2 plusSpeed);
 	//風からの移動量の計算
-	void vecKeisan(Vec2 touchPos,float windRange,float windBoost);
+	void vecKeisan(Vec2 touchPos,float windRange,float windBoost, float actionTime);
 	//speedの適用
 	void speedKeisan();
 	//rotateの計算
@@ -44,6 +44,7 @@ public:
 	void allChangeReset();
 	//ゴーールした時の動き
 	void actionGoolMove(Vec2 centerPos, float dilay);
+	void kazekaiten(float actontime);
 	
 	void happaPiyon(Vec2 muki);
 
@@ -57,8 +58,6 @@ public:
 	int _myNo;
 	float _gSpeed;
 	float _moveMaxX;
-	float _fripCoolCnt;
-	float _fripCoolTime;
 	float _windBoost;
 
 	Vec2 _pSpeed;
