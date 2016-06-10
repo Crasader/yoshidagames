@@ -21,6 +21,8 @@ Kumomo * Kumomo::create()
 
 bool Kumomo::init()
 {
+	if (!Sprite::init()) return false;
+
 	initWithFile("pix/Title/kumomo.png");
 	setScale(0.2f);
 	

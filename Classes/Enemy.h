@@ -25,7 +25,7 @@ public:
 	bool init(const char *fileName, int maxSpeed, float gravity, bool isYanki, int myNo);
 	void update(float dt);
 	void enemyMove();
-
+	bool _isMoved;
 	float _speed;
 	float _yoshidatonoAngle;
 	bool _isMoved;

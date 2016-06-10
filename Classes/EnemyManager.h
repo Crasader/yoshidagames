@@ -28,7 +28,6 @@ public:
 
 	Vector<Enemy*> _enemyArr;
 	Vector<Yoshidasan*> _yoshidaArr;
-
 	EffectManager *_effectManager;
 
 
