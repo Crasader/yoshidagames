@@ -86,13 +86,18 @@ bool StageCreater::init(Sprite *uekibati)
 	jimen2->setPosition(Vec2(jimen->getBoundingBox().size.width, 0));
 	addChild(jimen2);
 
-	/*Sprite *ueki = Sprite::create("pix/stageSozai/uekibati.png");
+	Sprite *ueki = Sprite::create("pix/stageSozai/uekibati.png");
 	ueki->setAnchorPoint(Vec2(0.0f, 0.0f));
 	ueki->setScale(0.5);
 	ueki->setPosition(Vec2(designResolutionSize.width*0.6, jimen->getBoundingBox().size.height-20));
-	addChild(ueki);*/
+	addChild(ueki);
 
-
+	Windmill *windmill1 = new Windmill();
+	windmill1->init();
+	windmill1->autorelease();
+	//windmill1->setAnchorPoint(Vec2(0.0f, 0.0f));
+	windmill1->setPosition(Vec2(designResolutionSize.width*0.5, jimen->getBoundingBox().size.height - 20));
+	addChild(windmill1);
 
 
 	_syougaibutu.push_back(uekibati);

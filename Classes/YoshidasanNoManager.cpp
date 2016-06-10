@@ -44,7 +44,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		bool yankiCheck = false;
 		float gravity = -0.4f;
 		int maxSpeed = 10;
-		int myNo = rand() % 4;
+		int myNo = 0;//rand() % 4;
 
 		switch (myNo)
 		{
@@ -386,6 +386,7 @@ void YoshidasanNoManager::kazeKeisan()
 
 	for (int i = 0; i < _taisyouYoshida.size(); i++)
 	{
+		_yoshida.at(_taisyouYoshida[i])->rolling();
 		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (WINDCALLMAXTIME - _windCallCnt), _windPowerBoost);
 	}
 

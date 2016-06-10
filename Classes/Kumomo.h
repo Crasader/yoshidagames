@@ -29,6 +29,7 @@ public:
 	void touchEndCall(Vec2 touchPos);
 	void yajirushiSet();
 	void kumomoActhionTigimu();
+	void kumomoActionPuruPuru();
 
 	YoshidasanNoManager *_yoshiMana;
 	EffectManager *_effectManager;

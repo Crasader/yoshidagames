@@ -46,6 +46,7 @@ public:
 	void actionGoolMove(Vec2 centerPos, float dilay);
 	
 	void happaPiyon(Vec2 muki);
+	void rolling();
 
 
 	bool _isGoRight;
@@ -53,6 +54,8 @@ public:
 	bool _isWind;
 	bool _isYanki;
 	bool _isGool;
+	bool _isRool;
+
 	int _maxSpeed;
 	int _myNo;
 	float _gSpeed;

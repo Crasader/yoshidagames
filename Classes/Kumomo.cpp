@@ -101,3 +101,13 @@ void Kumomo::kumomoActhionTigimu()
 	auto tizi = ScaleTo::create(0.2f, 0.2f);
 	runAction(tizi);	
 }
+
+void Kumomo::kumomoActionPuruPuru() 
+{
+	auto puru1 = MoveBy::create(0.1f, Vec2(5,0));
+	auto puru2 = MoveBy::create(0.1f, Vec2(-5, 0));
+	auto seq = Sequence::create(puru1, puru2, nullptr);
+	runAction(seq);
+
+
+}

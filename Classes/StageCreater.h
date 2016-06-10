@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "MultiResolution.h"
+#include "Windmill.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
