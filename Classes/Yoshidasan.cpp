@@ -27,11 +27,6 @@ bool Yoshidasan::init(const char *fileName, int maxSpeed, float gravity, bool is
 
 	_windBoost = 1.0f;
 
-	//向きを変える処理を呼ぶクールタイム
-	_fripCoolTime = 5.0f;
-	//向きを変える処理を呼ぶクールタイムで使うカウント
-	_fripCoolCnt = 0.0f;
-
 	//ステージ内での最大移動量（X方向）
 	_moveMaxX = (designResolutionSize.width * 2) - 100;
 
@@ -44,20 +39,11 @@ bool Yoshidasan::init(const char *fileName, int maxSpeed, float gravity, bool is
 void Yoshidasan::update(float dt)
 {
 	if (!_isGool)speedKeisan();
-	if (_isWind)rotateKeisan();
-
-	if (_fripCoolCnt > 0) 
-	{
-		_fripCoolCnt -= 0.1;
-		if (_fripCoolCnt < 0) 
-		{
-			_fripCoolCnt = 0;
-		}
-	}
+	//if (_isWind)rotateKeisan();
 }
 
 //風からの移動量の計算
-void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange, float windBoost)
+void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange, float windBoost, float actionTime)
 {
 	//実際移動量
 	float vecPulus = 0.0f;
@@ -72,7 +58,7 @@ void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange, float windBoost)
 		pow(touchPos.y - getPositionY(), 2)))
 		<= hani)
 	{
-
+		if (!_isWind)kazekaiten(actionTime);
 		vecPulus = _maxSpeed * _windBoost *
 			(hani - (sqrt(
 				pow(touchPos.x - getPositionX(), 2) +
@@ -155,12 +141,10 @@ void Yoshidasan::speedKeisan()
 					_pSpeed.x = _maxSpeed * _windBoost;
 				}
 				_pSpeed.x += _gSpeed / p;
-				_isWind = true;
 			}
 			else
 			{
 				_pSpeed.x = 0;
-				_isWind = false;
 				actionYuraYura();
 
 			}
@@ -174,12 +158,10 @@ void Yoshidasan::speedKeisan()
 					_pSpeed.x = -_maxSpeed * _windBoost;
 				}
 				_pSpeed.x -= _gSpeed / p;
-				_isWind = true;
 			}
 			else
 			{
 				_pSpeed.x = 0;
-				_isWind = false;
 				actionYuraYura();
 			}
 		}
@@ -214,17 +196,13 @@ void Yoshidasan::speedKeisan()
 //rotateの計算
 void Yoshidasan::rotateKeisan()
 {
-	if (_fripCoolCnt == 0) 
-	{
 		//自分の角度をspeedのベクトルから計算して適用　度 = ラジアン × 180 ÷ 円周率 + 90
 		setRotation((atan2(_pSpeed.y, _pSpeed.x) * 180.0f / M_PI) + 90);
 		bool xBool = false;
 		if (_isYanki) xBool = _isGoRight == _isGoDown;
 		else xBool = _isGoRight != _isGoDown;
-		_fripCoolCnt = _fripCoolTime;
 		setFlipX(xBool);
 		setFlipY(!_isGoDown);
-	}
 }
 
 //speedを調べる
@@ -237,9 +215,8 @@ Vec2 Yoshidasan::getSpeed()
 void Yoshidasan::actionYuraYura()
 {
 	stopAllActions();
-		//_fripCoolCnt = _fripCoolTime;
-		setFlipY(false);
-		//setFlipX(false);
+	setFlipY(false);
+	//setFlipX(false);
 	auto modosu = RotateTo::create(0.5f, 0);
 	auto func = CallFunc::create([=]()
 	{
@@ -318,6 +295,22 @@ void Yoshidasan::actionGoolMove(Vec2 centerPos, float dilayTime)
 		auto seq = Sequence::create(spw, desu, nullptr);
 		runAction(seq);
 	}
+}
+
+void Yoshidasan::kazekaiten(float actontime)
+{
+	_isWind = true;
+	stopAllActions();
+	rotateKeisan();
+	auto kaiten = RotateBy::create(actontime, 720 * actontime);
+	auto eas = EaseOut::create(kaiten, 3);
+	auto modmod = RotateTo::create(0.1f,0);
+	auto func = CCCallFunc::create([=]()
+	{
+		_isWind = false;
+	});
+	auto seq = Sequence::create(eas, modmod, nullptr);
+	runAction(seq);
 }
 
 //speedを反転
