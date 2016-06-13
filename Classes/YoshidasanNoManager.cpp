@@ -160,6 +160,11 @@ void YoshidasanNoManager::touchEndCall(Vec2 touchPos)
 		//item->windStop();
 	}
 
+	for (auto yoshida : _yoshida)
+	{
+		yoshida->_isWind = false;
+	}
+
 	_isTouch = false;
 }
 
@@ -424,8 +429,8 @@ void YoshidasanNoManager::kazeKeisan()
 
 	for (int i = 0; i < _taisyouYoshida.size(); i++)
 	{
-		_yoshida.at(_taisyouYoshida[i])->rolling();
-		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (WINDCALLMAXTIME - _windCallCnt), _windPowerBoost);
+		//_yoshida.at(_taisyouYoshida[i])->rolling();
+		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (WINDCALLMAXTIME - _windCallCnt), _windPowerBoost,_windCallCnt);
 	}
 
 	for (int i = 0; i < _taisyouItem.size(); i++)
