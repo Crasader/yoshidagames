@@ -141,7 +141,7 @@ void EffectManager::kazeNagareru(Vec2 startPos, Vec2 endPos,float angle,float wi
 {
 	int windDeru = 100;
 	int angleHani = 20;
-	int posHani = 50;
+	int posHani = 100;
 	for (int i = 0; i < windDeru; i++)
 	{
 		_wind = Sprite::create("pix/eff/wind.png");

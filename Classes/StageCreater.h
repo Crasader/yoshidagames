@@ -14,6 +14,8 @@
 #include "MultiResolution.h"
 #include "Windmill.h"
 
+#include "ItemManager.h"
+
 using namespace cocos2d;
 using namespace CocosDenshion;
 using namespace std;
@@ -25,7 +27,9 @@ public:
 	void update(float dt);
 	Rect getGoolRect();
 	vector<Sprite*> getSyougaibutu();
+	vector<Windmill*> getItem();
 
 	vector<Sprite*> _syougaibutu;
+	vector<Windmill*> _itemArr;
 };
 #endif

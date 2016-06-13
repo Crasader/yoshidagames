@@ -91,11 +91,13 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_speedtyousei = 4.0f;
 
 	_syougaibutu = _stageCrater->getSyougaibutu();
+	_itemArr = _stageCrater->getItem();
 
 	_touchStartPos = Vec2(0, 0);
 	_touchEndPos = Vec2(0, 0);
 	_yoshidaCenterPos = Vec2(0, 0);
 	_taisyouYoshida.clear();
+	_taisyouItem.clear();
 
 	_windRange = 0.0f;
 	_windCallCnt = WINDCALLMAXTIME;
@@ -153,6 +155,11 @@ void YoshidasanNoManager::touchEndCall(Vec2 touchPos)
 	angle = angle * 180 / M_PI;
 	log("%f", angle);
 	_effectManager->kazeNagareru(_touchStartPos, windEndPos, angle, _windCallCnt);
+	for (auto item : _itemArr) 
+	{
+		//item->windStop();
+	}
+
 	_isTouch = false;
 }
 
@@ -330,6 +337,7 @@ void YoshidasanNoManager::kazeKeisan()
 {
 	int hanniAngle = 30;
 	_taisyouYoshida.clear();
+	_taisyouItem.clear();
 
 	//タッチしはじめと終わりのベクトルから角度を算出（右から上でひだりまでに0~+180,右から下で左までに0~-180）
 	float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x) * 180.0f / M_PI;
@@ -339,6 +347,7 @@ void YoshidasanNoManager::kazeKeisan()
 	{
 		float overAngle = hanniAngle - 180 + angle;
 
+		//範囲内のよしだの番号を取得
 		for (int i = 0; i < _yoshida.size(); i++)
 		{
 			float yoshidaAngle = atan2(_yoshida.at(i)->getPositionY() - _touchStartPos.y, _yoshida.at(i)->getPositionX() - _touchStartPos.x)* 180.0f / M_PI;
@@ -349,13 +358,23 @@ void YoshidasanNoManager::kazeKeisan()
 				_taisyouYoshida.push_back(i);
 			}
 		}
+
+		//範囲内のアイテムの番号を取得
+		for (int i = 0; i < _itemArr.size(); i++) 
+		{
+			float itemAngle = atan2(_itemArr.at(i)->getPositionY() - _touchStartPos.y, _itemArr.at(i)->getPositionX() - _touchStartPos.x)* 180.0f / M_PI;
+
+			if ((itemAngle >= angle - hanniAngle && itemAngle <= angle + hanniAngle) ||
+				(itemAngle <= -180.0f + overAngle && itemAngle >= -180.0f))
+			{
+				_taisyouItem.push_back(i);
+			}
+		}
 	}
 
 	//左ギリギリ下
 	else if (angle < -180 + hanniAngle)
 	{
-
-
 		float overAngle = -hanniAngle + 180 + angle;
 
 		for (int i = 0; i < _yoshida.size(); i++)
@@ -365,6 +384,16 @@ void YoshidasanNoManager::kazeKeisan()
 				(yoshidaAngle >= 180.0f + overAngle && yoshidaAngle <= 180.0f))
 			{
 				_taisyouYoshida.push_back(i);
+			}
+		}
+
+		for (int i = 0; i < _itemArr.size(); i++)
+		{
+			float itemAngle = atan2(_itemArr.at(i)->getPositionY() - _touchStartPos.y, _itemArr.at(i)->getPositionX() - _touchStartPos.x)* 180.0f / M_PI;
+			if ((itemAngle >= angle - hanniAngle && itemAngle <= angle + hanniAngle) ||
+				(itemAngle >= 180.0f + overAngle && itemAngle <= 180.0f))
+			{
+				_taisyouItem.push_back(i);
 			}
 		}
 	}
@@ -380,6 +409,15 @@ void YoshidasanNoManager::kazeKeisan()
 				_taisyouYoshida.push_back(i);
 			}
 		}
+
+		for (int i = 0; i < _itemArr.size(); i++)
+		{
+			float itemAngle = atan2(_itemArr.at(i)->getPositionY() - _touchStartPos.y, _itemArr.at(i)->getPositionX() - _touchStartPos.x)* 180.0f / M_PI;
+			if (itemAngle >= angle - hanniAngle && itemAngle <= angle + hanniAngle)
+			{
+				_taisyouItem.push_back(i);
+			}
+		}
 	}
 
 
@@ -390,6 +428,10 @@ void YoshidasanNoManager::kazeKeisan()
 		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (WINDCALLMAXTIME - _windCallCnt), _windPowerBoost);
 	}
 
+	for (int i = 0; i < _taisyouItem.size(); i++)
+	{
+		_itemArr.at(_taisyouItem[i])->windSet(true,Vec2(10,10));
+	}
 }
 
 void YoshidasanNoManager::yoshidaCenterCall()

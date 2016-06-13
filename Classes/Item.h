@@ -2,7 +2,7 @@
 //
 //create by shimada
 //
-//16/06/08
+//16/06/13
 
 
 #ifndef  __Windmill_H_
@@ -21,7 +21,7 @@ public:
 	void update(float dt);
 	void windHitRotation();
 	void windHitMoveing();
-	void windSet(bool isWind,Vec2 speed);
+	void windSet(bool isWind, Vec2 speed);
 	void windStop();
 	void windSpeedDown();
 

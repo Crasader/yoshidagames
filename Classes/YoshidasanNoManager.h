@@ -48,7 +48,9 @@ public:
 
 	Vector<Yoshidasan*> _yoshida;
 	vector<Sprite*> _syougaibutu;
+	vector<Windmill*> _itemArr;
 	vector<int> _taisyouYoshida;
+	vector<int> _taisyouItem;
 
 	StageCreater *_stageCrater;
 	Kusahayasu *_kusahayasu;
