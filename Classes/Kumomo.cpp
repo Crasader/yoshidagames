@@ -83,17 +83,20 @@ void Kumomo::touchEndCall(Vec2 touchPos)
 
 void Kumomo::yajirushiSet()
 {
+	float maxRange = _yoshiMana->getMaxRange();
 	//タッチしはじめと終わりのベクトルから角度を算出（右から上でひだりまでに0~+180,右から下で左までに0~-180）
-	float angle = atan2(_touchStartPos.y - _touchEndPos.y, _touchEndPos.x - _touchStartPos.x) * 180.0f / M_PI;
+	float angle = atan2(_touchStartPos.y - _touchEndPos.y, _touchEndPos.x - _touchStartPos.x) * 180.0f / M_PI ;
 	float hani = sqrt(pow(_touchEndPos.x - _touchStartPos.x, 2) + pow(_touchEndPos.y - _touchStartPos.y, 2));
-	if (hani > _yoshiMana->getMaxRange())
+	if (hani > maxRange)
 	{
-		hani = _yoshiMana->getMaxRange();
+		hani = maxRange;
 	}
 	float MaxKumomoBai = 2.0f;
-	setScale(0.2f * MaxKumomoBai * hani / _yoshiMana->getMaxRange() + 0.2f);
+	setScale(0.2f * MaxKumomoBai * hani / maxRange + 0.2f);
 	_kazehaniSP->setScale(hani * _kumomoNomaX);
 	setRotation(angle);
+	int atherColor = (int)(155 * ((maxRange - hani) / maxRange)) + 100;
+	setColor(Color3B(230, atherColor, atherColor));
 
 	_kazehaniSP->setRotation(angle);
 }
@@ -101,5 +104,7 @@ void Kumomo::yajirushiSet()
 void Kumomo::kumomoActhionTigimu()
 {
 	auto tizi = ScaleTo::create(0.2f, 0.2f);
-	runAction(tizi);	
+	auto colorBack = TintTo::create(0.2f, Color3B(255, 255, 255));
+	auto spw = Spawn::create(tizi, colorBack, nullptr);
+	runAction(spw);	
 }
