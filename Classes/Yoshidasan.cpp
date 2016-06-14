@@ -172,10 +172,10 @@ void Yoshidasan::speedKeisan()
 	setPosition(Vec2(getPositionX() + _pSpeed.x, getPositionY() + _pSpeed.y));
 
 	//‰æ–Ê’[‚©‚ç‚P‚O‚OˆÈ“à‚É‚¢‚é‚æ‚¤‚É‚·‚é---------------------------------------
-	if (getPositionY() > designResolutionSize.height - 100)
+	/*if (getPositionY() > designResolutionSize.height - 100)
 	{
 		setPositionY(designResolutionSize.height - 100);
-	}
+	}*/
 	if (getPositionY() < designResolutionSize.height * 0.16f)
 	{
 		setPositionY(designResolutionSize.height * 0.16f);
@@ -271,9 +271,9 @@ void Yoshidasan::happaPiyon(Vec2 muki)
 void Yoshidasan::allChangeReset()
 {
 	stopAllActions();
-		setFlipY(false);
-		//setFlipX(false);
-		setRotation(0);
+	setFlipY(false);
+	//setFlipX(false);
+	setRotation(0);
 }
 
 //ƒS[ƒ‹‚µ‚½Žž‚Ìˆ—
