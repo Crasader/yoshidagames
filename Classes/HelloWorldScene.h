@@ -4,8 +4,10 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "MultiResolution.h"
+
 #include "YoshidasanNoManager.h"
 #include "EnemyManager.h"
+
 #include "StageCreater.h"
 #include "Kusahayasu.h"
 #include "EffectManager.h"

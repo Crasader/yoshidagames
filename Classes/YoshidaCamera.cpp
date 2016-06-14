@@ -41,7 +41,7 @@ void YoshidaCamera::update(float dt)
 {
 	if (_isMoved) 
 	{
-		scrollMove();
+		//scrollMove();
 	}
 }
 

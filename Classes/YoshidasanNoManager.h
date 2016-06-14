@@ -4,7 +4,6 @@
 //
 //16/04/22
 
-
 #ifndef  __YoshidasanNoManager_H_
 #define  __YoshidasanNoManager_H_
 
@@ -18,7 +17,9 @@
 #include "ResultScene.h"
 #include "EffectManager.h"
 #include "YoshidaCamera.h"
+
 #include "EnemyManager.h"
+#include "ItemManager.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -47,13 +48,16 @@ public:
 
 	Vector<Yoshidasan*> _yoshida;
 	vector<Sprite*> _syougaibutu;
+	vector<Windmill*> _itemArr;
 	vector<int> _taisyouYoshida;
+	vector<int> _taisyouItem;
 
 	StageCreater *_stageCrater;
 	Kusahayasu *_kusahayasu;
 	EffectManager *_effectManager;
 	YoshidaCamera* _yoshidaCamera;
 	EnemyManager* _enemyManager;
+	ItemManager* _itemManager;
 
 	float _frmCount;
 	float _windRange;

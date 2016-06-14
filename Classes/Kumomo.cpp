@@ -108,3 +108,13 @@ void Kumomo::kumomoActhionTigimu()
 	auto spw = Spawn::create(tizi, colorBack, nullptr);
 	runAction(spw);	
 }
+
+void Kumomo::kumomoActionPuruPuru() 
+{
+	auto puru1 = MoveBy::create(0.1f, Vec2(5,0));
+	auto puru2 = MoveBy::create(0.1f, Vec2(-5, 0));
+	auto seq = Sequence::create(puru1, puru2, nullptr);
+	runAction(seq);
+
+
+}

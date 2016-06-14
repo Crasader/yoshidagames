@@ -92,7 +92,22 @@ bool StageCreater::init(Sprite *uekibati)
 	ueki->setPosition(Vec2(designResolutionSize.width*0.6, jimen->getBoundingBox().size.height-20));
 	addChild(ueki);*/
 
+	Sprite* gate = Sprite::create();
+	gate->setAnchorPoint(Vec2(0.0f, 0.0f));
+	gate->setTextureRect(Rect(0, 0, 100, 600));
+	gate->setPosition(Vec2(designResolutionSize.width*0.5, jimen->getBoundingBox().size.height + 100));
+	addChild(gate);
+	_syougaibutu.push_back(gate);
 
+	Windmill *windmill1 = new Windmill();
+	windmill1->init();
+	windmill1->autorelease();
+	//windmill1->setAnchorPoint(Vec2(0.0f, 0.0f));
+	windmill1->setPosition(Vec2(gate->getPosition().x, jimen->getBoundingBox().size.height));
+	windmill1->_target = gate;
+	addChild(windmill1);
+	_itemArr.push_back(windmill1);
+	_syougaibutu.push_back(windmill1);
 
 
 	_syougaibutu.push_back(uekibati);
@@ -121,4 +136,9 @@ Rect StageCreater::getGoolRect()
 vector<Sprite*> StageCreater::getSyougaibutu()
 {
 	return _syougaibutu;
+}
+
+vector<Windmill*> StageCreater::getItem()
+{
+	return _itemArr;
 }

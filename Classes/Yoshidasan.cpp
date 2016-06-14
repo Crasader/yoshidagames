@@ -321,3 +321,19 @@ void Yoshidasan::speedFlip()
 	_isGoRight != _isGoRight;
 }
 
+void Yoshidasan::rolling()
+{
+	if (_isRool == false) 
+	{
+		_isRool = true;
+		auto rollAct = RotateBy::create(1.0f, 720.0f);
+		auto rollset = CallFunc::create([=]
+		{
+			_isRool = false;
+		}
+		);
+		auto seq = Sequence::create(rollAct, rollset, nullptr);
+		runAction(seq);
+	}
+}
+

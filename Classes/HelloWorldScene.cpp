@@ -56,8 +56,6 @@ bool HelloWorld::init()
 	_stageCreater->autorelease();
 	addChild(_stageCreater);
 
-
-
 	_effectManger = new EffectManager();
 	_effectManger->init();
 	_effectManger->autorelease();

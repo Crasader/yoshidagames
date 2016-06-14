@@ -139,14 +139,24 @@ void EffectManager::kumoDeru(Vec2 Pos)
 
 void EffectManager::kazeNagareru(Vec2 startPos, Vec2 endPos,float angle,float windCallTime) 
 {
-	_wind = Sprite::create("pix/eff/wind.png");
-	_wind->setScale(0.3f);
-	_wind->setPosition(Vec2(startPos));
-	_wind->setRotation(angle);
-	addChild(_wind);
+	int windDeru = 100;
+	int angleHani = 20;
+	int posHani = 100;
+	for (int i = 0; i < windDeru; i++)
+	{
+		_wind = Sprite::create("pix/eff/wind.png");
+		_wind->setScale(0.3f);
+		_wind->setPosition(Vec2(startPos));
+		float windAngle = angle + (-angleHani + (rand() % (angleHani * 2)));
+		_wind->setRotation(windAngle);
+		Vec2 goPos = endPos + Vec2(float(-posHani + (rand() % (posHani * 2))), float(-posHani + (rand() % (posHani * 2))));
+		addChild(_wind);
 
-	auto moveAct = MoveTo::create(windCallTime, endPos);
-	auto removeAct = RemoveSelf::create();						// 自分自身を削除
-	auto sequence = Sequence::create(moveAct, removeAct, nullptr); // アクションを順番に実行
-	_wind->runAction(sequence);
+		auto moveAct = MoveTo::create(windCallTime, goPos);			//移動
+		auto fadeAct = FadeTo::create(windCallTime, 20);			//指定した透明度に変更
+		auto removeAct = RemoveSelf::create();						//自分自身を削除
+		auto spawn = Spawn::create(moveAct, fadeAct, nullptr);
+		auto sequence = Sequence::create(spawn, removeAct, nullptr); // アクションを順番に実行
+		_wind->runAction(sequence);
+	}
 }
