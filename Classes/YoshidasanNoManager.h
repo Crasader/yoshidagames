@@ -32,10 +32,7 @@ public:
 	bool init(StageCreater *stageCrater, Kusahayasu *kusahayasu);
 	void update(float dt);
 	//static YoshidasanNoManager *create();
-
-	void touchCall(Vec2 touchPos, bool isTouch);
-	void touchStateCall(Vec2 touchPos);
-	void touchEndCall(Vec2 touchPos);
+	void touchEndCall(int haniAngle, float windRange, float angle, Vec2 touchStartPos, Vec2 windEndPos, float windTime);
 	void yosidaLiveingCheck();
 	void yoshidaNoAtarihantei();
 	void kazeKeisan();
@@ -64,12 +61,14 @@ public:
 	float _speedtyousei;
 	float _windCallCnt;
 	float _windPowerBoost;
+	float _kumomoAngle;
+	float _windMaxTime;
+	float _windMaxRange;
 	Rect _goolRect;
 
-	bool _isTouch;
+	int _haniAngle;
 
 	Vec2 _touchStartPos;
-	Vec2 _touchEndPos;
 	Vec2 _yoshidaCenterPos;
 };
 

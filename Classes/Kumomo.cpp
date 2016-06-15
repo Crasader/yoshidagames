@@ -1,5 +1,8 @@
 #include "Kumomo.h"
 
+static const int KAZEHANIANGLE = 30;
+static const float WINDMAXRANGE = 500.0f;//風の最大範囲
+static const float WINDCALLMAXTIME = 1.0f;//風が流れ切るまでの最大時間
 
 
 Kumomo * Kumomo::create()
@@ -42,6 +45,9 @@ bool Kumomo::init()
 	_kumomoNomaX = 1.0f / _kazehaniSP->getBoundingBox().size.width;
 	_kazehaniSP->setScale(_kumomoNomaX);
 
+	_yoshiMana->_windMaxTime = WINDCALLMAXTIME;
+	_yoshiMana->_windMaxRange = WINDMAXRANGE;
+
 	this->scheduleUpdate();
 	return false;
 }
@@ -53,7 +59,6 @@ void Kumomo::update(float dt)
 void Kumomo::touchCall(Vec2 touchPos)
 {
 	_touchEndPos = touchPos;
-	_yoshiMana->touchCall(touchPos, true);
 	yajirushiSet();
 }
 
@@ -62,8 +67,6 @@ void Kumomo::touchStartCall(Vec2 touchPos)
 {
 	_isTouch = true;
 	setPosition(touchPos);
-	_yoshiMana->touchCall(touchPos, true);
-	_yoshiMana->touchStateCall(touchPos);
 	_touchStartPos = touchPos;
 	_kazehaniSP->setPosition(touchPos);
 	_kazehaniSP->setVisible(true);
@@ -75,7 +78,17 @@ void Kumomo::touchEndCall(Vec2 touchPos)
 {
 	_touchEndPos = touchPos;
 	_isTouch = false;
-	_yoshiMana->touchEndCall(touchPos);
+	//int haniAngle, float windRange, float angle, Vec2 touchStartPos, Vec2 windEndPos
+	//タッチしはじめと終わりのベクトルから角度を算出（右から上でひだりまでに0~+180,右から下で左までに0~-180）
+	//float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x) * 180.0f / M_PI;
+
+	float windRange = sqrt(pow(_touchEndPos.x - _touchStartPos.x, 2) + pow(_touchEndPos.y - _touchStartPos.y, 2));
+	if (windRange > WINDMAXRANGE)windRange = WINDMAXRANGE;
+	float windCallCnt = WINDCALLMAXTIME * windRange / WINDMAXRANGE;
+	float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x);
+	Vec2 windEndPos = Vec2(cos(angle) * windRange, sin(angle) * windRange) + _touchStartPos;
+	angle = angle * 180.0f / M_PI;
+	_yoshiMana->touchEndCall(KAZEHANIANGLE, windRange, angle, _touchStartPos, windEndPos,windCallCnt);
 	kumomoActhionTigimu();
 	yajirushiSet();
 	_kazehaniSP->setVisible(false);
@@ -97,6 +110,7 @@ void Kumomo::yajirushiSet()
 	setRotation(angle);
 	int atherColor = (int)(155 * ((maxRange - hani) / maxRange)) + 100;
 	setColor(Color3B(230, atherColor, atherColor));
+
 	_kazehaniSP->setRotation(angle);
 }
 
