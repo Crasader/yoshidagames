@@ -97,7 +97,6 @@ void Kumomo::yajirushiSet()
 	setRotation(angle);
 	int atherColor = (int)(155 * ((maxRange - hani) / maxRange)) + 100;
 	setColor(Color3B(230, atherColor, atherColor));
-
 	_kazehaniSP->setRotation(angle);
 }
 

@@ -137,11 +137,11 @@ void Kusahayasu::kusaHaneAction(Sprite* target,Vec2 muki, Yoshidasan *targetYosh
 
 		auto func = CCCallFunc::create([=]()
 		{
-			for (auto yoshi : _hitYoshida)
-			{
-				//if (yoshi)targetYoshida->happaPiyon(-muki);
-			}
-			_hitYoshida.clear();
+			//for (auto yoshi : _hitYoshida)
+			//{
+			//	//if (yoshi)targetYoshida->happaPiyon(-muki);
+			//}
+			//_hitYoshida.clear();
 			
 		});
 

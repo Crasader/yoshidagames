@@ -42,15 +42,9 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		const char * yoshidaPas;
 		//‹g“c‚ÌƒXƒe
 		bool yankiCheck = false;
-<<<<<<< HEAD
 		float gravity = -1.6f;
 		int maxSpeed = 20;
 		int myNo = rand() % 4;
-=======
-		float gravity = -0.4f;
-		int maxSpeed = 10;
-		int myNo = 0;//rand() % 4;
->>>>>>> origin/shimada
 
 		switch (myNo)
 		{
@@ -81,6 +75,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 			maxSpeed *= 1.0f;
 			break;
 		}
+
 		Yoshidasan *yoshida = new Yoshidasan();
 		yoshida->init(yoshidaPas, maxSpeed, gravity, yankiCheck, myNo);
 		yoshida->autorelease();
@@ -237,9 +232,9 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 			}
 
 			//€‚ñ‚¾‹g“c‘ñ˜Y‚Æ“–‚½‚Á‚Ä‚¢‚Ü‚·‚©
-			for (int i = 0; i < shinikusa.size(); i++)
+			for (auto kusa: shinikusa)
 			{
-				Rect kusaRect = shinikusa[i]->getBoundingBox();
+				Rect kusaRect = kusa->getBoundingBox();
 				if (targetRect.intersectsRect(kusaRect) && !_yoshida.at(target)->_isGool)
 				{
 					float angle = atan2(
@@ -250,34 +245,34 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 					if (45 < angle && angle < 135 && _yoshida.at(target)->_isGoDown)
 					{
 						_yoshida.at(target)->setPositionY(kusaRect.getMaxY());
-						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(0, -1), _yoshida.at(target));
+						_kusahayasu->kusaHaneAction(kusa, Vec2(0, -1), _yoshida.at(target));
 						break;
 					}
 					else if (135 < angle && angle < 180 || -180 < angle && angle < -135 && _yoshida.at(target)->_isGoRight)
 					{
 						_yoshida.at(target)->setPositionX(kusaRect.getMinX());
-						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(1, 0), _yoshida.at(target));
+						_kusahayasu->kusaHaneAction(kusa, Vec2(1, 0), _yoshida.at(target));
 						break;
 					}
 					else if (-135 < angle && angle < -45 && !(_yoshida.at(target)->_isGoDown))
 					{
 						_yoshida.at(target)->setPositionY(kusaRect.getMinY());
-						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(0, 1), _yoshida.at(target));
+						_kusahayasu->kusaHaneAction(kusa, Vec2(0, 1), _yoshida.at(target));
 						break;
 					}
 					else if (-45 < angle && angle < 45 && !(_yoshida.at(target)->_isGoRight))
 					{
 						_yoshida.at(target)->setPositionX(kusaRect.getMaxX());
-						_kusahayasu->kusaHaneAction(shinikusa[i], Vec2(-1, 0), _yoshida.at(target));
+						_kusahayasu->kusaHaneAction(kusa, Vec2(-1, 0), _yoshida.at(target));
 						break;
 					}
 				}
 			}
 
 			//áŠQ•¨‚Æ“–‚½‚Á‚Ä‚¢‚é‚©
-			for (int i = 0; i < _syougaibutu.size(); i++)
+			for (auto syougaibutu: _syougaibutu)
 			{
-				Rect syougaiRect = _syougaibutu[i]->getBoundingBox();
+				Rect syougaiRect = syougaibutu->getBoundingBox();
 				Size syougaiSize = Size(syougaiRect.size.width, syougaiRect.size.height);
 				syougaiRect = Rect{ syougaiRect.getMinX() + syougaiSize.width * 0.05f,
 					syougaiRect.getMinY(),

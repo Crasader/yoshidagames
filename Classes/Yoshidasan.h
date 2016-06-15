@@ -34,6 +34,11 @@ public:
 	void speedFlip();
 	//speedを調べる
 	Vec2 getSpeed();
+	//最大スピーどに抑える
+	void setNoOverMaxSpeed();
+	//動く
+	void move();
+
 
 	//吉田アクションず
 	//始めの飛び出し
@@ -47,7 +52,6 @@ public:
 	void kazekaiten(float actontime);
 	
 	void happaPiyon(Vec2 muki);
-	void rolling();
 
 
 	bool _isGoRight;
