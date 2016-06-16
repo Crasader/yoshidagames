@@ -80,6 +80,7 @@ bool StageCreater::init(Sprite *uekibati)
 	Sprite *jimen = Sprite::create("pix/stageSozai/ground.png");
 	jimen->setAnchorPoint(Vec2(0.0f, 0.0f));
 	addChild(jimen);
+	_syougaibutu.push_back(jimen);
 
 	Sprite *jimen2 = Sprite::create("pix/stageSozai/ground.png");
 	jimen2->setAnchorPoint(Vec2(0.0f, 0.0f));
