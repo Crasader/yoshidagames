@@ -35,13 +35,13 @@ bool Windmill::init()
 	Sprite* gate1 = Sprite::create();
 	gate1->setAnchorPoint(Vec2(0.0f, 0.5f));
 	gate1->setTextureRect(Rect(0, 0, 50, 300));
-	gate1->setPosition(Vec2(windmillPos.x, windmillPos.y));//+ getBoundingBox().size.height));
+	gate1->setPosition(Vec2(windmillPos.x, windmillPos.y)); //+ getBoundingBox().size.height));
 	addChild(gate1);
 
 	Sprite* gate2 = Sprite::create();
 	gate2->setAnchorPoint(Vec2(0.5f, 0.5f));
 	gate2->setTextureRect(Rect(0, 0, 300, 50));
-	gate2->setPosition(Vec2(windmillPos.x, windmillPos.y));//+ getBoundingBox().size.height));
+	gate2->setPosition(Vec2(windmillPos.x, windmillPos.y)); //+ getBoundingBox().size.height));
 	addChild(gate2);
 
 	this->scheduleUpdate();
@@ -54,18 +54,19 @@ void Windmill::update(float dt)
 
 	if (_isWind) 
 	{
-		windHitRotation();
+		windHitMoveing();
 	}
 }
 
 void Windmill::windHitRotation()
 {
 	setRotation(getRotation() + _speed.x);
-	windHitMoveing();
 }
 
 void Windmill::windHitMoveing()
 {
+	windHitRotation();
+
 	Vec2 targetPos = _target->getPosition();
 	if (targetPos.y <= designResolutionSize.height*0.8) 
 	{
@@ -73,22 +74,22 @@ void Windmill::windHitMoveing()
 	}
 }
 
-void Windmill::windSet(bool isWind, Vec2 speed) 
-{
-	_isWind = isWind;
-	_speed = speed;
-}
+//void Windmill::windSet(bool isWind, Vec2 speed) 
+//{
+//	_isWind = isWind;
+//	_speed = speed;
+//}
 
-void Windmill::windStop() 
-{
-	_isWind = false;
-	_speed = Vec2(0,0);
-}
+//void Windmill::windStop() 
+//{
+//	_isWind = false;
+//	_speed = Vec2(0,0);
+//}
 
-void Windmill::windSpeedDown() 
-{
-	if (_speed.x > 0) _speed.x -= 0.05;
-	if (_speed.x < 0) _speed.x += 0.05;
-	if (_speed.y > 0) _speed.y -= 0.05;
-	if (_speed.y < 0) _speed.y += 0.05;
-}
+//void Windmill::windSpeedDown() 
+//{
+//	if (_speed.x > 0) _speed.x -= 0.05;
+//	if (_speed.x < 0) _speed.x += 0.05;
+//	if (_speed.y > 0) _speed.y -= 0.05;
+//	if (_speed.y < 0) _speed.y += 0.05;
+//}

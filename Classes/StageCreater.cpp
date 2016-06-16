@@ -110,6 +110,14 @@ bool StageCreater::init(Sprite *uekibati)
 	_itemArr.push_back(windmill1);
 	_syougaibutu.push_back(windmill1);
 
+	Stone *stone1 = new Stone();
+	stone1->init();
+	stone1->autorelease();
+	stone1->setPosition(Vec2(designResolutionSize.width*0.3f, designResolutionSize.height*0.1f));
+	addChild(stone1);
+	_itemArr.push_back(stone1);
+	_syougaibutu.push_back(stone1);
+
 
 	_syougaibutu.push_back(uekibati);
 	this->scheduleUpdate();
@@ -139,7 +147,7 @@ vector<Sprite*> StageCreater::getSyougaibutu()
 	return _syougaibutu;
 }
 
-vector<Windmill*> StageCreater::getItem()
+vector<Item*> StageCreater::getItem()
 {
 	return _itemArr;
 }
