@@ -121,7 +121,7 @@ void Kusahayasu::kusaHaneAction(Sprite* target,Vec2 muki, Yoshidasan *targetYosh
 	
 	if (!(target->numberOfRunningActions()))
 	{
-		int ugokiti = 20;
+		int ugokiti = 10;
 		float ugokiJikan = 0.3f;
 		auto iku = MoveBy::create(ugokiJikan, muki * ugokiti);
 		auto tizi = ScaleTo::create(ugokiJikan, 1 + fabs(muki.y)*0.1f, 1 + fabs(muki.x)*0.1f);

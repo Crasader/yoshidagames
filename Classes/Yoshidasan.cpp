@@ -73,7 +73,6 @@ void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange, float windBoost, floa
 			//移動量の適用
 			_pSpeed = Vec2(vecPulus * cos(angle), vecPulus * sin(angle));
 
-			setNoOverMaxSpeed();
 		}
 	}
 
@@ -84,7 +83,7 @@ void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange, float windBoost, floa
 	//移動方向の変更Y
 	if (touchPos.y - getPositionY() >= 0)_isGoDown = true;
 	else _isGoDown = false;
-
+	setNoOverMaxSpeed();
 }
 
 //当たった時のspeed値イドウ

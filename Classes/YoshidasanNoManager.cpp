@@ -136,7 +136,7 @@ void YoshidasanNoManager::touchEndCall(int haniAngle, float windRange, float ang
 	_windCallCnt = windTime;
 
 	int maxboostPow = 2;
-	_windPowerBoost = (_windMaxRange / _windRange) * maxboostPow + 1.0f;
+	_windPowerBoost = (_windRange / _windMaxRange) * maxboostPow + 1.0f;
 	angle = angle * 180 / M_PI;
 	_effectManager->kazeNagareru(_touchStartPos, windEndPos, angle, _windCallCnt);
 	for (auto item : _itemArr) 
@@ -166,6 +166,7 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 	{
 		if (!_yoshida.at(target)->_isGool)
 		{
+			bool isHit = false;
 			Rect targetRect = _yoshida.at(target)->getBoundingBox();
 			float yoshidaSize = targetRect.size.width;
 			//_effectManager->creatKirakira(_yoshida.at(target)->getPosition());
@@ -196,9 +197,12 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 				});
 				auto seq = Sequence::create(dilay, func, nullptr);
 				runAction(seq);
-				break;
+				isHit = true;
 			}
+			
+			if (isHit)continue;
 
+			//enemyと当たっていますか
 			for (auto enemy : _enemyManager->_enemyArr)
 			{
 				Rect enemyRect = enemy->getBoundingBox();
@@ -209,8 +213,11 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 					_yoshida.at(target)->removeFromParentAndCleanup(true);
 					_yoshida.erase(_yoshida.begin() + target);
 					yosidaLiveingCheck();
+					isHit = true;
+					break;
 				}
 			}
+			if (isHit)break;
 
 			//死んだ吉田拓郎と当たっていますか
 			for (auto kusa: shinikusa)
@@ -218,37 +225,60 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 				Rect kusaRect = kusa->getBoundingBox();
 				if (targetRect.intersectsRect(kusaRect) && !_yoshida.at(target)->_isGool)
 				{
-					float angle = atan2(
-						_yoshida.at(target)->getPositionY() - kusaRect.getMidY(),
-						_yoshida.at(target)->getPositionX() - kusaRect.getMidX())
-						* 180 / M_PI;
-					//右辺(-1.0)左辺(1,0)上辺(0.-1)下辺(0.1)
-					if (45 < angle && angle < 135 && _yoshida.at(target)->_isGoDown)
+					float kyori = 100000;
+					//右辺(-1.0)左辺(1,0)上辺(0,-1)下辺(0,1)
+					Vec2 targetPos = _yoshida.at(target)->getPosition();
+					Vec2 nextTargetPos = Vec2::ZERO;
+					Vec2 houkou = Vec2::ZERO;
+					log("K NX%f,NY%f,XX%f,XY%f,Y NX%f,NY%f,XX%f,XY%f",
+						kusaRect.getMinX(), kusaRect.getMinY(), kusaRect.getMaxX(), kusaRect.getMaxY(),
+						targetRect.getMinX(), targetRect.getMinY(), targetRect.getMaxX(), targetRect.getMaxY());
+
+					if (targetRect.getMaxX() >= kusaRect.getMinX() &&			//左
+						kyori >= targetRect.getMaxX() - kusaRect.getMinX())
 					{
-						_yoshida.at(target)->setPositionY(kusaRect.getMaxY());
-						_kusahayasu->kusaHaneAction(kusa, Vec2(0, -1), _yoshida.at(target));
-						break;
+						houkou = Vec2(1,0);
+						kyori = targetRect.getMaxX() - kusaRect.getMinX();
+						nextTargetPos = Vec2(targetPos.x - kyori, targetPos.y);
+						
+						log("L%f", kyori);
 					}
-					else if (135 < angle && angle < 180 || -180 < angle && angle < -135 && _yoshida.at(target)->_isGoRight)
+
+					if (targetRect.getMinX() <= kusaRect.getMaxX() &&			//右
+						kyori >= kusaRect.getMaxX() - targetRect.getMinX())
 					{
-						_yoshida.at(target)->setPositionX(kusaRect.getMinX());
-						_kusahayasu->kusaHaneAction(kusa, Vec2(1, 0), _yoshida.at(target));
-						break;
+						houkou = Vec2(-1, 0);
+						kyori = kusaRect.getMaxX() - targetRect.getMinX();
+						nextTargetPos = Vec2(targetPos.x + kyori, targetPos.y);
+						log("R%f", kyori);
 					}
-					else if (-135 < angle && angle < -45 && !(_yoshida.at(target)->_isGoDown))
+
+					if (targetRect.getMaxY() >= kusaRect.getMinY() &&			//下
+						kyori >= targetRect.getMaxY() - kusaRect.getMinY() )
 					{
-						_yoshida.at(target)->setPositionY(kusaRect.getMinY());
-						_kusahayasu->kusaHaneAction(kusa, Vec2(0, 1), _yoshida.at(target));
-						break;
+						houkou = Vec2(0, 1);
+						kyori = targetRect.getMaxY() - kusaRect.getMinY();
+						nextTargetPos = Vec2(targetPos.x, targetPos.y - kyori);
+						log("U%f", kyori);
 					}
-					else if (-45 < angle && angle < 45 && !(_yoshida.at(target)->_isGoRight))
+
+					if (targetRect.getMinY() <= kusaRect.getMaxY() &&			//上
+						kyori >= kusaRect.getMaxY() - targetRect.getMinY())
 					{
-						_yoshida.at(target)->setPositionX(kusaRect.getMaxX());
-						_kusahayasu->kusaHaneAction(kusa, Vec2(-1, 0), _yoshida.at(target));
-						break;
+						houkou = Vec2(0, -1);
+						kyori = kusaRect.getMaxY() - targetRect.getMinY();
+						nextTargetPos = Vec2(targetPos.x, targetPos.y + kyori);
+						log("T%f", kyori);
 					}
+
+					_yoshida.at(target)->setPosition(nextTargetPos);
+					_kusahayasu->kusaHaneAction(kusa, houkou, _yoshida.at(target));
+					isHit = true;
+					break;
 				}
 			}
+
+			if(isHit)continue;
 
 			//障害物と当たっているか
 			for (auto syougaibutu: _syougaibutu)
@@ -262,26 +292,49 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 
 				if (targetRect.intersectsRect(syougaiRect))
 				{
-					float angle = atan2(
-						_yoshida.at(target)->getPositionY() - syougaiRect.getMidY(),
-						_yoshida.at(target)->getPositionX() - syougaiRect.getMidX())
-						* 180 / M_PI;
+
 					int angleNum = 0;
-					log("%f", angle);
-					if (45 < angle && angle < 135)angleNum = 0;
-					else if (135 < angle && angle < 180 || -180 < angle && angle < -135)angleNum = 3;
-					else if (-135 < angle && angle < -45)angleNum = 2;
-					else if (-45 < angle && angle < 45)angleNum = 1;
+					float kyori = 100000;
+
+					if (targetRect.getMaxX() >= syougaiRect.getMinX() &&			//左
+						kyori >= targetRect.getMaxX() - syougaiRect.getMinX())
+					{
+						angleNum = 3;
+						kyori = targetRect.getMaxX() - syougaiRect.getMinX();
+					}
+
+					if (targetRect.getMinX() <= syougaiRect.getMaxX() &&			//右
+						kyori >= syougaiRect.getMaxX() - targetRect.getMinX())
+					{
+						angleNum = 1;
+						kyori = syougaiRect.getMaxX() - targetRect.getMinX();
+					}
+
+					if (targetRect.getMaxY() >= syougaiRect.getMinY() &&			//下
+						kyori >= targetRect.getMaxY() - syougaiRect.getMinY())
+					{
+						angleNum = 2;
+						kyori >= targetRect.getMaxY() - syougaiRect.getMinY();
+					}
+
+					if (targetRect.getMinY() <= syougaiRect.getMaxY() &&			//上
+						kyori >= syougaiRect.getMaxY() - targetRect.getMinY())
+					{
+						angleNum = 0;
+						kyori >= syougaiRect.getMaxY() - targetRect.getMinY();
+					}
+
 					_effectManager->watageBakusan(_yoshida.at(target)->getPosition());
 					_kusahayasu->shiniHayasu(_yoshida.at(target)->getPosition(), angleNum);
 
 					_yoshida.at(target)->removeFromParentAndCleanup(true);
 					_yoshida.erase(_yoshida.begin() + target);
 					yosidaLiveingCheck();
+					isHit = true;
 					break;
 				}
-
 			}
+			if (isHit)break;
 
 			//ほかの吉田と当たっているか
 			for (int ather = 0; ather < _yoshida.size() - target; ather++)
