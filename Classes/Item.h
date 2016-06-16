@@ -5,21 +5,20 @@
 //16/06/13
 
 
-#ifndef  __Windmill_H_
-#define  __Windmill_H_
+#ifndef  __Item_H_
+#define  __Item_H_
 
 #include "cocos2d.h"
 #include "MultiResolution.h"
 
 using namespace cocos2d;
 
-class Windmill : public Sprite
+class Item : public Sprite
 {
 public:
-	static Windmill *create();
+	static Item *create();
 	bool init();
 	void update(float dt);
-	void windHitRotation();
 	void windHitMoveing();
 	void windSet(bool isWind, Vec2 speed);
 	void windStop();
@@ -28,7 +27,5 @@ public:
 	bool _isWind;
 	Vec2 _speed;
 	float _rotCnt;
-
-	Sprite* _target;
 };
 #endif

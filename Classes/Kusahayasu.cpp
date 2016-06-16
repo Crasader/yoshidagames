@@ -96,16 +96,16 @@ void Kusahayasu::goResult()
 	}
 }
 
-void Kusahayasu::shiniHayasu(Vec2 shiniPos, int kakudoNum)
+void Kusahayasu::shiniHayasu(Vec2 shiniPos, int kakudoNum, Node *target)
 {
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	audio->playEffect("Pon.mp3");
-	Sprite * kusa;
+	Sprite *kusa;
 	kusa = Sprite::create("pix/stageSozai/ne.png");
 	kusa->setAnchorPoint(Vec2(0.5f, 0.7f));
 	kusa->setRotation(90 * kakudoNum);
-	addChild(kusa);
-	kusa->setPosition(shiniPos);
+	target->addChild(kusa);
+	kusa->setPosition(shiniPos - target->getPosition());
 	_shiniKusa.push_back(kusa);
 }
 

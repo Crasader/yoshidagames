@@ -26,7 +26,7 @@ public:
 	
 	void kusahayasu(Vec2 hayasuPos);
 	void scorePlus(int myNum);
-	void shiniHayasu(Vec2 shiniPos, int kakudoNum);
+	void shiniHayasu(Vec2 shiniPos, int kakudoNum, Node *target);
 	vector<Sprite*> getShinikusa();
 	void kusaHaneAction(Sprite* target, Vec2 muki, Yoshidasan *targetYoshida);
 

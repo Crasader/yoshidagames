@@ -12,7 +12,9 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "MultiResolution.h"
+
 #include "Windmill.h"
+#include "Stone.h"
 
 #include "ItemManager.h"
 
@@ -27,9 +29,9 @@ public:
 	void update(float dt);
 	Rect getGoolRect();
 	vector<Sprite*> getSyougaibutu();
-	vector<Windmill*> getItem();
+	vector<Item*> getItem();
 
 	vector<Sprite*> _syougaibutu;
-	vector<Windmill*> _itemArr;
+	vector<Item*> _itemArr;
 };
 #endif

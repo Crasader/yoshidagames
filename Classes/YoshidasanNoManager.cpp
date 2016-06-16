@@ -291,8 +291,7 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 					else if (-135 < angle && angle < -45)angleNum = 2;
 					else if (-45 < angle && angle < 45)angleNum = 1;
 					_effectManager->watageBakusan(_yoshida.at(target)->getPosition());
-					_kusahayasu->shiniHayasu(_yoshida.at(target)->getPosition(), angleNum);
-
+					_kusahayasu->shiniHayasu(_yoshida.at(target)->getPosition(), angleNum, _syougaibutu[i]);
 					_yoshida.at(target)->removeFromParentAndCleanup(true);
 					_yoshida.erase(_yoshida.begin() + target);
 					yosidaLiveingCheck();
@@ -435,7 +434,7 @@ void YoshidasanNoManager::kazeKeisan()
 
 	for (int i = 0; i < _taisyouItem.size(); i++)
 	{
-		_itemArr.at(_taisyouItem[i])->windSet(true,Vec2(10,10));
+		_itemArr.at(_taisyouItem[i])->windSet(true,Vec2(10,10));	
 	}
 }
 
