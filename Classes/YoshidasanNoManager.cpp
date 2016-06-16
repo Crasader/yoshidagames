@@ -225,14 +225,11 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 				Rect kusaRect = kusa->getBoundingBox();
 				if (targetRect.intersectsRect(kusaRect) && !_yoshida.at(target)->_isGool)
 				{
-					float kyori = 100000;
+					float kyori = 1000;
 					//‰E•Ó(-1.0)¶•Ó(1,0)ã•Ó(0,-1)‰º•Ó(0,1)
 					Vec2 targetPos = _yoshida.at(target)->getPosition();
 					Vec2 nextTargetPos = Vec2::ZERO;
 					Vec2 houkou = Vec2::ZERO;
-					log("K NX%f,NY%f,XX%f,XY%f,Y NX%f,NY%f,XX%f,XY%f",
-						kusaRect.getMinX(), kusaRect.getMinY(), kusaRect.getMaxX(), kusaRect.getMaxY(),
-						targetRect.getMinX(), targetRect.getMinY(), targetRect.getMaxX(), targetRect.getMaxY());
 
 					if (targetRect.getMaxX() >= kusaRect.getMinX() &&			//¶
 						kyori >= targetRect.getMaxX() - kusaRect.getMinX())
