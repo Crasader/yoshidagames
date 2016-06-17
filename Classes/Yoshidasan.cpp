@@ -5,7 +5,7 @@ bool Yoshidasan::init(const char *fileName, int maxSpeed, float gravity, bool is
 {
 	if (!Sprite::init())return false;
 	initWithFile(fileName);
-	setScale(0.2f);
+	setScale(0.15f);
 	//重力の値
 	_gSpeed = gravity;
 	//プレイヤーの速度
