@@ -2,7 +2,7 @@
 
 static const int KAZEHANIANGLE = 30;
 static const float WINDMAXRANGE = 500.0f;//•—‚ÌÅ‘å”ÍˆÍ
-static const float WINDCALLMAXTIME = 1.0f;//•—‚ª—¬‚êØ‚é‚Ü‚Å‚ÌÅ‘åŽžŠÔ
+static const float WINDCALLMAXTIME = 0.5f;//•—‚ª—¬‚êØ‚é‚Ü‚Å‚ÌÅ‘åŽžŠÔ
 
 
 Kumomo * Kumomo::create()
@@ -109,7 +109,7 @@ void Kumomo::kumomoActhionTigimu()
 	{
 		float windRange = sqrt(pow(_touchEndPos.x - _touchStartPos.x, 2) + pow(_touchEndPos.y - _touchStartPos.y, 2));
 		if (windRange > WINDMAXRANGE)windRange = WINDMAXRANGE;
-		float windCallCnt = WINDCALLMAXTIME * windRange / WINDMAXRANGE;
+		float windCallCnt = WINDCALLMAXTIME * (windRange / WINDMAXRANGE);
 		float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x);
 		Vec2 windEndPos = Vec2(cos(angle) * windRange, sin(angle) * windRange) + _touchStartPos;
 		angle = angle * 180.0f / M_PI;
