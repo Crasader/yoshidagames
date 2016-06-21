@@ -31,6 +31,7 @@ bool HelloWorld::init()
 
 	_backGround = Sprite::create("pix/buck/stage.png");
 	_backGround->setAnchorPoint(Vec2(0.0f, 0.0f));
+	_backGround->setGlobalZOrder(-10.0f);
 	addChild(_backGround);
 
 	Sprite *backGround2 = Sprite::create("pix/buck/stage.png");
@@ -40,6 +41,7 @@ bool HelloWorld::init()
 
 	Sprite *ki = Sprite::create("pix/buck/ki.png");
 	ki->setAnchorPoint(Vec2(0.0f, 0.0f));
+	ki->setGlobalZOrder(-5.0f);
 	addChild(ki);
 
 	Sprite *uekibathi = Sprite::create("pix/stageSozai/uekibati.png");

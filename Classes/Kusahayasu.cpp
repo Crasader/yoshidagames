@@ -106,6 +106,7 @@ void Kusahayasu::shiniHayasu(Vec2 shiniPos, int kakudoNum, Node *target)
 	kusa->setRotation(90 * kakudoNum);
 	target->addChild(kusa);
 	kusa->setPosition(shiniPos - target->getPosition());
+	kusa->setGlobalZOrder(-1.0f);
 	_shiniKusa.push_back(kusa);
 }
 

@@ -52,4 +52,17 @@ void Stone::windHitRotation()
 void Stone::windHitMoveing()
 {
 	windHitRotation();
+	move();
+}
+
+void Stone::move()
+{
+	//ˆÚ“®—Ê‚ð‰ÁŽZ‚µ‚ÄƒCƒhƒE
+	setPosition(Vec2(getPositionX() + _speed.x, getPositionY() + _speed.y));
+
+	if (getPositionY() < designResolutionSize.height * 0.16f)
+	{
+		setPositionY(designResolutionSize.height * 0.16f);
+		//allChangeReset();
+	}
 }

@@ -23,9 +23,19 @@ public:
 	void windSet(bool isWind, Vec2 speed);
 	void windStop();
 	void windSpeedDown();
+	void vecKeisan(Vec2 touchPos, float windRange, float windBoost, float actionTime);
+	void setNoOverMaxSpeed();
 
 	bool _isWind;
-	Vec2 _speed;
+	bool _isGoRight;
+	bool _isGoDown;
+
+	int _maxSpeed;
+	float _gSpeed;
+	float _moveMaxX;
+	float _windBoost;
 	float _rotCnt;
+
+	Vec2 _speed;
 };
 #endif
