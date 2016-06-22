@@ -104,7 +104,7 @@ void Kusahayasu::shiniHayasu(Vec2 shiniPos, int kakudoNum, Node *target)
 	kusa = Sprite::create("pix/stageSozai/ne.png");
 	kusa->setAnchorPoint(Vec2(0.5f, 0.7f));
 	kusa->setRotation(90 * kakudoNum);
-	target->addChild(kusa);
+	target->addChild(kusa,-2);
 	kusa->setPosition(shiniPos - target->getPosition());
 	kusa->setTag(kakudoNum);
 	_shiniKusa.push_back(kusa);

@@ -95,7 +95,7 @@ bool StageCreater::init(Sprite *uekibati)
 
 
 	Sprite* windmillBord = Sprite::create("pix/stageSozai/windmillBord.png");
-	windmillBord->setRotation(15);
+	//windmillBord->setRotation(15);
 	windmillBord->setScale(0.6);
 	windmillBord->setPosition(Vec2(designResolutionSize.width*0.4, jimen->getBoundingBox().size.height+20));
 	addChild(windmillBord);
