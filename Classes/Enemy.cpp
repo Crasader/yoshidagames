@@ -46,7 +46,7 @@ void Enemy::update(float dt)
 {
 	if (!_isGool)speedKeisan();
 	if (_isWind)rotateKeisan();
-	if(_isMoved)enemyMove();
+	//if(_isMoved)enemyMove();
 }
 
 void Enemy::enemyMove() 

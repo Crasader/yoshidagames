@@ -88,15 +88,12 @@ void Kumomo::yajirushiSet()
 	//タッチしはじめと終わりのベクトルから角度を算出（右から上でひだりまでに0~+180,右から下で左までに0~-180）
 	float angle = atan2(_touchStartPos.y - _touchEndPos.y, _touchEndPos.x - _touchStartPos.x) * 180.0f / M_PI ;
 	float hani = sqrt(pow(_touchEndPos.x - _touchStartPos.x, 2) + pow(_touchEndPos.y - _touchStartPos.y, 2));
-	if (hani > maxRange)
-	{
-		hani = maxRange;
-	}
+	if (hani > maxRange)hani = maxRange;
 	float MaxKumomoBai = 2.0f;
 	setScale(0.2f * MaxKumomoBai * hani / maxRange + 0.2f);
 	_kazehaniSP->setScale(hani * _kumomoNomaX);
 	setRotation(angle);
-	int atherColor = (int)(155 * ((maxRange - hani) / maxRange)) + 100;
+	int atherColor = (int)(135 * ((maxRange - hani) / maxRange)) + 120;
 	setColor(Color3B(230, atherColor, atherColor));
 
 	_kazehaniSP->setRotation(angle);
