@@ -15,8 +15,9 @@ public:
 	bool init();
 	void update(float dt);
 	void kazePatapata(Sprite *targetKusa, bool _isLeft);
-
+	void kazeAtariKeisan(Vec2 touchStartPos, float kumomoAngle, int haniAngle);
 	Vector<Sprite*> _kusaSozai;
+
 
 };
 

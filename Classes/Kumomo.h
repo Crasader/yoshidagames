@@ -13,6 +13,7 @@
 #include "MultiResolution.h"
 #include "YoshidasanNoManager.h"
 #include "EffectManager.h"
+#include "StageKusa.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -33,6 +34,7 @@ public:
 
 	YoshidasanNoManager *_yoshiMana;
 	EffectManager *_effectManager;
+	StageKusa *_stagekusa;
 
 	Vec2 _touchStartPos;
 	Vec2 _touchEndPos;

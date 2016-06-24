@@ -82,15 +82,6 @@ void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange, float actionTime)
 	setNoOverMaxSpeed();
 }
 
-//当たった時のspeed値イドウ
-void Yoshidasan::speedChange(Vec2 plusSpeed)
-{
-	_pSpeed.x += plusSpeed.x;
-	_pSpeed.y += plusSpeed.y;
-
-	setNoOverMaxSpeed();
-}
-
 //speedの計算
 void Yoshidasan::speedKeisan()
 {
@@ -202,6 +193,7 @@ void Yoshidasan::setNoOverMaxSpeed()
 	{
 		_pSpeed.x = -_maxSpeed;
 	}
+	//------------------------------------------------------------------------
 }
 
 void Yoshidasan::move()
@@ -270,25 +262,6 @@ void Yoshidasan::startGo(Vec2 moveState, float dilayTime)
 	});
 	auto sequence = Sequence::create(delay, move, func, nullptr);
 	runAction(sequence);
-
-}
-
-//葉っぱジャンプ！
-void Yoshidasan::happaPiyon(Vec2 muki)
-{
-	stopAllActions();
-	_isGool = true;
-	float actionTime = 0.1f;
-	int moveKyori = 50;
-	auto move = MoveBy::create(actionTime, muki * moveKyori);
-	auto moveEI = EaseIn::create(move, 3);
-	auto owari = CCCallFunc::create([=]()
-	{
-		_isGool = false;
-		actionYuraYura();
-	});
-	auto seq = Sequence::create(moveEI, owari, nullptr);
-	runAction(seq);
 
 }
 
