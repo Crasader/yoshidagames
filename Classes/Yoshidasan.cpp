@@ -14,8 +14,8 @@ bool Yoshidasan::init(const char *fileName, int maxSpeed, float gravity, bool is
 	_isGoRight = true;
 	//下向きに向かっているか
 	_isGoDown = true;
-	//タッチしているか	
-	_isWind = false;
+	//風に吹かれているか	
+	_isWind = true;
 	//ゴールしたかどうか
 	_isGool = false;
 	//やんきーかどうか
@@ -24,8 +24,8 @@ bool Yoshidasan::init(const char *fileName, int maxSpeed, float gravity, bool is
 	_myNo = myNo;
 	//最大移動速度
 	_maxSpeed = maxSpeed;
-
-	_windBoost = 1.0f;
+	//ほかの吉田と当たっているか
+	_isHit = false;
 
 	//ステージ内での最大移動量（X方向）
 	_moveMaxX = (designResolutionSize.width * 2) - 100;
@@ -44,14 +44,12 @@ void Yoshidasan::update(float dt)
 }
 
 //風からの移動量の計算
-void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange, float windBoost, float actionTime)
+void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange, float actionTime)
 {
 	//実際移動量
 	float vecPulus = 0.0f;
 	//適用範囲
 	float hani = windRange;
-
-	_windBoost = windBoost;
 
 	//移動値の計算
 	if ((sqrt(
@@ -60,20 +58,18 @@ void Yoshidasan::vecKeisan(Vec2 touchPos, float windRange, float windBoost, floa
 		<= hani)
 	{
 		if (!_isWind)kazekaiten(actionTime);
-		{
-			vecPulus = _maxSpeed * _windBoost *
-				(hani - (sqrt(
+		vecPulus = _maxSpeed *
+			((hani -
+				sqrt(
 					pow(touchPos.x - getPositionX(), 2) +
-					pow(touchPos.y - getPositionY(), 2))))
-				/ hani;
+					pow(touchPos.y - getPositionY(), 2)))
+			/ hani) ;
 
 
-			//角度の計算
-			float angle = atan2(getPositionY() - touchPos.y, getPositionX() - touchPos.x);
-			//移動量の適用
-			_pSpeed = Vec2(vecPulus * cos(angle), vecPulus * sin(angle));
-
-		}
+		//角度の計算
+		float angle = atan2(getPositionY() - touchPos.y, getPositionX() - touchPos.x);
+		//移動量の適用
+		_pSpeed += Vec2(vecPulus * cos(angle), vecPulus * sin(angle));
 	}
 
 	//移動方向の変更X
@@ -101,7 +97,7 @@ void Yoshidasan::speedKeisan()
 	setNoOverMaxSpeed();
 
 	//重力をスピードの減少にどの程度反映するか調整
-	int p = 5;
+	int p = 4;
 
 	//y方向の運動量の計算-----------------------------------------------------
 	if (!_isGoDown)	//上向き
@@ -185,26 +181,26 @@ void Yoshidasan::setNoOverMaxSpeed()
 
 	//y方向-------------------------------------------------------------------
 
-	if (!_isGoDown &&_pSpeed.y >= _maxSpeed * _windBoost)//上向き
+	if (!_isGoDown &&_pSpeed.y >= _maxSpeed )//上向き
 	{
-		_pSpeed.y = _maxSpeed * _windBoost;
+		_pSpeed.y = _maxSpeed;
 	}
 
-	else if (_isGoDown &&_pSpeed.y <= -_maxSpeed * _windBoost)//下向き
+	else if (_isGoDown &&_pSpeed.y <= -_maxSpeed)//下向き
 	{
-		_pSpeed.y = -_maxSpeed * _windBoost;
+		_pSpeed.y = -_maxSpeed;
 	}
 	//------------------------------------------------------------------------
 
 	//x方向-------------------------------------------------------------------
 
-	if (_isGoRight && _pSpeed.x >= _maxSpeed * _windBoost)
+	if (_isGoRight && _pSpeed.x >= _maxSpeed)
 	{
-		_pSpeed.x = _maxSpeed * _windBoost;
+		_pSpeed.x = _maxSpeed;
 	}
-	else if (!_isGoRight && _pSpeed.x <= -_maxSpeed * _windBoost)
+	else if (!_isGoRight && _pSpeed.x <= -_maxSpeed)
 	{
-		_pSpeed.x = -_maxSpeed * _windBoost;
+		_pSpeed.x = -_maxSpeed;
 	}
 }
 
@@ -216,8 +212,27 @@ void Yoshidasan::move()
 	if (getPositionY() < designResolutionSize.height * 0.16f)
 	{
 		setPositionY(designResolutionSize.height * 0.16f);
+		_isWind = false;
 		allChangeReset();
 	}
+}
+
+void Yoshidasan::hitAction(Vec2 movePos)
+{
+	if (!_isHit)
+	{
+		stopAllActions();
+		_isHit = true;
+		auto move = MoveTo::create(0.2f, movePos);
+		auto func = CCCallFunc::create([=]()
+		{
+			_isHit = false;
+			actionYuraYura();
+		});
+		auto seq = Sequence::create(move, func, nullptr);
+		runAction(seq);
+	}
+
 }
 
 //いつもの揺れ
@@ -251,6 +266,7 @@ void Yoshidasan::startGo(Vec2 moveState, float dilayTime)
 	auto func = CallFunc::create([=]()
 	{
 		actionYuraYura();
+		_isWind = false;
 	});
 	auto sequence = Sequence::create(delay, move, func, nullptr);
 	runAction(sequence);
@@ -318,7 +334,7 @@ void Yoshidasan::kazekaiten(float actontime)
 	{
 		_isWind = false;
 	});
-	auto seq = Sequence::create(eas, modmod, nullptr);
+	auto seq = Sequence::create(eas, modmod, func, nullptr);
 	runAction(seq);
 }
 

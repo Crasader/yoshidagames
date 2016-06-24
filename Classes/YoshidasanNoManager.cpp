@@ -29,7 +29,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_kusahayasu = kusahayasu;
 
 	//‹g“c‚³‚ñ‚Ì”
-	int yoshidaSuu = 10;
+	int yoshidaSuu = 100;
 
 	_goolRect = _stageCrater->getGoolRect();
 
@@ -39,8 +39,8 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		const char * yoshidaPas;
 		//‹g“c‚ÌƒXƒe
 		bool yankiCheck = false;
-		float gravity = -1.0f;
-		int maxSpeed = 40;
+		float gravity = -1.6f;
+		int maxSpeed = 10;
 		int myNo = rand() % 4;
 
 		switch (myNo)
@@ -53,7 +53,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		case 1://—
 			yoshidaPas = "pix/actor/yoshidagirl.png";
 			gravity *= 0.8f;
-			maxSpeed *= 1.2f;
+			maxSpeed *= 1.1f;
 			break;
 		case 2://‚Å‚Ô
 			yoshidaPas = "pix/actor/yoshidadebu.png";
@@ -97,9 +97,6 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 
 	_windRange = 0.0f;
 	_windCallCnt = 0.0f;
-	
-	//‘‚¢‚½ü‚ª’Z‚¢‚Ù‚Ç—Í‚ð‹­‚­‚·‚é‚â‚Â
-	_windPowerBoost = 1.0f;
 
 	//update‚ð–ˆƒtƒŒ[ƒ€ŽÀs‚·‚é‚æ‚¤‚É“o˜^‚·‚é
 	this->scheduleUpdate();
@@ -135,8 +132,6 @@ void YoshidasanNoManager::touchEndCall(int haniAngle, float windRange, float ang
 	_touchStartPos = touchStartPos;
 	_windCallCnt = windTime;
 
-	int maxboostPow = 2;
-	_windPowerBoost = (_windRange / _windMaxRange) * maxboostPow + 1.0f;
 	angle = angle * 180 / M_PI;
 	_effectManager->kazeNagareru(_touchStartPos, windEndPos, angle, _windCallCnt);
 	for (auto item : _itemArr) 
@@ -343,38 +338,28 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 				}
 			}
 			if (isHit)break;
-
+			if(_yoshida.at(target)->_isWind)continue;
 			//‚Ù‚©‚Ì‹g“c‚Æ“–‚½‚Á‚Ä‚¢‚é‚©
 			for (int ather = 0; ather < _yoshida.size() - target; ather++)
 			{
-				if (target == ather)continue;
+				if (target == ather || _yoshida.at(ather)->_isHit)continue;
 				Rect atherRect = _yoshida.at(ather)->getBoundingBox();
 				atherRect = Rect{
 					atherRect.getMinX() + yoshidaSize*0.5f,
 					atherRect.getMinY() + yoshidaSize*0.3f,
 					yoshidaSize*0.2f,
 					yoshidaSize*0.2f };
-				float targetVec = sqrt(
-					pow(_touchStartPos.x - _yoshida.at(target)->getPositionX(), 2) +
-					pow(_touchStartPos.y - _yoshida.at(target)->getPositionY(), 2));
 
 				if (targetRect.intersectsRect(atherRect))
 				{
-					float atherVec = sqrt(
-						pow(_touchStartPos.x - _yoshida.at(ather)->getPositionX(), 2) +
-						pow(_touchStartPos.y - _yoshida.at(ather)->getPositionY(), 2));
-					if (targetVec >= atherVec)
-					{
-						Vec2 atherSpeed = _yoshida.at(ather)->getSpeed();
-						_yoshida.at(target)->speedChange(Vec2(atherSpeed.x / _speedtyousei, 0));
-						_yoshida.at(ather)->speedChange(-atherSpeed / _speedtyousei);
-					}
-					if (targetVec < atherVec)
-					{
-						Vec2 targetSpeed = _yoshida.at(target)->getSpeed();
-						_yoshida.at(ather)->speedChange(Vec2(targetSpeed.x / _speedtyousei, 0));
-						_yoshida.at(target)->speedChange(-targetSpeed / _speedtyousei);
-					}
+					//Vec2 movePos = Vec2(_yoshida.at(target)->getPosition() - _yoshida.at(ather)->getPosition());
+					Vec2 movePos = Vec2::ZERO;
+					if (targetRect.getMinX() >= atherRect.getMinX())movePos.x = _yoshida.at(ather)->getPositionX() + targetRect.size.width;
+					else											movePos.x = _yoshida.at(ather)->getPositionX() - targetRect.size.width;
+					if (targetRect.getMinY() >= atherRect.getMinY())movePos.y = _yoshida.at(ather)->getPositionY() + targetRect.size.height;
+					else											movePos.y = _yoshida.at(ather)->getPositionY() + targetRect.size.height;
+					_yoshida.at(target)->hitAction(movePos);
+					break;
 				}
 			}
 		}
@@ -471,12 +456,12 @@ void YoshidasanNoManager::kazeKeisan()
 	for (int i = 0; i < _taisyouYoshida.size(); i++)
 	{
 		//_yoshida.at(_taisyouYoshida[i])->rolling();
-		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (_windMaxTime - _windCallCnt), _windPowerBoost,_windCallCnt);
+		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (_windMaxTime - _windCallCnt) / _windMaxTime,_windCallCnt);
 	}
 
 	for (int i = 0; i < _taisyouItem.size(); i++)
 	{
-		_itemArr.at(_taisyouItem[i])->windSet(true, _touchStartPos);
+		_itemArr.at(_taisyouItem[i])->windSet(true,Vec2(10,10));	
 	}
 }
 
@@ -484,30 +469,15 @@ void YoshidasanNoManager::yoshidaCenterCall()
 {
 	_yoshidaCenterPos = Vec2(0, 0);
 	Vec2 sinkou = _yoshidaCamera->getPosition();
+	float torima = 0;
 	for (int i = 0; i < _yoshida.size(); i++)
 	{
 		_yoshidaCenterPos += _yoshida.at(i)->getPosition();
 	}
 
-	_yoshidaCenterPos = _yoshidaCenterPos / _yoshida.size();
-
-	Vec2 mainYoshidaPos = Vec2(0,0);
-	Vec2 hani = Vec2(0,0);
-	Vec2 mainhani = Vec2(1000,1000);
-
 	for (int i = 0; i < _yoshida.size(); i++)
 	{
 		Vec2 yoshidaPos = _yoshida.at(i)->getPosition();
-		hani = Vec2(yoshidaPos.x - _yoshidaCenterPos.x , yoshidaPos.y - _yoshidaCenterPos.y);
-
-
-		if (hani < mainhani) 
-		{
-			mainhani = hani;
-			mainYoshidaPos = yoshidaPos;
-		}
-
-		//‹g“c‚ª‰æ–ÊŠO(Œã‚ë)‚Éo‚½‚çŽ€‚Êˆ—
 		if (yoshidaPos.x < (sinkou.x - designResolutionSize.width / 2 - 50))
 		{
 			_effectManager->watageBakusan(_yoshida.at(i)->getPosition());
@@ -520,8 +490,8 @@ void YoshidasanNoManager::yoshidaCenterCall()
 			}
 		}
 	}
-
-	_yoshidaCamera->_yoshidaCenterPos = mainYoshidaPos;
+	_yoshidaCenterPos = _yoshidaCenterPos / _yoshida.size();
+	_yoshidaCamera->_yoshidaCenterPos = _yoshidaCenterPos;
 }
 
 void YoshidasanNoManager::yoshidaWatashi()
@@ -529,8 +499,7 @@ void YoshidasanNoManager::yoshidaWatashi()
 	_enemyManager->_yoshidaArr = _yoshida;
 }
 
-void YoshidasanNoManager::yoshidaBorn()
-{
+void YoshidasanNoManager::yoshidaBorn(){
 
 }
 

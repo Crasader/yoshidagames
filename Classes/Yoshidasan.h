@@ -25,7 +25,7 @@ public:
 	//当たった時のspeed値イドウ
 	void speedChange(Vec2 plusSpeed);
 	//風からの移動量の計算
-	void vecKeisan(Vec2 touchPos,float windRange,float windBoost, float actionTime);
+	void vecKeisan(Vec2 touchPos,float windRange, float actionTime);
 	//speedの適用
 	void speedKeisan();
 	//rotateの計算
@@ -38,7 +38,8 @@ public:
 	void setNoOverMaxSpeed();
 	//動く
 	void move();
-
+	//ほかの吉田と会った時のアクション
+	void hitAction(Vec2 movePos);
 
 	//吉田アクションず
 	//始めの飛び出し
@@ -60,12 +61,12 @@ public:
 	bool _isYanki;
 	bool _isGool;
 	bool _isRool;
+	bool _isHit;
 
 	int _maxSpeed;
 	int _myNo;
 	float _gSpeed;
 	float _moveMaxX;
-	float _windBoost;
 
 	Vec2 _pSpeed;
 	Rect _goolRect;
