@@ -12,7 +12,10 @@
 #include "SimpleAudioEngine.h"
 #include "MultiResolution.h"
 
+#include "StageCreater.h"
+#include "Item.h"
 #include "Windmill.h"
+#include "Stone.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -25,15 +28,11 @@ public:
 	void update(float dt);
 	//static ItemManager *create();
 
-	Vector<Node*> _item;
+	ItemManager* _itemManager;
+
+	Vector<Item*> _item;
 	vector<Sprite*> _syougaibutu;
 	vector<int> _taisyouItem;
-
-	float _frmCount;
-	float _speedtyousei;
-	float _windCallCnt;
-	float _windPowerBoost;
-	Rect _goolRect;
 
 	bool _isTouch;
 

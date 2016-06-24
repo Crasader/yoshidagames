@@ -64,7 +64,7 @@ void Item::windHitMoveing()
 void Item::windSet(bool isWind, Vec2 speed)
 {
 	_isWind = isWind;
-	_speed = Vec2((this->getPosition().x - speed.x)/100, (this->getPosition().y - speed.y)/100);
+	_speed = Vec2((this->getPosition().x - speed.x), (this->getPosition().y - speed.y));
 }
 
 void Item::windStop()
@@ -82,14 +82,16 @@ void Item::windSpeedDown()
 }
 
 //風からの移動量の計算
-void Item::vecKeisan(Vec2 touchPos, float windRange, float windBoost, float actionTime)
+void Item::vecKeisan(Vec2 touchPos, float windRange, float actionTime)
 {
 	//実際移動量
 	float vecPulus = 0.0f;
 	//適用範囲
 	float hani = windRange;
 
-	_windBoost = windBoost;
+	//_windBoost = windBoost;
+
+	_isWind = true;
 
 	//移動値の計算
 	if ((sqrt(

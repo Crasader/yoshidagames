@@ -1,4 +1,6 @@
 #include "Kusahayasu.h"
+#include "HelloWorldScene.h"
+
 Kusahayasu * Kusahayasu::create()
 {
 
@@ -92,6 +94,15 @@ void Kusahayasu::goResult()
 	if (!_isChangeScene)
 	{
 		Director::getInstance()->replaceScene(TransitionFade::create(1.0f, ResultScene::createScene(_goalYoshida, _goalGirl, _goalDebu, _goalYanki)));
+		_isChangeScene = true;
+	}
+}
+
+void Kusahayasu::reStart() 
+{
+	if (!_isChangeScene)
+	{
+		Director::getInstance()->replaceScene(TransitionFade::create(1.5f, HelloWorld::createScene()));
 		_isChangeScene = true;
 	}
 }

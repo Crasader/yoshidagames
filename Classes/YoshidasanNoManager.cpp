@@ -1,5 +1,6 @@
 #include "YoshidasanNoManager.h"
 
+
 //YoshidasanNoManager *YoshidasanNoManager::create()
 //{
 //
@@ -29,7 +30,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_kusahayasu = kusahayasu;
 
 	//‹g“c‚³‚ñ‚Ì”
-	int yoshidaSuu = 100;
+	int yoshidaSuu = 3;
 
 	_goolRect = _stageCrater->getGoolRect();
 
@@ -39,8 +40,8 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		const char * yoshidaPas;
 		//‹g“c‚ÌƒXƒe
 		bool yankiCheck = false;
-		float gravity = -1.6f;
-		int maxSpeed = 10;
+		float gravity = -0.8f;
+		int maxSpeed = 8;
 		int myNo = rand() % 4;
 
 		switch (myNo)
@@ -149,7 +150,7 @@ void YoshidasanNoManager::yosidaLiveingCheck()
 {
 	if (_yoshida.size() == 0)
 	{
-		_kusahayasu->goResult();
+		_kusahayasu->reStart();
 	}
 }
 
@@ -461,7 +462,7 @@ void YoshidasanNoManager::kazeKeisan()
 
 	for (int i = 0; i < _taisyouItem.size(); i++)
 	{
-		_itemArr.at(_taisyouItem[i])->windSet(true,Vec2(10,10));	
+		_itemArr.at(_taisyouItem[i])->vecKeisan(_touchStartPos, _windRange * (_windMaxTime - _windCallCnt) / _windMaxTime, _windCallCnt);
 	}
 }
 
@@ -478,7 +479,7 @@ void YoshidasanNoManager::yoshidaCenterCall()
 	for (int i = 0; i < _yoshida.size(); i++)
 	{
 		Vec2 yoshidaPos = _yoshida.at(i)->getPosition();
-		if (yoshidaPos.x < (sinkou.x - designResolutionSize.width / 2 - 50))
+		if (yoshidaPos.x < (sinkou.x - designResolutionSize.width / 2 - 20))
 		{
 			_effectManager->watageBakusan(_yoshida.at(i)->getPosition());
 			_yoshida.at(i)->stopAllActions();
@@ -486,7 +487,7 @@ void YoshidasanNoManager::yoshidaCenterCall()
 			_yoshida.erase(_yoshida.begin() + i);
 			if (_yoshida.size() == 0)
 			{
-				_kusahayasu->goResult();
+				_kusahayasu->reStart();
 			}
 		}
 	}

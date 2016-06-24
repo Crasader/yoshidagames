@@ -95,11 +95,27 @@ bool StageCreater::init(Sprite *uekibati)
 	addChild(ueki);*/
 
 
-	Sprite* windmillBord = Sprite::create("pix/stageSozai/windmillBord.png");
+	//Sprite* kumomoBoard = Sprite::create("pix/stageSozai/kumomoBoard.png");
+	//kumomoBoard->setScale(1.0);
+	//kumomoBoard->setAnchorPoint(Vec2(0.0f, 0.0f));
+	////windmillBord->setRotation(10);
+	//kumomoBoard->setPosition(Vec2(designResolutionSize.width*0.3, jimen->getBoundingBox().size.height - 20));
+	//addChild(kumomoBoard);
+	//_syougaibutu.push_back(kumomoBoard);
+
+	Sprite* windmillBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
+	windmillBordBar->setScale(1.0);
+	windmillBordBar->setAnchorPoint(Vec2(0.0f, 0.0f));
+	//windmillBord->setRotation(10);
+	windmillBordBar->setPosition(Vec2(designResolutionSize.width*0.9, jimen->getBoundingBox().size.height - 20));
+	addChild(windmillBordBar);
+	_syougaibutu.push_back(windmillBordBar);
+
+	Sprite* windmillBord = Sprite::create("pix/stageSozai/windmillBoardA.png");
 	windmillBord->setScale(1.0);
 	windmillBord->setAnchorPoint(Vec2(0.0f, 0.0f));
 	//windmillBord->setRotation(10);
-	windmillBord->setPosition(Vec2(designResolutionSize.width*0.3, jimen->getBoundingBox().size.height-20));
+	windmillBord->setPosition(Vec2(windmillBordBar->getPosition()+Vec2(-windmillBord->getBoundingBox().size.width*0.5+windmillBordBar->getBoundingBox().size.width*0.5,windmillBordBar->getBoundingBox().size.height*0.6)));
 	addChild(windmillBord);
 	_syougaibutu.push_back(windmillBord);
 
@@ -129,7 +145,7 @@ bool StageCreater::init(Sprite *uekibati)
 	windmill1->_target = gate;
 	addChild(windmill1);
 	_itemArr.push_back(windmill1);
-	_syougaibutu.push_back(windmill1);
+	//.push_back(windmill1);
 	//------------------------------------------------------------------------------------------------------------------
 
 	Stone *stone1 = new Stone();

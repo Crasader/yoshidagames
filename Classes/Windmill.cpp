@@ -60,7 +60,7 @@ void Windmill::windHitMoveing()
 
 void Windmill::windHitRotation()
 {
-	setRotation(getRotation() + _speed.x);
+	setRotation(getRotation() + _speed.x*3);
 }
 
 

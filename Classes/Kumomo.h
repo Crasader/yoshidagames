@@ -11,7 +11,9 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "MultiResolution.h"
+
 #include "YoshidasanNoManager.h"
+#include "ItemManager.h"
 #include "EffectManager.h"
 
 using namespace cocos2d;
@@ -30,9 +32,11 @@ public:
 	void yajirushiSet();
 	void kumomoActhionTigimu();
 	void kumomoActionPuruPuru();
+	void kumomoGiveWind();
 
 	YoshidasanNoManager *_yoshiMana;
 	EffectManager *_effectManager;
+	ItemManager *_itemManager;
 
 	Vec2 _touchStartPos;
 	Vec2 _touchEndPos;
