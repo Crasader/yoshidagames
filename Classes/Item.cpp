@@ -19,6 +19,7 @@ Item *Item::create()
 
 bool Item::init()
 {
+	if (!Sprite::init())return false;
 	//‘¬“x
 	_speed = Vec2(0, 0);
 	//d—Í‚Ì’l
@@ -42,7 +43,7 @@ bool Item::init()
 	Vec2 ItemPos = getPosition();
 
 	this->scheduleUpdate();
-	return false;
+	return true;
 }
 
 void Item::update(float dt)
@@ -63,7 +64,7 @@ void Item::windHitMoveing()
 void Item::windSet(bool isWind, Vec2 speed)
 {
 	_isWind = isWind;
-	_speed = speed;
+	_speed = Vec2((this->getPosition().x - speed.x)/100, (this->getPosition().y - speed.y)/100);
 }
 
 void Item::windStop()

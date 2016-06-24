@@ -19,6 +19,7 @@ Stone * Stone::create()
 
 bool Stone::init()
 {
+	if (!Item::init())return false;
 	initWithFile("pix/stageSozai/stone.png");
 	setTextureRect(Rect(100, 100, 50, 50));
 
@@ -31,7 +32,7 @@ bool Stone::init()
 	Vec2 StonePos = getPosition();
 
 	this->scheduleUpdate();
-	return false;
+	return true;
 }
 
 void Stone::update(float dt)

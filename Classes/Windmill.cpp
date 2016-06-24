@@ -19,6 +19,7 @@ Windmill * Windmill::create()
 
 bool Windmill::init()
 {
+	if (!Item::init())return false;
 	initWithFile("pix/stageSozai/windmillA.png");
 	setScale(0.8);
 
@@ -33,7 +34,7 @@ bool Windmill::init()
 	Vec2 windmillPos = getPosition();
 
 	this->scheduleUpdate();
-	return false;
+	return true;
 }
 
 void Windmill::update(float dt)

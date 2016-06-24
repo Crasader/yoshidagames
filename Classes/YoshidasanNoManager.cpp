@@ -29,7 +29,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_kusahayasu = kusahayasu;
 
 	//吉田さんの数
-	int yoshidaSuu = 50;
+	int yoshidaSuu = 10;
 
 	_goolRect = _stageCrater->getGoolRect();
 
@@ -39,7 +39,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		const char * yoshidaPas;
 		//吉田のステ
 		bool yankiCheck = false;
-		float gravity = -1.6f;
+		float gravity = -1.0f;
 		int maxSpeed = 40;
 		int myNo = rand() % 4;
 
@@ -476,7 +476,7 @@ void YoshidasanNoManager::kazeKeisan()
 
 	for (int i = 0; i < _taisyouItem.size(); i++)
 	{
-		_itemArr.at(_taisyouItem[i])->windSet(true, Vec2(10, 0));
+		_itemArr.at(_taisyouItem[i])->windSet(true, _touchStartPos);
 	}
 }
 
@@ -484,15 +484,30 @@ void YoshidasanNoManager::yoshidaCenterCall()
 {
 	_yoshidaCenterPos = Vec2(0, 0);
 	Vec2 sinkou = _yoshidaCamera->getPosition();
-	float torima = 0;
 	for (int i = 0; i < _yoshida.size(); i++)
 	{
 		_yoshidaCenterPos += _yoshida.at(i)->getPosition();
 	}
 
+	_yoshidaCenterPos = _yoshidaCenterPos / _yoshida.size();
+
+	Vec2 mainYoshidaPos = Vec2(0,0);
+	Vec2 hani = Vec2(0,0);
+	Vec2 mainhani = Vec2(1000,1000);
+
 	for (int i = 0; i < _yoshida.size(); i++)
 	{
 		Vec2 yoshidaPos = _yoshida.at(i)->getPosition();
+		hani = Vec2(yoshidaPos.x - _yoshidaCenterPos.x , yoshidaPos.y - _yoshidaCenterPos.y);
+
+
+		if (hani < mainhani) 
+		{
+			mainhani = hani;
+			mainYoshidaPos = yoshidaPos;
+		}
+
+		//吉田が画面外(後ろ)に出たら死ぬ処理
 		if (yoshidaPos.x < (sinkou.x - designResolutionSize.width / 2 - 50))
 		{
 			_effectManager->watageBakusan(_yoshida.at(i)->getPosition());
@@ -505,8 +520,8 @@ void YoshidasanNoManager::yoshidaCenterCall()
 			}
 		}
 	}
-	_yoshidaCenterPos = _yoshidaCenterPos / _yoshida.size();
-	_yoshidaCamera->_yoshidaCenterPos = _yoshidaCenterPos;
+
+	_yoshidaCamera->_yoshidaCenterPos = mainYoshidaPos;
 }
 
 void YoshidasanNoManager::yoshidaWatashi()
@@ -514,7 +529,8 @@ void YoshidasanNoManager::yoshidaWatashi()
 	_enemyManager->_yoshidaArr = _yoshida;
 }
 
-void YoshidasanNoManager::yoshidaBorn(){
+void YoshidasanNoManager::yoshidaBorn()
+{
 
 }
 

@@ -51,7 +51,7 @@ void Kusahayasu::kusahayasu(Vec2 hayasuPos)
 {
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	audio->playEffect("Pon.mp3");
-	Sprite * kusa;
+	Sprite* kusa;
 
 	kusa = Sprite::create("pix/stageSozai/hana.png");
 	kusa->setAnchorPoint(Vec2(0.5f, 1.0f));
