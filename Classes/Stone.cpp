@@ -19,6 +19,7 @@ Stone * Stone::create()
 
 bool Stone::init()
 {
+
 	initWithFile("pix/stageSozai/stone.png");
 	setTextureRect(Rect(100, 100, 50, 50));
 

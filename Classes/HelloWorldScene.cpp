@@ -42,6 +42,9 @@ bool HelloWorld::init()
 	ki->setAnchorPoint(Vec2(0.0f, 0.0f));
 	addChild(ki);
 
+	_stageKusa = StageKusa::create();
+	addChild(_stageKusa);
+	 
 	Sprite *uekibathi = Sprite::create("pix/stageSozai/uekibati.png");
 	addChild(uekibathi,1);
 	uekibathi->setAnchorPoint(Vec2(0.0f, 0.0f));
