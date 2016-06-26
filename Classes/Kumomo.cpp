@@ -2,7 +2,7 @@
 
 static const int KAZEHANIANGLE = 30;
 static const float WINDMAXRANGE = 500.0f;//•—‚ÌÅ‘å”ÍˆÍ
-static const float WINDCALLMAXTIME = 2.0f;//•—‚ª—¬‚êØ‚é‚Ü‚Å‚ÌÅ‘åŽžŠÔ
+static const float WINDCALLMAXTIME = 0.5f;//•—‚ª—¬‚êØ‚é‚Ü‚Å‚ÌÅ‘åŽžŠÔ
 
 
 Kumomo * Kumomo::create()
@@ -104,17 +104,7 @@ void Kumomo::kumomoActhionTigimu()
 	auto hukuramu = ScaleBy::create(0.1f, 1.0f);
 	auto func = CCCallFunc::create([=]() 
 	{
-
-		float windRange = sqrt(pow(_touchEndPos.x - _touchStartPos.x, 2) + pow(_touchEndPos.y - _touchStartPos.y, 2));
-		if (windRange > WINDMAXRANGE)windRange = WINDMAXRANGE;
-		float windCallCnt = WINDCALLMAXTIME * (windRange / WINDMAXRANGE);
-		float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x);
-		Vec2 windEndPos = Vec2(cos(angle) * windRange, sin(angle) * windRange) + _touchStartPos;
-		angle = angle * 180.0f / M_PI;
-		_yoshiMana->touchEndCall(KAZEHANIANGLE, windRange, angle, _touchStartPos, windEndPos, windCallCnt);
-		//++ -------
-		_stagekusa->kazeAtariKeisan(_touchStartPos, angle, KAZEHANIANGLE);
-		//++ -------
+		kumomoGiveWind();
 	});
 	float tizimiTIme = 0.2f;
 	auto tizi = ScaleTo::create(tizimiTIme, 0.2f);
@@ -131,6 +121,15 @@ void Kumomo::kumomoActionPuruPuru()
 	auto puru2 = MoveBy::create(0.1f, Vec2(-5, 0));
 	auto seq = Sequence::create(puru1, puru2, nullptr);
 	runAction(seq);
+}
 
-
+void Kumomo::kumomoGiveWind() 
+{
+	float windRange = sqrt(pow(_touchEndPos.x - _touchStartPos.x, 2) + pow(_touchEndPos.y - _touchStartPos.y, 2));
+	if (windRange > WINDMAXRANGE)windRange = WINDMAXRANGE;
+	float windCallCnt = WINDCALLMAXTIME * (windRange / WINDMAXRANGE);
+	float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x);
+	Vec2 windEndPos = Vec2(cos(angle) * windRange, sin(angle) * windRange) + _touchStartPos;
+	angle = angle * 180.0f / M_PI;
+	_yoshiMana->touchEndCall(KAZEHANIANGLE, windRange, angle, _touchStartPos, windEndPos, windCallCnt);
 }

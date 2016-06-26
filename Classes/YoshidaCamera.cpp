@@ -41,6 +41,7 @@ void YoshidaCamera::update(float dt)
 {
 	if (_isMoved) 
 	{
+		this->setPosition(_yoshidaCenterPos);
 		//scrollMove();
 	}
 }

@@ -53,7 +53,6 @@ public:
 	EffectManager *_effectManager;
 	YoshidaCamera* _yoshidaCamera;
 	EnemyManager* _enemyManager;
-	ItemManager* _itemManager;
 
 	float _frmCount;
 	float _windRange;

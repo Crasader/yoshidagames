@@ -11,9 +11,10 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "MultiResolution.h"
+
 #include "YoshidasanNoManager.h"
+#include "ItemManager.h"
 #include "EffectManager.h"
-#include "StageKusa.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -31,10 +32,11 @@ public:
 	void yajirushiSet();
 	void kumomoActhionTigimu();
 	void kumomoActionPuruPuru();
+	void kumomoGiveWind();
 
 	YoshidasanNoManager *_yoshiMana;
 	EffectManager *_effectManager;
-	StageKusa *_stagekusa;
+	ItemManager *_itemManager;
 
 	Vec2 _touchStartPos;
 	Vec2 _touchEndPos;

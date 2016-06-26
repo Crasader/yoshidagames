@@ -1,4 +1,6 @@
 #include "Kusahayasu.h"
+#include "HelloWorldScene.h"
+
 Kusahayasu * Kusahayasu::create()
 {
 
@@ -51,7 +53,7 @@ void Kusahayasu::kusahayasu(Vec2 hayasuPos)
 {
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	audio->playEffect("Pon.mp3");
-	Sprite * kusa;
+	Sprite* kusa;
 
 	kusa = Sprite::create("pix/stageSozai/hana.png");
 	kusa->setAnchorPoint(Vec2(0.5f, 1.0f));
@@ -96,6 +98,15 @@ void Kusahayasu::goResult()
 	}
 }
 
+void Kusahayasu::reStart() 
+{
+	if (!_isChangeScene)
+	{
+		Director::getInstance()->replaceScene(TransitionFade::create(1.5f, HelloWorld::createScene()));
+		_isChangeScene = true;
+	}
+}
+
 void Kusahayasu::shiniHayasu(Vec2 shiniPos, int kakudoNum, Node *target)
 {
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
@@ -104,7 +115,7 @@ void Kusahayasu::shiniHayasu(Vec2 shiniPos, int kakudoNum, Node *target)
 	kusa = Sprite::create("pix/stageSozai/ne.png");
 	kusa->setAnchorPoint(Vec2(0.5f, 0.7f));
 	kusa->setRotation(90 * kakudoNum);
-	target->addChild(kusa);
+	target->addChild(kusa,-2);
 	kusa->setPosition(shiniPos - target->getPosition());
 	kusa->setTag(kakudoNum);
 	_shiniKusa.push_back(kusa);

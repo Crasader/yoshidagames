@@ -19,8 +19,9 @@ Windmill * Windmill::create()
 
 bool Windmill::init()
 {
-	initWithFile("pix/stageSozai/stone.png");
-	setTextureRect(Rect(100, 100, 50, 50));
+	if (!Item::init())return false;
+	initWithFile("pix/stageSozai/windmillA.png");
+	setScale(0.8);
 
 	_target = NULL;
 
@@ -32,20 +33,8 @@ bool Windmill::init()
 
 	Vec2 windmillPos = getPosition();
 
-	Sprite* gate1 = Sprite::create();
-	gate1->setAnchorPoint(Vec2(0.0f, 0.5f));
-	gate1->setTextureRect(Rect(0, 0, 50, 300));
-	gate1->setPosition(Vec2(windmillPos.x, windmillPos.y)); //+ getBoundingBox().size.height));
-	addChild(gate1);
-
-	Sprite* gate2 = Sprite::create();
-	gate2->setAnchorPoint(Vec2(0.5f, 0.5f));
-	gate2->setTextureRect(Rect(0, 0, 300, 50));
-	gate2->setPosition(Vec2(windmillPos.x, windmillPos.y)); //+ getBoundingBox().size.height));
-	addChild(gate2);
-
 	this->scheduleUpdate();
-	return false;
+	return true;
 }
 
 void Windmill::update(float dt)
@@ -58,21 +47,23 @@ void Windmill::update(float dt)
 	}
 }
 
-void Windmill::windHitRotation()
-{
-	setRotation(getRotation() + _speed.x);
-}
-
 void Windmill::windHitMoveing()
 {
 	windHitRotation();
 
 	Vec2 targetPos = _target->getPosition();
-	if (targetPos.y <= designResolutionSize.height*0.8) 
+	if (targetPos.y <= designResolutionSize.height*0.8)
 	{
-		_target->setPosition(Vec2(targetPos.x, targetPos.y+0.5));
+		_target->setPosition(Vec2(targetPos.x, targetPos.y + 0.5));
 	}
 }
+
+void Windmill::windHitRotation()
+{
+	setRotation(getRotation() + _speed.x*3);
+}
+
+
 
 //void Windmill::windSet(bool isWind, Vec2 speed) 
 //{

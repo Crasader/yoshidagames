@@ -36,6 +36,7 @@ public:
 	vector<Yoshidasan*> _hitYoshida;
 
 	void goResult();
+	void reStart();
 
 	bool _isChangeScene;
 

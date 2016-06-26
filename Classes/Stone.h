@@ -23,12 +23,9 @@ public:
 	void update(float dt);
 	void windHitRotation();
 	void windHitMoveing();
-	/*void windSet(bool isWind, Vec2 speed);
-	void windStop();
-	void windSpeedDown();
+	void move();
 
-	bool _isWind;
-	Vec2 _speed;*/
+
 	float _rotCnt;
 };
 #endif
