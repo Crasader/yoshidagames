@@ -210,7 +210,6 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 			for (auto kusa : shinikusa)
 			{
 				Rect kusaRect = kusa->getBoundingBox();
-				//Rect kusaOyaRect = kusa->getParent()->getBoundingBox();
 				Vec2 kusaOyaPos = kusa->getParent()->getPosition();
 				Vec2 kusaPos = Vec2(kusaRect.getMinX(), kusaRect.getMinY()) + kusaOyaPos;
 				kusaRect = Rect(kusaPos.x, kusaPos.y, kusaRect.size.width, kusaRect.size.height);
@@ -360,7 +359,7 @@ void YoshidasanNoManager::kazeKeisan()
 	{
 		float yoshidaAngle = atan2(_yoshida.at(i)->getPositionY() - _touchStartPos.y, _yoshida.at(i)->getPositionX() - _touchStartPos.x)* 180.0f / M_PI;
 		yoshidaAngle += yoshidaAngle > 0 ? 0 : 360;
-		if (yoshidaAngle >= _kumomoAngle - _haniAngle && yoshidaAngle <= _kumomoAngle + _haniAngle)
+		if (_haniAngle >= fabs(_kumomoAngle - yoshidaAngle))
 		{
 			_yoshida.at(i)->vecKeisan(_touchStartPos, _windRange * (_windMaxTime - _windCallCnt) / _windMaxTime, _windCallCnt);
 		}

@@ -1,6 +1,6 @@
 #include "StageKusa.h"
 
-static float ACTIONTIME = 0.2f;
+static float ACTIONTIME = 0.3f;
 
 StageKusa * StageKusa::create()
 {
@@ -111,7 +111,7 @@ void StageKusa::itumonoPatapata(Sprite * targetKusa, bool isLeft)
 {
 	targetKusa->stopAllActions();
 
-	float kaukau = 7;
+	float kaukau = 5;
 
 	auto hihi = SkewBy::create(ACTIONTIME * 2 , -kaukau * 2 * (isLeft * -2 + 1), 0);
 	auto mimi = SkewBy::create(ACTIONTIME * 2 , kaukau * 2 * (isLeft * -2 + 1), 0);
