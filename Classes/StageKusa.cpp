@@ -1,6 +1,6 @@
 #include "StageKusa.h"
 
-
+static float ACTIONTIME = 0.2f;
 
 StageKusa * StageKusa::create()
 {
@@ -35,21 +35,14 @@ bool StageKusa::init()
 		kusa->setPosition(Vec2(kusaSumWidth, designResolutionSize.height * 0.14f));
 		kusaSumWidth += kusa->getBoundingBox().size.width / 1.5f;
 		_kusaSozai.pushBack(kusa);
-		float actionTime = 2.0f;
-		float kaukau = 10;
 
 		auto del = DelayTime::create(0.03f * counter);
-
-		auto hihi = SkewBy::create(actionTime *0.4f, -kaukau, 0);
-
-		auto mimimi = SkewBy::create(actionTime * 0.4f, kaukau, 0);
-
-		auto mama = Sequence::create(mimimi, hihi, nullptr);
-		auto rere = Repeat::create(mama, 4);
-		auto mimi = SkewBy::create(actionTime, kaukau * 2, 0);
-
-		auto mamama = Sequence::create(del, mimi, rere, nullptr);
-		kusa->runAction(mamama);
+		auto func = CCCallFunc::create([=]()
+		{
+			itumonoPatapata(kusa , false);
+		});
+		auto mix = Sequence::create(del, func, nullptr);
+		kusa->runAction(mix);
 		counter++;
 	}
 
@@ -62,28 +55,31 @@ void StageKusa::update(float dt)
 
 }
 
-void StageKusa::kazePatapata(Sprite *targetKusa, bool _isLeft, float delayTime, float caleCnt)
+void StageKusa::kazePatapata(Sprite *targetKusa, bool isLeft, float delayTime, float caleCnt)
 {
 	targetKusa->stopAllActions();
 	/*targetKusa->setScaleX(targetKusa->getScaleX()/ 1.25f);
 	targetKusa->setScaleY(targetKusa->getScaleX()/ 0.75f);*/
 	auto del = DelayTime::create(delayTime);
-	auto skewStartAction = SkewTo::create(0.5f, 30 * (_isLeft * -2 + 1), 0);
+	auto skewStartAction = SkewTo::create(0.3f, 30 * (isLeft * -2 + 1), 0);
 	/*targetKusa->setScaleX(targetKusa->getScaleX()* 1.25f);
 	targetKusa->setScaleY(targetKusa->getScaleX()* 0.75f);*/
 
-	float actiontime = 0.2f;
 	float kaukau = 5;
-	int actionNum = (caleCnt - delayTime) / actiontime * 2 + 1;
-	auto hihi = SkewBy::create(actiontime, kaukau * (_isLeft * -2 + 1), 0);
+	int actionNum = (caleCnt - delayTime) / ACTIONTIME * 2 + 1;
+	auto hihi	= SkewBy::create(ACTIONTIME, kaukau * (isLeft * -2 + 1), 0);
 
-	auto mimimi = SkewBy::create(actiontime, -kaukau * (_isLeft * -2 + 1), 0);
+	auto mimimi = SkewBy::create(ACTIONTIME, -kaukau * (isLeft * -2 + 1), 0);
 
-	auto mama = Sequence::create(mimimi, hihi, nullptr);
-	int repeatNum = (caleCnt - delayTime) / actiontime * 2 + 1;
-	auto rere = Repeat::create(mama, repeatNum);
+	auto mama	= Sequence::create(mimimi, hihi, nullptr);
+	int repeatNum = (caleCnt - delayTime) / ACTIONTIME * 2 + 1;
+	auto rere	= Repeat::create(mama, repeatNum);
 
-	auto seq = Sequence::create(del, skewStartAction, rere, nullptr);
+	auto func = CCCallFunc::create([=]()
+	{
+		itumonoPatapata(targetKusa, isLeft);
+	});
+	auto seq	= Sequence::create(del, skewStartAction, rere, func, nullptr);
 	targetKusa->runAction(seq);
 
 }
@@ -91,21 +87,41 @@ void StageKusa::kazePatapata(Sprite *targetKusa, bool _isLeft, float delayTime, 
 void StageKusa::kazeAtariKeisan(Vec2 touchStartPos, float windRange, float kumomoAngle, float caleCnt, int haniAngle)
 {
 	kumomoAngle = kumomoAngle > 0 ? kumomoAngle : kumomoAngle + 360;
-	haniAngle += 10;
+	haniAngle += 30;
 	for (auto kusa : _kusaSozai)
 	{
-		float kusaAngle = atan2(kusa->getPositionY() - touchStartPos.y, kusa->getPositionX() - touchStartPos.x) * 180.0f / M_PI;
+		Vec2 kusaPos = Vec2(kusa->getBoundingBox().getMidX(), kusa->getBoundingBox().getMaxY());
+		float kusaAngle = atan2(kusaPos.y + - touchStartPos.y, kusaPos.x - touchStartPos.x) * 180.0f / M_PI;
 		kusaAngle = kusaAngle > 0 ? kusaAngle : kusaAngle + 360;
 
-		if (kusaAngle >= kumomoAngle - haniAngle && kusaAngle <= kumomoAngle + haniAngle)
+		if (haniAngle  >= fabs( kumomoAngle - kusaAngle) &&
+			(windRange >= fabs(kusaPos.y - touchStartPos.y) || windRange >= fabs(kusaPos.x - touchStartPos.x) ))
 		{
-			float kusaRange = sqrt(pow(kusa->getPositionX() - touchStartPos.x, 2) + pow(kusa->getPositionY() - touchStartPos.y, 2));
+			float kusaRange = sqrt(pow(kusaPos.x - touchStartPos.x, 2) + pow(kusaPos.y - touchStartPos.y, 2));
 
 			if (kusaRange < windRange)
 			{
-				kazePatapata(kusa, kusa->getPositionX() - touchStartPos.x > 0 ? false : true, kusaRange / windRange * caleCnt, caleCnt);
+				kazePatapata(kusa, kusaPos.x - touchStartPos.x > 0 ? false : true, kusaRange / windRange * caleCnt, caleCnt);
 			}
 		}
 	}
 }
+
+void StageKusa::itumonoPatapata(Sprite * targetKusa, bool isLeft)
+{
+	targetKusa->stopAllActions();
+
+	float kaukau = 7;
+
+	auto hihi = SkewBy::create(ACTIONTIME * 2 , -kaukau * 2 * (isLeft * -2 + 1), 0);
+	auto mimi = SkewBy::create(ACTIONTIME * 2 , kaukau * 2 * (isLeft * -2 + 1), 0);
+	auto mama = Sequence::create(mimi, hihi, nullptr);
+	auto rere = Repeat::create(mama, 40);
+
+	auto setStart = SkewTo::create(1, kaukau * (isLeft * -2 + 1), 0);
+	auto eas = EaseOut::create(setStart, 1);
+	auto mamama = Sequence::create(eas, rere, nullptr);
+	targetKusa->runAction(mamama);
+}
+
 
