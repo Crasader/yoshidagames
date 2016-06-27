@@ -20,8 +20,9 @@ Stone * Stone::create()
 bool Stone::init()
 {
 	if (!Item::init())return false;
-	initWithFile("pix/stageSozai/stone.png");
-	setTextureRect(Rect(100, 100, 50, 50));
+	initWithFile("pix/stageSozai/stone2.png");
+	//setTextureRect(Rect(100, 100, 50, 50));
+	setScale(0.8);
 
 	_isWind = false;
 
@@ -37,7 +38,9 @@ bool Stone::init()
 
 void Stone::update(float dt)
 {
-	windSpeedDown();
+	//windSpeedDown();
+	speedKeisan();
+	//targetHitCheak();
 
 	if (_isWind)
 	{
@@ -64,6 +67,75 @@ void Stone::move()
 	if (getPositionY() < designResolutionSize.height * 0.16f)
 	{
 		setPositionY(designResolutionSize.height * 0.16f);
-		//allChangeReset();
 	}
+}
+
+//speed‚ÌŒvŽZ
+void Stone::speedKeisan()
+{
+	setNoOverMaxSpeed();
+
+	//d—Í‚ðƒXƒs[ƒh‚ÌŒ¸­‚É‚Ç‚Ì’ö“x”½‰f‚·‚é‚©’²®
+	int p = 6;
+
+	//y•ûŒü‚Ì‰^“®—Ê‚ÌŒvŽZ-----------------------------------------------------
+	if (!_isGoDown)	//ãŒü‚«
+	{
+		if (_speed.y > _gSpeed)
+		{
+			_speed.y += _gSpeed / p;
+		}
+		else
+		{
+			_speed.y = _gSpeed;
+			_isGoDown = true;
+		}
+	}
+	else            //‰ºŒü‚«
+	{
+		if (_speed.y < _gSpeed)
+		{
+			_speed.y -= _gSpeed / p;
+		}
+
+		else
+		{
+			_speed.y = _gSpeed;
+		}
+	}
+	//------------------------------------------------------------------------
+
+	//x•ûŒü‚Ì‰^“®—Ê‚ÌŒvŽZ-----------------------------------------------------
+	if (_speed.x != 0)
+	{
+		if (_isGoRight)
+		{
+			if (_speed.x > _gSpeed)
+			{
+				_speed.x += _gSpeed / p;
+			}
+			else
+			{
+				_speed.x = 0;
+			}
+		}
+		else
+		{
+			if (_speed.x < _gSpeed)
+			{
+				_speed.x -= _gSpeed / p;
+			}
+			else
+			{
+				_speed.x = 0;
+			}
+		}
+	}
+	//------------------------------------------------------------------------
+}
+
+void Stone::targetHitCheak()
+{  
+
+
 }

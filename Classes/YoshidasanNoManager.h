@@ -38,16 +38,16 @@ public:
 	void kazeKeisan();
 	void yoshidaCenterCall();
 	void yoshidaWatashi();
-	void yoshidaBorn();
+	void yoshidaBorn(Vec2 targetPos);
 
 	float getMaxRange();
 
 
 	Vector<Yoshidasan*> _yoshida;
 	vector<Sprite*> _syougaibutu;
-	vector<Item*> _itemArr;
+	//vector<Item*> _itemArr;
 	vector<int> _taisyouYoshida;
-	vector<int> _taisyouItem;
+	//vector<int> _taisyouItem;
 
 	StageCreater *_stageCrater;
 	Kusahayasu *_kusahayasu;

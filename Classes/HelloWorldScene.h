@@ -13,6 +13,7 @@
 #include "EffectManager.h"
 #include "YoshidaCamera.h"
 #include "Kumomo.h"
+#include "StageKusa.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -45,9 +46,11 @@ public:
 	StageCreater *_stageCreater;
 	Kusahayasu *_kusahayasu;
 	EffectManager *_effectManger;
+	ItemManager *_itemManager;
 	YoshidaCamera *_yoshidaCamera;
 	EnemyManager *_enemyManager;
 	Kumomo *_kumomo;
+	StageKusa *_stageKusa;
 
 	Sprite *_wind;
 	Vec2 _scrollMAX;

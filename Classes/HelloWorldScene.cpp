@@ -44,6 +44,9 @@ bool HelloWorld::init()
 	ki->setGlobalZOrder(-5.0f);
 	addChild(ki);
 
+	_stageKusa = StageKusa::create();
+	addChild(_stageKusa);
+	 
 	Sprite *uekibathi = Sprite::create("pix/stageSozai/uekibati.png");
 	addChild(uekibathi,1);
 	uekibathi->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -68,9 +71,15 @@ bool HelloWorld::init()
 	_yoshidaCamera->autorelease();
 	addChild(_yoshidaCamera);
 
+	_itemManager = new ItemManager();
+	_itemManager->init();
+	_itemManager->autorelease();
+	addChild(_itemManager);
+
 	_enemyManager = new EnemyManager();
 	_enemyManager->init();
 	_enemyManager->autorelease();
+	_enemyManager->_itemManager = _itemManager;
 	addChild(_enemyManager);
 
 	_yosidaManeger = new YoshidasanNoManager();
@@ -86,6 +95,7 @@ bool HelloWorld::init()
 
 	_kumomo = new Kumomo();
 	_kumomo->_yoshiMana = _yosidaManeger;
+	_kumomo->_itemManager = _itemManager;
 	_kumomo->_effectManager = _effectManger;
 	_kumomo->_kazehaniSP = kazehaniSP;
 	_kumomo->init();

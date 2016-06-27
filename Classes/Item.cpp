@@ -70,7 +70,7 @@ void Item::windSet(bool isWind, Vec2 speed)
 void Item::windStop()
 {
 	_isWind = false;
-	_speed = Vec2(0, 0);
+	//_speed = Vec2(0, 0);
 }
 
 void Item::windSpeedDown()

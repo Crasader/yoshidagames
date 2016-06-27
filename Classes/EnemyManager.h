@@ -11,6 +11,8 @@
 #include "MultiResolution.h"
 
 #include "Enemy.h"
+#include "Item.h"
+#include "ItemManager.h"
 #include "EffectManager.h"
 
 
@@ -25,10 +27,13 @@ public:
 	bool init();
 	void update(float dt);
 	void posCheck();
+	void HitCheck();
 
 	Vector<Enemy*> _enemyArr;
 	Vector<Yoshidasan*> _yoshidaArr;
 	EffectManager *_effectManager;
+	ItemManager *_itemManager;
+	//vector<Item> *_itemArr;
 
 
 };

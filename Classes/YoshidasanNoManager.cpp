@@ -1,6 +1,5 @@
 #include "YoshidasanNoManager.h"
 
-
 //YoshidasanNoManager *YoshidasanNoManager::create()
 //{
 //
@@ -30,7 +29,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_kusahayasu = kusahayasu;
 
 	//吉田さんの数
-	int yoshidaSuu = 3;
+	int yoshidaSuu = 5;
 
 	_goolRect = _stageCrater->getGoolRect();
 
@@ -40,7 +39,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		const char * yoshidaPas;
 		//吉田のステ
 		bool yankiCheck = false;
-		float gravity = -0.8f;
+		float gravity = -1.0f;
 		int maxSpeed = 8;
 		int myNo = rand() % 4;
 
@@ -87,12 +86,10 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_speedtyousei = 4.0f;
 
 	_syougaibutu = _stageCrater->getSyougaibutu();
-	_itemArr = _stageCrater->getItem();
 
 	_touchStartPos = Vec2(0, 0);
 	_yoshidaCenterPos = Vec2(0, 0);
 	_taisyouYoshida.clear();
-	_taisyouItem.clear();
 	_kumomoAngle = 0.0f;
 	_haniAngle = 0;
 
@@ -135,10 +132,6 @@ void YoshidasanNoManager::touchEndCall(int haniAngle, float windRange, float ang
 
 	angle = angle * 180 / M_PI;
 	_effectManager->kazeNagareru(_touchStartPos, windEndPos, angle, _windCallCnt);
-	for (auto item : _itemArr) 
-	{
-		//item->windStop();
-	}
 
 	for (auto yoshida : _yoshida)
 	{
@@ -150,7 +143,7 @@ void YoshidasanNoManager::yosidaLiveingCheck()
 {
 	if (_yoshida.size() == 0)
 	{
-		_kusahayasu->reStart();
+		_kusahayasu->goResult();
 	}
 }
 
@@ -371,7 +364,6 @@ void YoshidasanNoManager::kazeKeisan()
 {
 	
 	_taisyouYoshida.clear();
-	_taisyouItem.clear();
 
 	
 	//左ギリギリ上
@@ -390,18 +382,6 @@ void YoshidasanNoManager::kazeKeisan()
 				_taisyouYoshida.push_back(i);
 			}
 		}
-
-		//範囲内のアイテムの番号を取得
-		for (int i = 0; i < _itemArr.size(); i++) 
-		{
-			float itemAngle = atan2(_itemArr.at(i)->getPositionY() - _touchStartPos.y, _itemArr.at(i)->getPositionX() - _touchStartPos.x)* 180.0f / M_PI;
-
-			if ((itemAngle >= _kumomoAngle - _haniAngle && itemAngle <= _kumomoAngle + _haniAngle) ||
-				(itemAngle <= -180.0f + overAngle && itemAngle >= -180.0f))
-			{
-				_taisyouItem.push_back(i);
-			}
-		}
 	}
 
 	//左ギリギリ下
@@ -418,16 +398,6 @@ void YoshidasanNoManager::kazeKeisan()
 				_taisyouYoshida.push_back(i);
 			}
 		}
-
-		for (int i = 0; i < _itemArr.size(); i++)
-		{
-			float itemAngle = atan2(_itemArr.at(i)->getPositionY() - _touchStartPos.y, _itemArr.at(i)->getPositionX() - _touchStartPos.x)* 180.0f / M_PI;
-			if ((itemAngle >= _kumomoAngle - _haniAngle && itemAngle <= _kumomoAngle + _haniAngle) ||
-				(itemAngle >= 180.0f + overAngle && itemAngle <= 180.0f))
-			{
-				_taisyouItem.push_back(i);
-			}
-		}
 	}
 
 	//その他
@@ -441,15 +411,6 @@ void YoshidasanNoManager::kazeKeisan()
 				_taisyouYoshida.push_back(i);
 			}
 		}
-
-		for (int i = 0; i < _itemArr.size(); i++)
-		{
-			float itemAngle = atan2(_itemArr.at(i)->getPositionY() - _touchStartPos.y, _itemArr.at(i)->getPositionX() - _touchStartPos.x)* 180.0f / M_PI;
-			if (itemAngle >= _kumomoAngle - _haniAngle && itemAngle <= _kumomoAngle + _haniAngle)
-			{
-				_taisyouItem.push_back(i);
-			}
-		}
 	}
 
 
@@ -458,11 +419,6 @@ void YoshidasanNoManager::kazeKeisan()
 	{
 		//_yoshida.at(_taisyouYoshida[i])->rolling();
 		_yoshida.at(_taisyouYoshida[i])->vecKeisan(_touchStartPos, _windRange * (_windMaxTime - _windCallCnt) / _windMaxTime,_windCallCnt);
-	}
-
-	for (int i = 0; i < _taisyouItem.size(); i++)
-	{
-		_itemArr.at(_taisyouItem[i])->vecKeisan(_touchStartPos, _windRange * (_windMaxTime - _windCallCnt) / _windMaxTime, _windCallCnt);
 	}
 }
 
@@ -479,7 +435,7 @@ void YoshidasanNoManager::yoshidaCenterCall()
 	for (int i = 0; i < _yoshida.size(); i++)
 	{
 		Vec2 yoshidaPos = _yoshida.at(i)->getPosition();
-		if (yoshidaPos.x < (sinkou.x - designResolutionSize.width / 2 - 20))
+		if (yoshidaPos.x < (sinkou.x - designResolutionSize.width / 2 - 50))
 		{
 			_effectManager->watageBakusan(_yoshida.at(i)->getPosition());
 			_yoshida.at(i)->stopAllActions();
@@ -487,7 +443,7 @@ void YoshidasanNoManager::yoshidaCenterCall()
 			_yoshida.erase(_yoshida.begin() + i);
 			if (_yoshida.size() == 0)
 			{
-				_kusahayasu->reStart();
+				_kusahayasu->goResult();
 			}
 		}
 	}
@@ -500,8 +456,69 @@ void YoshidasanNoManager::yoshidaWatashi()
 	_enemyManager->_yoshidaArr = _yoshida;
 }
 
-void YoshidasanNoManager::yoshidaBorn(){
+void YoshidasanNoManager::yoshidaBorn(Vec2 targetPos)
+{
+	//何体生むのか
+	int borns = 3;
+	Vec2 bornPos = targetPos;
+	for (int i = 0; i < borns; i++)
+	{
+		const char * yoshidaPas;
+		//吉田のステ
+		bool yankiCheck = false;
+		float gravity = -1.0f;
+		int maxSpeed = 8;
+		int myNo = rand() % 4;
 
+		switch (myNo)
+		{
+		case 0://いつもの
+			yoshidaPas = "pix/actor/yoshidasan.png";
+			gravity *= 1.0f;
+			maxSpeed *= 1.0f;
+			break;
+		case 1://女
+			yoshidaPas = "pix/actor/yoshidagirl.png";
+			gravity *= 0.8f;
+			maxSpeed *= 1.1f;
+			break;
+		case 2://でぶ
+			yoshidaPas = "pix/actor/yoshidadebu.png";
+			gravity *= 1.1f;
+			maxSpeed *= 0.6f;
+			break;
+		case 3://ヤンキー
+			yoshidaPas = "pix/actor/yoshidasanyanki.png";
+			gravity *= 1.0f;
+			maxSpeed *= 0.8f;
+			yankiCheck = true;
+			break;
+		default://保険
+			yoshidaPas = "pix/actor/yoshidasan.png";
+			gravity *= 1.0f;
+			maxSpeed *= 1.0f;
+			break;
+		}
+
+		Yoshidasan *yoshida = new Yoshidasan();
+		yoshida->init(yoshidaPas, maxSpeed, gravity, yankiCheck, myNo);
+		yoshida->autorelease();
+		yoshida->setScale(0.05);
+		_yoshida.pushBack(yoshida);
+		addChild(_yoshida.at(i));
+		_yoshida.at(i)->setPosition(bornPos);
+
+
+		auto jump = JumpBy::create(
+			1.0f,          // 期間
+			Vec2(0, 150),  // 現在地からの移動量
+			200.0f,        // 高さ
+			1
+			);
+		auto grow = ScaleTo::create(3.0f,0.15f);
+		auto seq = Sequence::create(jump,grow,nullptr);
+		yoshida->runAction(seq);
+	}
 }
 
 

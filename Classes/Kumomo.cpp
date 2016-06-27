@@ -48,6 +48,9 @@ bool Kumomo::init()
 	_yoshiMana->_windMaxTime = WINDCALLMAXTIME;
 	_yoshiMana->_windMaxRange = WINDMAXRANGE;
 
+	_itemManager->_windMaxTime = WINDCALLMAXTIME;
+	_itemManager->_windMaxRange = WINDMAXRANGE;
+
 	this->scheduleUpdate();
 	return false;
 }
@@ -85,6 +88,7 @@ void Kumomo::touchEndCall(Vec2 touchPos)
 void Kumomo::yajirushiSet()
 {
 	float maxRange = _yoshiMana->getMaxRange();
+
 	//タッチしはじめと終わりのベクトルから角度を算出（右から上でひだりまでに0~+180,右から下で左までに0~-180）
 	float angle = atan2(_touchStartPos.y - _touchEndPos.y, _touchEndPos.x - _touchStartPos.x) * 180.0f / M_PI ;
 	float hani = sqrt(pow(_touchEndPos.x - _touchStartPos.x, 2) + pow(_touchEndPos.y - _touchStartPos.y, 2));
@@ -132,4 +136,5 @@ void Kumomo::kumomoGiveWind()
 	Vec2 windEndPos = Vec2(cos(angle) * windRange, sin(angle) * windRange) + _touchStartPos;
 	angle = angle * 180.0f / M_PI;
 	_yoshiMana->touchEndCall(KAZEHANIANGLE, windRange, angle, _touchStartPos, windEndPos, windCallCnt);
+	_itemManager->touchEndCall(KAZEHANIANGLE, windRange, angle, _touchStartPos, windEndPos, windCallCnt);
 }

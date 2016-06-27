@@ -26,18 +26,31 @@ class ItemManager :public Node
 public:
 	bool init();
 	void update(float dt);
+	void touchEndCall(int haniAngle, float windRange, float angle, Vec2 touchStartPos, Vec2 windEndPos, float windTime);
+	void kazeKeisan();
+	void itemCreate(Vec2 itemPos, Node target,int ItemNo);
 	//static ItemManager *create();
 
-	ItemManager* _itemManager;
+	//ItemManager* _itemManager;
 
-	Vector<Item*> _item;
+	vector<Item*> _itemArr;
 	vector<Sprite*> _syougaibutu;
 	vector<int> _taisyouItem;
 
-	bool _isTouch;
+	float _frmCount;
+	float _windRange;
+	float _speedtyousei;
+	float _windCallCnt;
+	float _windPowerBoost;
+	float _kumomoAngle;
+	float _windMaxTime;
+	float _windMaxRange;
+	Rect _goolRect;
+
+	int _haniAngle;
 
 	Vec2 _touchStartPos;
-	Vec2 _touchEndPos;
+	Vec2 _yoshidaCenterPos;
 };
 
 #endif

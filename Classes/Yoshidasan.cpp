@@ -97,7 +97,7 @@ void Yoshidasan::speedKeisan()
 	setNoOverMaxSpeed();
 
 	//重力をスピードの減少にどの程度反映するか調整
-	int p = 4;
+	int p = 6;
 
 	//y方向の運動量の計算-----------------------------------------------------
 	if (!_isGoDown)	//上向き
@@ -131,7 +131,7 @@ void Yoshidasan::speedKeisan()
 	{
 		if (_isGoRight)
 		{
-			if (_pSpeed.x > 0)
+			if (_pSpeed.x > _gSpeed)
 			{
 				_pSpeed.x += _gSpeed / p;
 			}
@@ -144,7 +144,7 @@ void Yoshidasan::speedKeisan()
 		}
 		else
 		{
-			if (_pSpeed.x < 0)
+			if (_pSpeed.x < _gSpeed)
 			{
 				_pSpeed.x -= _gSpeed / p;
 			}
