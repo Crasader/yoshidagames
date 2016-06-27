@@ -47,6 +47,8 @@ bool Kumomo::init()
 
 	_yoshiMana->_windMaxTime = WINDCALLMAXTIME;
 	_yoshiMana->_windMaxRange = WINDMAXRANGE;
+	_itemManager->_windMaxTime = WINDCALLMAXTIME;
+	_itemManager->_windMaxRange = WINDMAXRANGE;
 
 	this->scheduleUpdate();
 	return false;
@@ -132,6 +134,7 @@ void Kumomo::kumomoGiveWind()
 	Vec2 windEndPos = Vec2(cos(angle) * windRange, sin(angle) * windRange) + _touchStartPos;
 	angle = angle * 180.0f / M_PI;
 	_yoshiMana->touchEndCall(KAZEHANIANGLE, windRange, angle, _touchStartPos, windEndPos, windCallCnt);
+	_itemManager->touchEndCall(KAZEHANIANGLE, windRange, angle, _touchStartPos, windEndPos, windCallCnt);
 	_stageKusa->kazeAtariKeisan(_touchStartPos,windRange, angle, windCallCnt, KAZEHANIANGLE);
 
 }
