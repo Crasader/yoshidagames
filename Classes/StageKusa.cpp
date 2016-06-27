@@ -1,6 +1,6 @@
 #include "StageKusa.h"
 
-static float ACTIONTIME = 0.2f;
+static float ACTIONTIME = 0.3f;
 
 StageKusa * StageKusa::create()
 {
@@ -86,13 +86,12 @@ void StageKusa::kazePatapata(Sprite *targetKusa, bool isLeft, float delayTime, f
 
 void StageKusa::kazeAtariKeisan(Vec2 touchStartPos, float windRange, float kumomoAngle, float caleCnt, int haniAngle)
 {
-	kumomoAngle = kumomoAngle > 0 ? kumomoAngle : kumomoAngle + 360;
 	haniAngle += 30;
 	for (auto kusa : _kusaSozai)
 	{
 		Vec2 kusaPos = Vec2(kusa->getBoundingBox().getMidX(), kusa->getBoundingBox().getMaxY());
 		float kusaAngle = atan2(kusaPos.y + - touchStartPos.y, kusaPos.x - touchStartPos.x) * 180.0f / M_PI;
-		kusaAngle = kusaAngle > 0 ? kusaAngle : kusaAngle + 360;
+		kusaAngle += kusaAngle > 0 ? 0 : 360;
 
 		if (haniAngle  >= fabs( kumomoAngle - kusaAngle) &&
 			(windRange >= fabs(kusaPos.y - touchStartPos.y) || windRange >= fabs(kusaPos.x - touchStartPos.x) ))
@@ -111,7 +110,7 @@ void StageKusa::itumonoPatapata(Sprite * targetKusa, bool isLeft)
 {
 	targetKusa->stopAllActions();
 
-	float kaukau = 7;
+	float kaukau = 5;
 
 	auto hihi = SkewBy::create(ACTIONTIME * 2 , -kaukau * 2 * (isLeft * -2 + 1), 0);
 	auto mimi = SkewBy::create(ACTIONTIME * 2 , kaukau * 2 * (isLeft * -2 + 1), 0);

@@ -133,6 +133,7 @@ void Kumomo::kumomoGiveWind()
 	float angle = atan2(_touchEndPos.y - _touchStartPos.y, _touchEndPos.x - _touchStartPos.x);
 	Vec2 windEndPos = Vec2(cos(angle) * windRange, sin(angle) * windRange) + _touchStartPos;
 	angle = angle * 180.0f / M_PI;
+	angle += angle > 0 ? 0 : 360;
 	_yoshiMana->touchEndCall(KAZEHANIANGLE, windRange, angle, _touchStartPos, windEndPos, windCallCnt);
 	_itemManager->touchEndCall(KAZEHANIANGLE, windRange, angle, _touchStartPos, windEndPos, windCallCnt);
 	_stageKusa->kazeAtariKeisan(_touchStartPos,windRange, angle, windCallCnt, KAZEHANIANGLE);
