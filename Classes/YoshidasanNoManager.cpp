@@ -41,7 +41,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		//吉田のステ
 		bool yankiCheck = false;
 		float gravity = -0.8f;
-		int maxSpeed = 8;
+		int maxSpeed = 6;
 		int myNo = rand() % 4;
 
 		switch (myNo)
@@ -59,12 +59,12 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		case 2://でぶ
 			yoshidaPas = "pix/actor/yoshidadebu.png";
 			gravity *= 1.1f;
-			maxSpeed *= 0.6f;
+			maxSpeed *= 0.8f;
 			break;
 		case 3://ヤンキー
 			yoshidaPas = "pix/actor/yoshidasanyanki.png";
 			gravity *= 1.0f;
-			maxSpeed *= 0.8f;
+			maxSpeed *= 0.9f;
 			yankiCheck = true;
 			break;
 		default://保険
