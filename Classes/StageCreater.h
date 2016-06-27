@@ -16,6 +16,7 @@
 #include "Windmill.h"
 #include "Stone.h"
 
+#include "Item.h"
 #include "ItemManager.h"
 
 using namespace cocos2d;
@@ -30,7 +31,8 @@ public:
 	Rect getGoolRect();
 	vector<Sprite*> getSyougaibutu();
 	vector<Item*> getItem();
-
+	
+	ItemManager *_itemManager;
 	vector<Sprite*> _syougaibutu;
 	vector<Item*> _itemArr;
 };

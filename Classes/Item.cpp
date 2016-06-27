@@ -63,7 +63,7 @@ void Item::windHitMoveing()
 
 void Item::windSet(bool isWind, Vec2 speed)
 {
-	_isWind = isWind;
+	//_isWind = isWind;
 	_speed = Vec2((this->getPosition().x - speed.x), (this->getPosition().y - speed.y));
 }
 

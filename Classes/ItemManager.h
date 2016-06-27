@@ -12,7 +12,6 @@
 #include "SimpleAudioEngine.h"
 #include "MultiResolution.h"
 
-#include "StageCreater.h"
 #include "Item.h"
 #include "Windmill.h"
 #include "Stone.h"
@@ -28,10 +27,9 @@ public:
 	void update(float dt);
 	void touchEndCall(int haniAngle, float windRange, float angle, Vec2 touchStartPos, Vec2 windEndPos, float windTime);
 	void kazeKeisan();
-	void itemCreate(Vec2 itemPos, Node target,int ItemNo);
-	//static ItemManager *create();
-
-	//ItemManager* _itemManager;
+	void itemCreate(int ItemNo,Vec2 itemPos, Node *target);
+	void windmillCreate(Vec2 itemPos, Node *target);
+	void stoneCreate(Vec2 itemPos);
 
 	vector<Item*> _itemArr;
 	vector<Sprite*> _syougaibutu;

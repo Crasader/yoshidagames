@@ -4,7 +4,6 @@ USING_NS_CC;
 
 Scene* HelloWorld::createScene()
 {
-
 	auto scene = Scene::create();
 
 	// 'layer' is an autorelease object
@@ -57,9 +56,16 @@ bool HelloWorld::init()
 	addChild(_kusahayasu);
 
 	_stageCreater = new StageCreater();
+	addChild(_stageCreater);
+
+	_itemManager = new ItemManager();
+	_itemManager->init();
+	_itemManager->autorelease();
+	addChild(_itemManager);
+
+	_stageCreater->_itemManager = _itemManager;
 	_stageCreater->init(uekibathi);
 	_stageCreater->autorelease();
-	addChild(_stageCreater);
 
 	_effectManger = new EffectManager();
 	_effectManger->init();
@@ -70,11 +76,6 @@ bool HelloWorld::init()
 	_yoshidaCamera->init();
 	_yoshidaCamera->autorelease();
 	addChild(_yoshidaCamera);
-
-	_itemManager = new ItemManager();
-	_itemManager->init();
-	_itemManager->autorelease();
-	addChild(_itemManager);
 
 	_enemyManager = new EnemyManager();
 	_enemyManager->init();

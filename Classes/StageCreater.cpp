@@ -138,13 +138,8 @@ bool StageCreater::init(Sprite *uekibati)
 	addChild(gate3);
 	_syougaibutu.push_back(gate3);
 
-	Windmill *windmill1 = new Windmill();
-	windmill1->init();
-	windmill1->autorelease();
-	windmill1->setPosition(Vec2(gate->getPosition().x + gate->getBoundingBox().size.width / 2, gate->getPosition().y + gate->getBoundingBox().size.height + 30));
-	windmill1->_target = gate;
-	addChild(windmill1);
-	_itemArr.push_back(windmill1);
+	_itemManager->itemCreate(0, gate->getPosition(),gate);
+	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*0.3, designResolutionSize.height*0.18), NULL);
 
 	//.push_back(windmill1);
 	//------------------------------------------------------------------------------------------------------------------

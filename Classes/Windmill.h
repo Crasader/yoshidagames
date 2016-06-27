@@ -31,6 +31,6 @@ public:
 	//Vec2 _speed;
 	float _rotCnt;
 
-	Sprite* _target;
+	Node* _target;
 };
 #endif
