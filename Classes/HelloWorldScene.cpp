@@ -97,6 +97,7 @@ bool HelloWorld::init()
 	_kumomo->_yoshiMana = _yosidaManeger;
 	_kumomo->_itemManager = _itemManager;
 	_kumomo->_effectManager = _effectManger;
+	_kumomo->_stageKusa = _stageKusa;
 	_kumomo->_kazehaniSP = kazehaniSP;
 	_kumomo->init();
 	_kumomo->autorelease();

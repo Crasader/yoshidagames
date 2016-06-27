@@ -22,8 +22,6 @@ class Yoshidasan :public Sprite
 public:
 	virtual bool init(const char *fileName, int maxSpeed, float gravity, bool isYanki,int myNo);
 	void update(float dt);
-	//当たった時のspeed値イドウ
-	void speedChange(Vec2 plusSpeed);
 	//風からの移動量の計算
 	void vecKeisan(Vec2 touchPos,float windRange, float actionTime);
 	//speedの適用
@@ -50,9 +48,8 @@ public:
 	void allChangeReset();
 	//ゴーールした時の動き
 	void actionGoolMove(Vec2 centerPos, float dilay);
+	//風の回転
 	void kazekaiten(float actontime);
-	
-	void happaPiyon(Vec2 muki);
 
 
 	bool _isGoRight;

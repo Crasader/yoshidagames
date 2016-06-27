@@ -15,6 +15,7 @@
 #include "YoshidasanNoManager.h"
 #include "ItemManager.h"
 #include "EffectManager.h"
+#include "StageKusa.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -37,6 +38,7 @@ public:
 	YoshidasanNoManager *_yoshiMana;
 	EffectManager *_effectManager;
 	ItemManager *_itemManager;
+	StageKusa *_stageKusa;
 
 	Vec2 _touchStartPos;
 	Vec2 _touchEndPos;
