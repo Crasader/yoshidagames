@@ -84,11 +84,9 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	}
 
 	_syougaibutu = _stageCrater->getSyougaibutu();
-	_itemArr = _stageCrater->getItem();
 
 	_touchStartPos = Vec2(0, 0);
 	_yoshidaCenterPos = Vec2(0, 0);
-	_taisyouItem.clear();
 	_kumomoAngle = 0.0f;
 	_haniAngle = 0;
 
@@ -132,10 +130,6 @@ void YoshidasanNoManager::touchEndCall(int haniAngle, float windRange, float ang
 
 	angle = angle * 180 / M_PI;
 	_effectManager->kazeNagareru(_touchStartPos, windEndPos, angle, _windCallCnt);
-	for (auto item : _itemArr)
-	{
-		//item->windStop();
-	}
 
 	for (auto yoshida : _yoshida)
 	{
@@ -368,7 +362,6 @@ void YoshidasanNoManager::kazeKeisan()
 		yoshidaAngle += yoshidaAngle > 0 ? 0 : 360;
 		if (yoshidaAngle >= _kumomoAngle - _haniAngle && yoshidaAngle <= _kumomoAngle + _haniAngle)
 		{
-			
 			_yoshida.at(i)->vecKeisan(_touchStartPos, _windRange * (_windMaxTime - _windCallCnt) / _windMaxTime, _windCallCnt);
 		}
 	}
@@ -408,7 +401,18 @@ void YoshidasanNoManager::yoshidaWatashi()
 	_enemyManager->_yoshidaArr = _yoshida;
 }
 
-void YoshidasanNoManager::yoshidaBorn() {
+void YoshidasanNoManager::yoshidaBorn(Vec2 targetPos)
+{
+	/*maxSpeed *= 0.8f;
+	auto jump = JumpBy::create(
+		1.0f,        
+		Vec2(0, 150),
+		200.0f,
+		1
+		);
+	auto grow = ScaleTo::create(3.0f, 0.15f);
+	auto seq = Sequence::create(jump, grow, nullptr);
+	yoshida->runAction(seq);*/
 
 }
 

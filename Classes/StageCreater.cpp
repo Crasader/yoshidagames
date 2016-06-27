@@ -141,21 +141,13 @@ bool StageCreater::init(Sprite *uekibati)
 	Windmill *windmill1 = new Windmill();
 	windmill1->init();
 	windmill1->autorelease();
-	windmill1->setPosition(Vec2(gate->getPosition().x + gate->getBoundingBox().size.width / 2, gate->getPosition().y + gate->getBoundingBox().size.height+30));
+	windmill1->setPosition(Vec2(gate->getPosition().x + gate->getBoundingBox().size.width / 2, gate->getPosition().y + gate->getBoundingBox().size.height + 30));
 	windmill1->_target = gate;
 	addChild(windmill1);
 	_itemArr.push_back(windmill1);
+
 	//.push_back(windmill1);
 	//------------------------------------------------------------------------------------------------------------------
-
-	Stone *stone1 = new Stone();
-	stone1->init();
-	stone1->autorelease();
-	stone1->setPosition(Vec2(designResolutionSize.width*0.3f, designResolutionSize.height*0.1f));
-	addChild(stone1);
-	_itemArr.push_back(stone1);
-	_syougaibutu.push_back(stone1);
-
 
 	_syougaibutu.push_back(uekibati);
 	this->scheduleUpdate();

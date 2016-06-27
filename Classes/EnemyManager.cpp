@@ -26,6 +26,7 @@ bool EnemyManager::init()
 void EnemyManager::update(float dt)
 {
 	posCheck();
+	HitCheck();
 }
 
 void EnemyManager::posCheck() 
@@ -63,6 +64,34 @@ void EnemyManager::posCheck()
 		{
 			Vec2 yosidaTonoKyori = minYoshidaPos - enemy->getPosition();
 			enemy->_yoshidatonoAngle = atan2(yosidaTonoKyori.y, yosidaTonoKyori.x);
+		}
+	}
+}
+
+void EnemyManager::HitCheck() 
+{
+	for (int target = 0; target < _enemyArr.size(); target++)
+	{
+		Rect enemyRect = _enemyArr.at(target)->getBoundingBox();
+
+		for (auto item : _itemManager->_itemArr)
+		{
+			Rect itemRect = item->getBoundingBox();
+			if (enemyRect.intersectsRect(itemRect))
+			{
+
+				auto rot = RotateTo::create(1.0, 180);
+				auto fall = MoveTo::create(5.0, Vec2(_enemyArr.at(target)->getPosition().x, -100));
+				auto spawn = Spawn::create(rot, fall, nullptr);
+
+				auto func = CCCallFunc::create([=]()
+				{
+					_enemyArr.at(target)->removeFromParentAndCleanup(true);
+					_enemyArr.erase(_enemyArr.begin() + target);
+				});
+				auto seq = Sequence::create(spawn,func,nullptr);
+				_enemyArr.at(target)->runAction(seq);
+			}
 		}
 	}
 }

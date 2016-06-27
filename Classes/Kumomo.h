@@ -4,7 +4,6 @@
 //
 //16/05/27
 
-
 #ifndef  __Kumomo_H_
 #define  __Kumomo_H_
 

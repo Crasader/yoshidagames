@@ -46,6 +46,7 @@ public:
 	StageCreater *_stageCreater;
 	Kusahayasu *_kusahayasu;
 	EffectManager *_effectManger;
+	ItemManager *_itemManager;
 	YoshidaCamera *_yoshidaCamera;
 	EnemyManager *_enemyManager;
 	Kumomo *_kumomo;

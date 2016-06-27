@@ -71,9 +71,15 @@ bool HelloWorld::init()
 	_yoshidaCamera->autorelease();
 	addChild(_yoshidaCamera);
 
+	_itemManager = new ItemManager();
+	_itemManager->init();
+	_itemManager->autorelease();
+	addChild(_itemManager);
+
 	_enemyManager = new EnemyManager();
 	_enemyManager->init();
 	_enemyManager->autorelease();
+	_enemyManager->_itemManager = _itemManager;
 	addChild(_enemyManager);
 
 	_yosidaManeger = new YoshidasanNoManager();
@@ -89,6 +95,7 @@ bool HelloWorld::init()
 
 	_kumomo = new Kumomo();
 	_kumomo->_yoshiMana = _yosidaManeger;
+	_kumomo->_itemManager = _itemManager;
 	_kumomo->_effectManager = _effectManger;
 	_kumomo->_stageKusa = _stageKusa;
 	_kumomo->_kazehaniSP = kazehaniSP;

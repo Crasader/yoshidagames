@@ -24,7 +24,8 @@ public:
 	void windHitRotation();
 	void windHitMoveing();
 	void move();
-
+	void speedKeisan();
+	void targetHitCheak();
 
 	float _rotCnt;
 };
