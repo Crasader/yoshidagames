@@ -3,7 +3,6 @@
 
 #include "cocos2d.h"
 #include "MultiResolution.h"
-
 using namespace cocos2d;
 using namespace std;
 
@@ -14,8 +13,8 @@ public:
 	static StageKusa *create();
 	bool init();
 	void update(float dt);
-	void kazePatapata(Sprite *targetKusa, bool _isLeft);
-	void kazeAtariKeisan(Vec2 touchStartPos, float kumomoAngle, int haniAngle);
+	void kazePatapata(Sprite *targetKusa, bool _isLeft,float delayTime, float caleCnt);
+	void kazeAtariKeisan(Vec2 touchStartPos, float windRange, float kumomoAngle, float caleCnt, int haniAngle);
 	Vector<Sprite*> _kusaSozai;
 
 

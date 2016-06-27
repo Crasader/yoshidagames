@@ -90,7 +90,7 @@ bool HelloWorld::init()
 	_kumomo = new Kumomo();
 	_kumomo->_yoshiMana = _yosidaManeger;
 	_kumomo->_effectManager = _effectManger;
-	_kumomo->_stagekusa = _stageKusa;
+	_kumomo->_stageKusa = _stageKusa;
 	_kumomo->_kazehaniSP = kazehaniSP;
 	_kumomo->init();
 	_kumomo->autorelease();
