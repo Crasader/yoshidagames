@@ -52,10 +52,7 @@ public:
 	Kumomo *_kumomo;
 	StageKusa *_stageKusa;
 
-	Sprite *_wind;
-	Vec2 _scrollMAX;
-
-	void windEffect(Vec2 touchPos);
+	Vec2 _scrollMAX
 };
 
 #endif // __HELLOWORLD_SCENE_H__
