@@ -52,7 +52,7 @@ public:
 	Kumomo *_kumomo;
 	StageKusa *_stageKusa;
 
-	Vec2 _scrollMAX
+	Vec2 _scrollMAX;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

@@ -134,7 +134,7 @@ void Yoshidasan::speedKeisan()
 		}
 		else
 		{
-			if (_pSpeed.x < _gSpeed)
+			if (_pSpeed.x < -_gSpeed)
 			{
 				_pSpeed.x -= _gSpeed / p;
 			}
