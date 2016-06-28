@@ -48,7 +48,7 @@ void EnemyManager::posCheck()
 			}
 		}
 		//“G‚ÌŽ‹Šo”ÍˆÍ“à‚É“ü‚Á‚½‚ç“G‚ª“®‚«o‚·
-		int targetIn = 800;
+		int targetIn = 600;
 		if (targetIn > minVec)
 		{
 			enemy->_isMoved = true;
