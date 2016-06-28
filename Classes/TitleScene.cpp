@@ -82,7 +82,7 @@ bool TitleScene::init()
 	titleLogo->setPositionY(titleLogo->getPositionY() + designResolutionSize.height);
 	titleLogo->runAction(EaseBounceOut::create(MoveBy::create(1.0, Vec2(0, -designResolutionSize.height))));
 
-	Sprite *start = Sprite::create("pix/Title/start.png");
+	Sprite *start = Sprite::create("pix/Title/swipetostart.png");
 	start->setPosition(Vec2(designResolutionSize.width * 0.5,
 		designResolutionSize.height * 0.2));
 	start->setOpacity(0);

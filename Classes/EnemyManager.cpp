@@ -62,7 +62,7 @@ void EnemyManager::posCheck()
 				Vec2 yosidaTonoKyori = minYoshidaPos - enemy->getPosition();
 				float futarinoAngle = atan2(yosidaTonoKyori.y, yosidaTonoKyori.x);
 				futarinoAngle += futarinoAngle > 0 ? 0 : M_PI * 2;
-				futarinoAngle -= fmod(futarinoAngle , M_PI / 2) / 3.0f;
+				futarinoAngle -= fmod(futarinoAngle, M_PI / 2) / 3.0f;
 				enemy->_myAngle += enemy->_myAngle > futarinoAngle ? -bendAngle : bendAngle;
 
 			}
@@ -93,17 +93,42 @@ void EnemyManager::HitCheck()
 			if (enemyRect.intersectsRect(itemRect))
 			{
 
-				auto rot = RotateTo::create(1.0, 180);
+				/*auto rot = RotateTo::create(1.0, 180);
 				auto fall = MoveTo::create(5.0, Vec2(_enemyArr.at(target)->getPosition().x, -100));
 				auto spawn = Spawn::create(rot, fall, nullptr);
 
 				auto func = CCCallFunc::create([=]()
+				{*/
+				int kirasuu = 200;
+				float actionTime = 0.5f;
+				for (int i = 0; i < kirasuu; i++)
 				{
-					_enemyArr.at(target)->removeFromParentAndCleanup(true);
-					_enemyArr.erase(_enemyArr.begin() + target);
-				});
+					Sprite * kirakira = Sprite::create();
+					int kiraSize = random(10, 30);
+					kirakira->setTextureRect(Rect(0, 0, kiraSize, kiraSize));
+					Vec2 kirarandmPos = Vec2(random(-20, 20), random(-20, 20));
+					kirakira->setPosition(_enemyArr.at(target)->getPosition() + kirarandmPos);
+					//kirakira->setColor(Color3B(random(150,250), random(150, 250), random(150, 250)));
+					kirakira->setColor(Color3B::BLACK);
+					addChild(kirakira);
+
+					Vec2 kirakirandm = Vec2(random(-20, 20), random(-20, 20));
+					auto move = MoveBy::create(actionTime, kirakirandm);
+					auto eOutMove = EaseOut::create(move, 3);
+					auto mini = ScaleTo::create(actionTime, 0.0f);
+					auto kaiten = RotateBy::create(actionTime, 200);
+					auto mazeru = Spawn::create(eOutMove, mini, kaiten, nullptr);
+					auto desh = RemoveSelf::create();
+					auto seq = Sequence::create(mazeru, desh, nullptr);
+					kirakira->runAction(seq);
+
+
+				}
+				_enemyArr.at(target)->removeFromParentAndCleanup(true);
+				_enemyArr.erase(_enemyArr.begin() + target);
+				/*});
 				auto seq = Sequence::create(spawn, func, nullptr);
-				_enemyArr.at(target)->runAction(seq);
+				_enemyArr.at(target)->runAction(seq);*/
 			}
 		}
 	}
