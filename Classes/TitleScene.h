@@ -19,8 +19,10 @@ public:
 	static TitleScene *create();
 	virtual bool init();
 	void update(float delta);
+	void kusahayasu();
 
 	bool onTouchBegan(Touch *touch, Event *event);
+	void onTouchEnded(Touch *touch, Event *event);
 
 	void touchAction();
 
@@ -29,6 +31,10 @@ public:
 
 	Sprite *_yoshida;
 	Sprite *_kumo;
+	Sprite * _yubi;
+	Vector<Sprite*> _kusaSozai;
+
+	float _startX;
 };
 
 #endif /* defined(__Yoshida__TitleScene__) */
