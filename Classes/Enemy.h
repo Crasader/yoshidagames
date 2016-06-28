@@ -28,6 +28,7 @@ public:
 	bool _isMoved;
 	float _speed;
 	float _yoshidatonoAngle;
+	float _myAngle;
 	Vec2 _yoshidaPos;
 };
 

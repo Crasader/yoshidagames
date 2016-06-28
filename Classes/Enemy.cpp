@@ -26,6 +26,8 @@ bool Enemy::init(const char *fileName, int maxSpeed, float gravity, bool isYanki
 
 	_speed = 1.0;
 
+	_myAngle = 0.0f;
+
 	_isMoved = false;
 
 	//ステージ内での最大移動量（X方向）
@@ -46,16 +48,12 @@ void Enemy::update(float dt)
 {
 	if (!_isGool)speedKeisan();
 	if (_isWind)rotateKeisan();
-	//if(_isMoved)enemyMove();
+	if(_isMoved)enemyMove();
 }
 
 void Enemy::enemyMove() 
 {
 	Vec2 myPos = getPosition();
-	//Vec2 a = _yoshidaPos - myPos;
-	////float kyori = sqrt(pow(a.x, 2) + pow(a.y, 2));
-	//_yoshidatonoAngle = atan2(a.y, a.x);
-	Vec2 idou = Vec2(cos(_yoshidatonoAngle) * _speed, sin(_yoshidatonoAngle) * _speed);
-	//Vec2 idou = Vec2((a.x/kyori) *_speed, (a.y/kyori) * _speed);
+	Vec2 idou = Vec2(cos(_myAngle) * _speed, sin(_myAngle) * _speed);
 	setPosition(myPos + idou);
 }
