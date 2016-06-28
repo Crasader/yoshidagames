@@ -300,7 +300,8 @@ void Yoshidasan::kazekaiten(float actontime)
 	stopAllActions();
 	//rotateKeisan();
 	log("%f", 1500 * actontime);
-	auto kaiten = RotateBy::create(actontime, 500 * actontime);
+	//auto kaiten = RotateBy::create(actontime, 500 * actontime);
+	auto kaiten = RotateBy::create(1, -500);
 	auto eas = EaseOut::create(kaiten, 3);
 	auto modmod = RotateTo::create(0.1f, 0);
 	auto func = CCCallFunc::create([=]()
