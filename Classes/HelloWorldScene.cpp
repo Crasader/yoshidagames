@@ -211,30 +211,3 @@ void HelloWorld::onTouchEnded(Touch* pTouch, Event* pEvent)
 
 }
 
-void HelloWorld::windEffect(Vec2 touchPos)
-{
-	int kirakiraDeru = 8;
-	for (int i = 0; i < kirakiraDeru; i++)
-	{
-		_wind = Sprite::create();
-		_wind->setTextureRect(Rect(0, 0, 32, 32));
-		_wind->setColor(Color3B(255, 255, 100));
-		int width = 3.0 - (i * 1.5);
-		int height = 0 + (1.5 * i);
-		_wind->setPosition(Vec2(touchPos.x + width, touchPos.y + height));
-		_wind->setScale(0.3);
-		addChild(_wind);
-
-		Vec2 myVec = Vec2(width, height);
-	    float myang = myVec.getAngle() * 180 / M_PI;
-		_wind->setRotation(myang);
-
-		auto act2 = MoveBy::create(1.5f, Vec2(width * 5, height * 5));	//動く
-		auto act3 = FadeIn::create(1.5f);						//だんだん出
-		auto act4 = ScaleBy::create(1.5f, 1.3);						//大きくなる
-		auto spawn = Spawn::create(act2, act3, act4, nullptr);	// アクションを同時に実行
-		auto act5 = RemoveSelf::create();						// 自分自身を削除
-		auto sequence = Sequence::create(spawn, act5, nullptr); // アクションを順番に実行
-		_wind->runAction(sequence);
-	}
-}

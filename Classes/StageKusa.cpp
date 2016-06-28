@@ -115,12 +115,17 @@ void StageKusa::itumonoPatapata(Sprite * targetKusa, bool isLeft)
 	auto hihi = SkewBy::create(ACTIONTIME * 2 , -kaukau * 2 * (isLeft * -2 + 1), 0);
 	auto mimi = SkewBy::create(ACTIONTIME * 2 , kaukau * 2 * (isLeft * -2 + 1), 0);
 	auto mama = Sequence::create(mimi, hihi, nullptr);
-	auto rere = Repeat::create(mama, 40);
+	auto rere = Repeat::create(mama, 1);
 
 	auto setStart = SkewTo::create(1, kaukau * (isLeft * -2 + 1), 0);
 	auto eas = EaseOut::create(setStart, 1);
+	auto func = CCCallFunc::create([=]()
+	{
+		itumonoPatapata(targetKusa, isLeft);
+	});
 	auto mamama = Sequence::create(eas, rere, nullptr);
-	targetKusa->runAction(mamama);
+	auto rep = RepeatForever::create(mamama);
+	targetKusa->runAction(rep);
 }
 
 
