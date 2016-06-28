@@ -66,6 +66,8 @@ bool HelloWorld::init()
 	_stageCreater->_itemManager = _itemManager;
 	_stageCreater->init(uekibathi);
 	_stageCreater->autorelease();
+	_itemManager->_syougaibutu = _stageCreater->_syougaibutu;
+
 
 	_effectManger = new EffectManager();
 	_effectManger->init();

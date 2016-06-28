@@ -31,6 +31,7 @@ bool Stone::init()
 	_maxSpeed = 30;
 
 	_rotCnt = 0;
+	_syougaibutu.clear();
 
 	Vec2 StonePos = getPosition();
 
@@ -138,5 +139,57 @@ void Stone::speedKeisan()
 
 void Stone::targetHitCheak()
 {  
+	Rect myRect = this->getBoundingBox();
 
+	//áŠQ•¨‚Æ“–‚½‚Á‚Ä‚¢‚é‚©
+	for (auto syougaibutu : _syougaibutu)
+	{
+		Rect syougaiRect = syougaibutu->getBoundingBox();
+		Size syougaiSize = Size(syougaiRect.size.width, syougaiRect.size.height);
+		syougaiRect = Rect{ syougaiRect.getMinX() + syougaiSize.width * 0.05f,
+			syougaiRect.getMinY(),
+			syougaiSize.width - syougaiSize.width * 0.1f,
+			syougaiSize.height + 5 };
+
+		if (myRect.intersectsRect(syougaiRect))
+		{
+
+			int angleNum = 0;
+			float kyori = 100000;
+
+			if (myRect.getMinY() <= syougaiRect.getMaxY() &&			//ã
+				kyori >= syougaiRect.getMaxY() - myRect.getMinY())
+			{
+				_speed.y = _speed.y * -1;
+				angleNum = 0;
+				kyori = syougaiRect.getMaxY() - myRect.getMinY();
+			}
+
+			if (myRect.getMinX() <= syougaiRect.getMaxX() &&			//‰E
+				kyori >= syougaiRect.getMaxX() - myRect.getMinX())
+			{
+				_speed.x = _speed.x * -1;
+				angleNum = 1;
+				kyori = syougaiRect.getMaxX() - myRect.getMinX();
+			}
+
+			if (myRect.getMaxY() >= syougaiRect.getMinY() &&			//‰º
+				kyori >= myRect.getMaxY() - syougaiRect.getMinY())
+			{
+				_speed.y = _speed.y * -1;
+				angleNum = 2;
+				kyori = myRect.getMaxY() - syougaiRect.getMinY();
+			}
+
+			if (myRect.getMaxX() >= syougaiRect.getMinX() &&			//¶
+				kyori >= myRect.getMaxX() - syougaiRect.getMinX())
+			{
+				_speed.x = _speed.x * -1;
+				angleNum = 3;
+				kyori = myRect.getMaxX() - syougaiRect.getMinX();
+			}
+			//isHit = true;
+			break;
+		}
+	}
 }
