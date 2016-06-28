@@ -33,13 +33,9 @@ bool ItemManager::init()
 
 	_windRange = 0.0f;
 	_windCallCnt = 0.0f;
+	_itemArr.clear();
+	_taisyouItem.clear();
 
-	Stone *stone1 = new Stone();
-	stone1->init();
-	stone1->autorelease();
-	stone1->setPosition(Vec2(designResolutionSize.width*0.3f, designResolutionSize.height*0.3f));
-	addChild(stone1);
-	_itemArr.push_back(stone1);
 
 	this->scheduleUpdate();
 
@@ -128,32 +124,38 @@ void ItemManager::kazeKeisan()
 	}
 }
 
-void ItemManager::itemCreate(Vec2 itemPos,Node target,int ItemNo) 
+void ItemManager::itemCreate(int ItemNo, Vec2 itemPos, Node *target)
 {
-	const char * itemPas;
-	float gravity = -1.0f;
-
 	switch (ItemNo)
 	{
-	case 0://‚¢‚Â‚à‚Ì
-		itemPas = "pix/stageSozai/windmill.png";
-		gravity *= 0.0f;
+	case 0:
+		windmillCreate(itemPos, target);
 		break;
-	case 1://—
-		itemPas = "pix/actor/yoshidagirl.png";
-		gravity *= 0.8f;
+	case 1:
+		stoneCreate(itemPos);
 		break;
-	case 2://‚Å‚Ô
-		itemPas = "pix/actor/yoshidadebu.png";
-		gravity *= 1.1f;
-		break;
-	case 3://ƒ„ƒ“ƒL[
-		itemPas = "pix/actor/yoshidasanyanki.png";
-		gravity *= 1.0f;
-		break;
-	default://•ÛŒ¯
-		itemPas = "pix/actor/yoshidasan.png";
-		gravity *= 1.0f;
+	default:
 		break;
 	}
+}
+
+void ItemManager::windmillCreate(Vec2 itemPos, Node *target)
+{
+	Windmill *windmill = new Windmill();
+	windmill->_target = target;
+	windmill->init();
+	windmill->autorelease();
+	windmill->setPosition(Vec2(target->getPosition().x + target->getBoundingBox().size.width / 2, target->getPosition().y + target->getBoundingBox().size.height + 30));
+	addChild(windmill,5);
+	_itemArr.push_back(windmill);
+}
+
+void ItemManager::stoneCreate(Vec2 itemPos)
+{
+	Stone *stone = new Stone();
+	stone->init();
+	stone->autorelease();
+	stone->setPosition(Vec2(itemPos));
+	addChild(stone);
+	_itemArr.push_back(stone);
 }
