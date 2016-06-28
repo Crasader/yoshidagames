@@ -22,11 +22,13 @@ bool Stone::init()
 	if (!Item::init())return false;
 	initWithFile("pix/stageSozai/stone2.png");
 	//setTextureRect(Rect(100, 100, 50, 50));
-	setScale(0.8);
+	setScale(0.6);
 
 	_isWind = false;
 
 	_speed = Vec2(0, 0);
+
+	_maxSpeed = 30;
 
 	_rotCnt = 0;
 
@@ -41,6 +43,7 @@ void Stone::update(float dt)
 	//windSpeedDown();
 	speedKeisan();
 	//targetHitCheak();
+	move();
 
 	if (_isWind)
 	{
@@ -48,15 +51,14 @@ void Stone::update(float dt)
 	}
 }
 
-void Stone::windHitRotation()
-{
-	setRotation(getRotation() + _speed.x);
-}
-
 void Stone::windHitMoveing()
 {
 	windHitRotation();
-	move();
+}
+
+void Stone::windHitRotation()
+{
+	setRotation(getRotation() + _speed.x);
 }
 
 void Stone::move()
@@ -76,7 +78,7 @@ void Stone::speedKeisan()
 	setNoOverMaxSpeed();
 
 	//重力をスピードの減少にどの程度反映するか調整
-	int p = 6;
+	int p = 5;
 
 	//y方向の運動量の計算-----------------------------------------------------
 	if (!_isGoDown)	//上向き
@@ -136,6 +138,5 @@ void Stone::speedKeisan()
 
 void Stone::targetHitCheak()
 {  
-
 
 }

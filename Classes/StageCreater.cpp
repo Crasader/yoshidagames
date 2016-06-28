@@ -122,7 +122,7 @@ bool StageCreater::init(Sprite *uekibati)
 	//•—ŽÔ---------------------------------------------------------------------------------------------------------------
 	Sprite* gate = Sprite::create("pix/stageSozai/windmillD.png");
 	gate->setAnchorPoint(Vec2(0.0f, 0.0f));
-	gate->setPosition(Vec2(designResolutionSize.width*1.15, jimen->getBoundingBox().size.height + 100));
+	gate->setPosition(Vec2(designResolutionSize.width*0.4, jimen->getBoundingBox().size.height + 100));
 	addChild(gate,-1);
 	_syougaibutu.push_back(gate);
 

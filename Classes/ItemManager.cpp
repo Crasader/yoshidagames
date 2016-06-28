@@ -34,6 +34,7 @@ bool ItemManager::init()
 	_windRange = 0.0f;
 	_windCallCnt = 0.0f;
 	_itemArr.clear();
+	_taisyouItem.clear();
 
 
 	this->scheduleUpdate();
@@ -141,10 +142,10 @@ void ItemManager::itemCreate(int ItemNo, Vec2 itemPos, Node *target)
 void ItemManager::windmillCreate(Vec2 itemPos, Node *target)
 {
 	Windmill *windmill = new Windmill();
+	windmill->_target = target;
 	windmill->init();
 	windmill->autorelease();
 	windmill->setPosition(Vec2(target->getPosition().x + target->getBoundingBox().size.width / 2, target->getPosition().y + target->getBoundingBox().size.height + 30));
-	windmill->_target = target;
 	addChild(windmill,5);
 	_itemArr.push_back(windmill);
 }
