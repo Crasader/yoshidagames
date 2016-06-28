@@ -16,7 +16,7 @@ bool EnemyManager::init()
 	addChild(enemy);
 	_enemyArr.pushBack(enemy);
 	enemy->setPosition(designResolutionSize.width, designResolutionSize.height * 0.9f);
-	
+
 	// updateを毎フレーム実行するように登録する
 	this->scheduleUpdate();
 
@@ -29,9 +29,9 @@ void EnemyManager::update(float dt)
 	HitCheck();
 }
 
-void EnemyManager::posCheck() 
+void EnemyManager::posCheck()
 {
-	for (auto enemy : _enemyArr) 
+	for (auto enemy : _enemyArr)
 	{
 		Vec2 enemyPos = enemy->getPosition();
 		float minVec = 20000;
@@ -48,27 +48,40 @@ void EnemyManager::posCheck()
 			}
 		}
 		//敵の視覚範囲内に入ったら敵が動き出す
-		float targetIn = 800;
-		if (minYoshidaPos.x < enemyPos.x + targetIn && minYoshidaPos.x > enemyPos.x - targetIn)
+		int targetIn = 800;
+		if (targetIn > minVec)
 		{
 			enemy->_isMoved = true;
+			//近くに行くまでホーミングをやる
+			int tikasugiDame = 100;
+			if (minVec > tikasugiDame)
+			{
+				//一フレームに曲げる角度 : (M_PI / 180) 一度
+				float bendAngle = (M_PI / 180);
+				//Vec2 yosidaTonoKyori = enemy->getPosition() - minYoshidaPos;
+				Vec2 yosidaTonoKyori = minYoshidaPos - enemy->getPosition();
+				float futarinoAngle = atan2(yosidaTonoKyori.y, yosidaTonoKyori.x);
+				futarinoAngle += futarinoAngle > 0 ? 0 : M_PI * 2;
+				futarinoAngle -= fmod(futarinoAngle , M_PI / 2) / 3.0f;
+				enemy->_myAngle += enemy->_myAngle > futarinoAngle ? -bendAngle : bendAngle;
+
+			}
 		}
-		else 
+		else
 		{
 			enemy->_isMoved = false;
+			//Vec2 yosidaTonoKyori = enemy->getPosition() - minYoshidaPos;
+			Vec2 yosidaTonoKyori = minYoshidaPos - enemy->getPosition();
+			float futarinoAngle = atan2(yosidaTonoKyori.y, yosidaTonoKyori.x);
+			futarinoAngle += futarinoAngle > 0 ? 0 : M_PI * 2;
+			enemy->_myAngle = futarinoAngle;
 		}
 
-		//近くに行くとホーミングをやめる
-		float tikasugiDame = 200;
-		if (minVec > tikasugiDame)
-		{
-			Vec2 yosidaTonoKyori = minYoshidaPos - enemy->getPosition();
-			enemy->_yoshidatonoAngle = atan2(yosidaTonoKyori.y, yosidaTonoKyori.x);
-		}
+
 	}
 }
 
-void EnemyManager::HitCheck() 
+void EnemyManager::HitCheck()
 {
 	for (int target = 0; target < _enemyArr.size(); target++)
 	{
@@ -89,7 +102,7 @@ void EnemyManager::HitCheck()
 					_enemyArr.at(target)->removeFromParentAndCleanup(true);
 					_enemyArr.erase(_enemyArr.begin() + target);
 				});
-				auto seq = Sequence::create(spawn,func,nullptr);
+				auto seq = Sequence::create(spawn, func, nullptr);
 				_enemyArr.at(target)->runAction(seq);
 			}
 		}

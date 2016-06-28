@@ -2,7 +2,7 @@
 
 static const int KAZEHANIANGLE = 30;
 static const float WINDMAXRANGE = 500.0f;//•—‚ÌÅ‘å”ÍˆÍ
-static const float WINDCALLMAXTIME = 0.5f;//•—‚ª—¬‚êØ‚é‚Ü‚Å‚ÌÅ‘åŠÔ
+static const float WINDCALLMAXTIME = 1.0f;//•—‚ª—¬‚êØ‚é‚Ü‚Å‚ÌÅ‘åŠÔ
 
 
 Kumomo * Kumomo::create()

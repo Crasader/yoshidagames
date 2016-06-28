@@ -39,7 +39,6 @@ bool Yoshidasan::init(const char *fileName, int maxSpeed, float gravity, bool is
 void Yoshidasan::update(float dt)
 {
 	if (!_isGool)speedKeisan();
-	//if (_isWind)rotateKeisan();
 	move();
 }
 
@@ -152,7 +151,7 @@ void Yoshidasan::speedKeisan()
 //rotateの計算
 void Yoshidasan::rotateKeisan()
 {
-	//自分の角度をspeedのベクトルから計算して適用　度 = ラジアン × 180 ÷ 円周率 + 90
+	//自分の角度をspeedのベクトルから計算して適用　度 = ラジアン × 180 ÷ 円周率
 	setRotation((atan2(_pSpeed.y, _pSpeed.x) * 180.0f / M_PI) + 90);
 	bool xBool = false;
 	if (_isYanki) xBool = _isGoRight == _isGoDown;
@@ -299,13 +298,15 @@ void Yoshidasan::kazekaiten(float actontime)
 {
 	_isWind = true;
 	stopAllActions();
-	rotateKeisan();
-	auto kaiten = RotateBy::create(actontime, 720 * actontime);
+	//rotateKeisan();
+	log("%f", 1500 * actontime);
+	auto kaiten = RotateBy::create(actontime, 500 * actontime);
 	auto eas = EaseOut::create(kaiten, 3);
 	auto modmod = RotateTo::create(0.1f, 0);
 	auto func = CCCallFunc::create([=]()
 	{
 		_isWind = false;
+		
 	});
 	auto seq = Sequence::create(eas, modmod, func, nullptr);
 	runAction(seq);

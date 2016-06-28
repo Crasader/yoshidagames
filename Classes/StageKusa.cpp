@@ -90,7 +90,7 @@ void StageKusa::kazeAtariKeisan(Vec2 touchStartPos, float windRange, float kumom
 	for (auto kusa : _kusaSozai)
 	{
 		Vec2 kusaPos = Vec2(kusa->getBoundingBox().getMidX(), kusa->getBoundingBox().getMaxY());
-		float kusaAngle = atan2(kusaPos.y + - touchStartPos.y, kusaPos.x - touchStartPos.x) * 180.0f / M_PI;
+		float kusaAngle = atan2(kusaPos.y - touchStartPos.y, kusaPos.x - touchStartPos.x) * 180.0f / M_PI;
 		kusaAngle += kusaAngle > 0 ? 0 : 360;
 
 		if (haniAngle  >= fabs( kumomoAngle - kusaAngle) &&
