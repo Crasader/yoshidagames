@@ -92,7 +92,6 @@ void EnemyManager::HitCheck()
 			Rect itemRect = item->getBoundingBox();
 			if (enemyRect.intersectsRect(itemRect))
 			{
-
 				auto rot = RotateTo::create(1.0, 180);
 				auto fall = MoveTo::create(5.0, Vec2(_enemyArr.at(target)->getPosition().x, -100));
 				auto spawn = Spawn::create(rot, fall, nullptr);

@@ -14,6 +14,7 @@
 #include "Item.h"
 
 using namespace cocos2d;
+using namespace std;
 
 class Stone : public Item
 {
@@ -28,5 +29,6 @@ public:
 	void targetHitCheak();
 
 	float _rotCnt;
+	vector<Sprite*> _syougaibutu;
 };
 #endif

@@ -36,7 +36,6 @@ bool ItemManager::init()
 	_itemArr.clear();
 	_taisyouItem.clear();
 
-
 	this->scheduleUpdate();
 
 	return true;
@@ -155,6 +154,7 @@ void ItemManager::stoneCreate(Vec2 itemPos)
 	Stone *stone = new Stone();
 	stone->init();
 	stone->autorelease();
+	stone->_syougaibutu = _syougaibutu;
 	stone->setPosition(Vec2(itemPos));
 	addChild(stone);
 	_itemArr.push_back(stone);

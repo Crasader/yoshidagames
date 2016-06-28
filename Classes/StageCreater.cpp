@@ -119,6 +119,22 @@ bool StageCreater::init(Sprite *uekibati)
 	addChild(windmillBord);
 	_syougaibutu.push_back(windmillBord);
 
+	Sprite* swipeBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
+	swipeBordBar->setScale(1.0);
+	swipeBordBar->setAnchorPoint(Vec2(0.0f, 0.0f));
+	//windmillBord->setRotation(10);
+	swipeBordBar->setPosition(Vec2(designResolutionSize.width*0.2, jimen->getBoundingBox().size.height - 20));
+	addChild(swipeBordBar);
+	_syougaibutu.push_back(swipeBordBar);
+
+	Sprite* swipeBord = Sprite::create("pix/stageSozai/swipeBoardB.png");
+	swipeBord->setScale(1.0);
+	swipeBord->setAnchorPoint(Vec2(0.0f, 0.0f));
+	//windmillBord->setRotation(10);
+	swipeBord->setPosition(Vec2(swipeBordBar->getPosition() + Vec2(-swipeBord->getBoundingBox().size.width*0.5 + swipeBordBar->getBoundingBox().size.width*0.5, swipeBordBar->getBoundingBox().size.height*0.6)));
+	addChild(swipeBord);
+	_syougaibutu.push_back(swipeBord);
+
 	//•—ŽÔ---------------------------------------------------------------------------------------------------------------
 	Sprite* gate = Sprite::create("pix/stageSozai/windmillD.png");
 	gate->setAnchorPoint(Vec2(0.0f, 0.0f));

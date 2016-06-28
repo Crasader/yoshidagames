@@ -369,8 +369,10 @@ void YoshidasanNoManager::kazeKeisan()
 void YoshidasanNoManager::yoshidaCenterCall()
 {
 	_yoshidaCenterPos = Vec2(0, 0);
+
 	Vec2 sinkou = _yoshidaCamera->getPosition();
 	float torima = 0;
+
 	for (int i = 0; i < _yoshida.size(); i++)
 	{
 		_yoshidaCenterPos += _yoshida.at(i)->getPosition();
@@ -379,7 +381,8 @@ void YoshidasanNoManager::yoshidaCenterCall()
 	for (int i = 0; i < _yoshida.size(); i++)
 	{
 		Vec2 yoshidaPos = _yoshida.at(i)->getPosition();
-		if (yoshidaPos.x < (sinkou.x - designResolutionSize.width / 2 - 20))
+
+		if (yoshidaPos.x < (sinkou.x - designResolutionSize.width / 2))
 		{
 			_effectManager->watageBakusan(_yoshida.at(i)->getPosition());
 			_yoshida.at(i)->stopAllActions();

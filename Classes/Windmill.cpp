@@ -47,19 +47,19 @@ void Windmill::windHitMoveing(float num)
 {
 	Vec2 targetPos = _target->getPosition();
 
+	if (targetPos.y > designResolutionSize.height*0.8)
+	{
+		targetPos.y = designResolutionSize.height*0.8;
+	}
+
+	if (targetPos.y < _startPos.y)
+	{
+		targetPos.y = _startPos.y;
+	}
+
 	if (targetPos.y <= designResolutionSize.height*0.8 && targetPos.y >= _startPos.y)
 	{
 		_target->setPosition(Vec2(targetPos.x, targetPos.y + 0.5 * num));
-	
-		if (targetPos.y > designResolutionSize.height*0.8)
-		{
-			targetPos.y = designResolutionSize.height*0.8;
-		}
-
-		if (targetPos.y < _startPos.y)
-		{
-			targetPos.y = _startPos.y;
-		}
 	}
 }
 

@@ -13,9 +13,6 @@
 #include "SimpleAudioEngine.h"
 #include "MultiResolution.h"
 
-#include "Windmill.h"
-#include "Stone.h"
-
 #include "Item.h"
 #include "ItemManager.h"
 
