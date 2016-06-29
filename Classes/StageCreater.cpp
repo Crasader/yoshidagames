@@ -80,12 +80,14 @@ bool StageCreater::init(Sprite *uekibati)
 	Sprite *jimen = Sprite::create("pix/stageSozai/ground.png");
 	jimen->setAnchorPoint(Vec2(0.0f, 0.0f));
 	addChild(jimen,5);
+	jimen->setTag(5);
 	_syougaibutu.push_back(jimen);
 
 	Sprite *jimen2 = Sprite::create("pix/stageSozai/ground.png");
 	jimen2->setAnchorPoint(Vec2(0.0f, 0.0f));
 	jimen2->setPosition(Vec2(jimen->getBoundingBox().size.width, 0));
 	addChild(jimen2,5);
+	jimen->setTag(5);
 	_syougaibutu.push_back(jimen2);
 
 	/*Sprite *ueki = Sprite::create("pix/stageSozai/uekibati.png");
@@ -154,6 +156,7 @@ bool StageCreater::init(Sprite *uekibati)
 	addChild(gate3);
 	_syougaibutu.push_back(gate3);
 
+	_itemManager->_syougaibutu = _syougaibutu;
 	_itemManager->itemCreate(0, gate->getPosition(),gate);
 	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*0.3, designResolutionSize.height*0.18), NULL);
 
