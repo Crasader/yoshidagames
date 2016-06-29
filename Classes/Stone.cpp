@@ -43,7 +43,7 @@ void Stone::update(float dt)
 {
 	//windSpeedDown();
 	speedKeisan();
-	//targetHitCheak();
+	targetHitCheak();
 	move();
 
 	if (_isWind)
@@ -144,6 +144,7 @@ void Stone::targetHitCheak()
 	//áŠQ•¨‚Æ“–‚½‚Á‚Ä‚¢‚é‚©
 	for (auto syougaibutu : _syougaibutu)
 	{
+		//if (syougaibutu->getTag() == 5)continue;
 		Rect syougaiRect = syougaibutu->getBoundingBox();
 		Size syougaiSize = Size(syougaiRect.size.width, syougaiRect.size.height);
 		syougaiRect = Rect{ syougaiRect.getMinX() + syougaiSize.width * 0.05f,
@@ -153,43 +154,57 @@ void Stone::targetHitCheak()
 
 		if (myRect.intersectsRect(syougaiRect))
 		{
-
 			int angleNum = 0;
 			float kyori = 100000;
 
 			if (myRect.getMinY() <= syougaiRect.getMaxY() &&			//ã
 				kyori >= syougaiRect.getMaxY() - myRect.getMinY())
 			{
-				_speed.y = _speed.y * -1;
-				angleNum = 0;
+				angleNum = 1;
 				kyori = syougaiRect.getMaxY() - myRect.getMinY();
 			}
 
 			if (myRect.getMinX() <= syougaiRect.getMaxX() &&			//‰E
 				kyori >= syougaiRect.getMaxX() - myRect.getMinX())
 			{
-				_speed.x = _speed.x * -1;
-				angleNum = 1;
+				angleNum = 2;
 				kyori = syougaiRect.getMaxX() - myRect.getMinX();
 			}
 
 			if (myRect.getMaxY() >= syougaiRect.getMinY() &&			//‰º
 				kyori >= myRect.getMaxY() - syougaiRect.getMinY())
 			{
-				_speed.y = _speed.y * -1;
-				angleNum = 2;
+				angleNum = 3;
 				kyori = myRect.getMaxY() - syougaiRect.getMinY();
 			}
 
 			if (myRect.getMaxX() >= syougaiRect.getMinX() &&			//¶
 				kyori >= myRect.getMaxX() - syougaiRect.getMinX())
 			{
-				_speed.x = _speed.x * -1;
-				angleNum = 3;
+				angleNum = 4;
 				kyori = myRect.getMaxX() - syougaiRect.getMinX();
 			}
+
+			switch (angleNum)
+			{
+			case 1://ã
+				this->setPosition(Vec2(this->getPosition().x, this->getPosition().y + kyori));
+				break;
+			case 2://‰E
+				this->setPosition(Vec2(this->getPosition().x + kyori, this->getPosition().y));
+				break;
+			case 3://‰º
+				this->setPosition(Vec2(this->getPosition().x, this->getPosition().y - kyori));
+				break;
+			case 4://¶
+				this->setPosition(Vec2(this->getPosition().x - kyori, this->getPosition().y));
+				break;
+
+			default:
+				break;
+			}
 			//isHit = true;
-			break;
+			//break;
 		}
 	}
 }

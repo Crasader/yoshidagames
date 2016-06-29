@@ -59,7 +59,7 @@ void Windmill::windHitMoveing(float num)
 
 	if (targetPos.y <= designResolutionSize.height*0.8 && targetPos.y >= _startPos.y)
 	{
-		_target->setPosition(Vec2(targetPos.x, targetPos.y + 0.5 * num));
+		_target->setPosition(Vec2(targetPos.x, targetPos.y + 1.0 * num));
 	}
 }
 
