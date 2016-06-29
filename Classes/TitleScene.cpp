@@ -214,7 +214,8 @@ void TitleScene::touchAction()
 		{
 			if (!_isChangeScene)
 			{
-				Director::getInstance()->replaceScene(TransitionFade::create(1.0f, HelloWorld::createScene()));
+				Director::getInstance()->replaceScene(TransitionFade::create(1.0f, HelloWorld::createScene(0)));
+				Director::getInstance()->replaceScene(TransitionFade::create(1.0f, SelectScene::createScene()));
 			}
 		}
 		);

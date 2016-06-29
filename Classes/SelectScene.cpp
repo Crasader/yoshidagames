@@ -138,7 +138,7 @@ void SelectScene::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event)
 				Rect ueRect = _uekibati[i]->getBoundingBox();
 				if (ueRect.intersectsRect(yoshiRect))
 				{
-					Director::getInstance()->replaceScene(TransitionFade::create(1.0f, HelloWorld::createScene()));
+					Director::getInstance()->replaceScene(TransitionFade::create(1.0f, HelloWorld::createScene(i)));
 				}
 			}
 		});
