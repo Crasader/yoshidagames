@@ -18,7 +18,14 @@ public:
 	void update(float delta);
 
 	bool onTouchBegan(Touch *touch, Event *event);
+	void onTouchMoved(Touch *touch, Event *event);
 	void onTouchEnded(Touch *touch, Event *event);
+
+	vector<Sprite*> _uekibati;
+	Sprite * _yoshida;
+	Sprite * _kumomo;
+
+	Vec2 _touchStartPos;
 };
 
 #endif /* defined(__Yoshida__SelectScene__) */

@@ -25,8 +25,6 @@ bool HelloWorld::init()
 	{
 		return false;
 	}
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	_backGround = Sprite::create("pix/buck/stage.png");
 	_backGround->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -210,4 +208,5 @@ void HelloWorld::onTouchEnded(Touch* pTouch, Event* pEvent)
 	_kumomo->touchEndCall(touchPos);
 
 }
+
 
