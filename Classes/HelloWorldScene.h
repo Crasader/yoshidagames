@@ -39,8 +39,6 @@ public:
 	virtual void onTouchMoved(cocos2d::Touch* pTouch, cocos2d::Event* pEvent);
 	virtual void onTouchEnded(cocos2d::Touch* pTouch, cocos2d::Event* pEvent);
 
-
-	Sprite *_backGround;
 	StageCreater *_stageCreater;
 	Kusahayasu *_kusahayasu;
 	EffectManager *_effectManger;

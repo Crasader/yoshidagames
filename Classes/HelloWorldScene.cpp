@@ -38,15 +38,32 @@ bool HelloWorld::init(int StageNum)
 	}
 
 	_stageNum = StageNum;
-	_backGround = Sprite::create("pix/buck/stage.png");
-	_backGround->setAnchorPoint(Vec2(0.0f, 0.0f));
-	_backGround->setGlobalZOrder(-10.0f);
-	addChild(_backGround);
+	log("kokomite%d", _stageNum);
 
-	Sprite *backGround2 = Sprite::create("pix/buck/stage.png");
-	backGround2->setAnchorPoint(Vec2(0.0f, 0.0f));
-	backGround2->setPosition(Vec2(_backGround->getBoundingBox().size.width, 0));
-	addChild(backGround2);
+	switch (_stageNum)
+	{
+	case 0:
+		_scrollMAX = Vec2(designResolutionSize.width, designResolutionSize.height);
+		break;
+	case 1:
+		_scrollMAX = Vec2(designResolutionSize.width * 3, designResolutionSize.height);
+		break;
+	case 2:
+		_scrollMAX = Vec2(designResolutionSize.width * 4, designResolutionSize.height);
+		break;
+	default:
+		_scrollMAX = Vec2(designResolutionSize.width, designResolutionSize.height);
+		break;
+	}
+
+	for (int i = 0; i <= (_scrollMAX.x / designResolutionSize.width); i++)
+	{
+		Sprite *backGround = Sprite::create("pix/buck/stage.png");
+		backGround->setAnchorPoint(Vec2(0.0f, 0.0f));
+		backGround->setPosition(Vec2(backGround->getBoundingBox().size.width*i, 0));
+		backGround->setGlobalZOrder(-10.0f);
+		addChild(backGround);
+	}
 
 	Sprite *ki = Sprite::create("pix/buck/ki.png");
 	ki->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -63,12 +80,12 @@ bool HelloWorld::init(int StageNum)
 	_stageKusa->init();
 	_stageKusa->autorelease();
 	addChild(_stageKusa);
-	 
+
 	Sprite *uekibathi = Sprite::create("pix/stageSozai/uekibati.png");
-	addChild(uekibathi,1);
+	addChild(uekibathi, 1);
 	uekibathi->setAnchorPoint(Vec2(0.0f, 0.0f));
 	uekibathi->setScale(0.7f);
-	uekibathi->setPosition(Vec2(designResolutionSize.width*1.5f, designResolutionSize.height*0.24f));
+	uekibathi->setPosition(Vec2(_scrollMAX.x - designResolutionSize.width/2, designResolutionSize.height*0.24f));
 
 	_kusahayasu = Kusahayasu::create();
 	addChild(_kusahayasu);
@@ -82,7 +99,7 @@ bool HelloWorld::init(int StageNum)
 	addChild(_itemManager);
 
 	_stageCreater->_itemManager = _itemManager;
-	_stageCreater->init(uekibathi,_stageNum);
+	_stageCreater->init(uekibathi, _stageNum);
 	_stageCreater->autorelease();
 
 
@@ -91,7 +108,7 @@ bool HelloWorld::init(int StageNum)
 	_effectManger->autorelease();
 	addChild(_effectManger);
 
-	
+
 
 	_enemyManager = new EnemyManager();
 	_enemyManager->_itemManager = _itemManager;
@@ -120,7 +137,7 @@ bool HelloWorld::init(int StageNum)
 	_kumomo->init();
 	_kumomo->autorelease();
 	addChild(_kumomo);
-	
+
 
 	// タッチイベントを有効にする
 	auto listener = EventListenerTouchOneByOne::create();
@@ -131,8 +148,7 @@ bool HelloWorld::init(int StageNum)
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
 	//playerの移動に画面がついていく
-	_scrollMAX = Vec2(designResolutionSize.width * 2, designResolutionSize.height);
-	this->runAction(Follow::create(_yoshidaCamera, Rect(0, 0,_scrollMAX.x,_scrollMAX.y)));
+	this->runAction(Follow::create(_yoshidaCamera, Rect(0, 0, _scrollMAX.x, _scrollMAX.y)));
 	_yoshidaCamera->_scrollMAX = _scrollMAX;
 	this->scheduleUpdate();
 
@@ -156,24 +172,26 @@ bool HelloWorld::onTouchBegan(Touch* pTouch, Event* pEvent)
 	Vec2 touchPos = pTouch->getLocation();
 	Vec2 yoshidaPos = _yoshidaCamera->getPosition();
 
-	if (yoshidaPos.x >= designResolutionSize.width / 2)
+	if (_scrollMAX != Vec2(designResolutionSize.width, designResolutionSize.height))
 	{
-		touchPos.x += (yoshidaPos.x - designResolutionSize.width / 2);
-	}
-	if (yoshidaPos.x >= designResolutionSize.width*1.5)
-	{
-		touchPos.x -= yoshidaPos.x - designResolutionSize.width*1.5;
-	}
-	
-	if((touchPos.x <= 50) && (touchPos.y <= 50))Director::getInstance()->replaceScene(HelloWorld::createScene(0));
+		if (yoshidaPos.x >= designResolutionSize.width / 2)
+		{
+			touchPos.x += (yoshidaPos.x - designResolutionSize.width / 2);
+		}
 
-	if (_yoshidaCamera->_isMoved == false) 
-	{
-		_yoshidaCamera->_isMoved = true;
+		if (yoshidaPos.x >= (_scrollMAX.x - designResolutionSize.width / 2))
+		{
+			touchPos.x -= yoshidaPos.x - (_scrollMAX.x - designResolutionSize.width / 2);
+		}
 	}
 
+	if ((touchPos.x <= 50) && (touchPos.y <= 50))Director::getInstance()->replaceScene(HelloWorld::createScene(0));
+		if (_yoshidaCamera->_isMoved == false)
+		{
+			_yoshidaCamera->_isMoved = true;
+		}
 	_kumomo->touchStartCall(touchPos);
-	
+
 	return true;
 }
 
@@ -185,13 +203,16 @@ void HelloWorld::onTouchMoved(Touch* pTouch, Event* pEvent)
 	Vec2 touchPos = pTouch->getLocation();
 	Vec2 yoshidaPos = _yoshidaCamera->getPosition();
 
-	if (yoshidaPos.x >= designResolutionSize.width / 2)
+	if (_scrollMAX != Vec2(designResolutionSize.width, designResolutionSize.height))
 	{
-		touchPos.x += (yoshidaPos.x - designResolutionSize.width / 2);
-	}
-	if (yoshidaPos.x >= designResolutionSize.width*1.5)
-	{
-		touchPos.x -= yoshidaPos.x - designResolutionSize.width*1.5;
+		if (yoshidaPos.x >= designResolutionSize.width / 2)
+		{
+			touchPos.x += yoshidaPos.x - designResolutionSize.width / 2;
+		}
+		if (yoshidaPos.x >= _scrollMAX.x - designResolutionSize.width / 2)
+		{
+			touchPos.x -= yoshidaPos.x - (_scrollMAX.x - designResolutionSize.width / 2);
+		}
 	}
 
 	_kumomo->touchCall(touchPos);
@@ -205,17 +226,18 @@ void HelloWorld::onTouchEnded(Touch* pTouch, Event* pEvent)
 	Vec2 touchPos = pTouch->getLocation();
 	Vec2 yoshidaPos = _yoshidaCamera->getPosition();
 
-	if (yoshidaPos.x >= designResolutionSize.width / 2)
+	if (_scrollMAX != Vec2(designResolutionSize.width, designResolutionSize.height))
 	{
-		touchPos.x += (yoshidaPos.x - designResolutionSize.width / 2);
-	}
-	if (yoshidaPos.x >= designResolutionSize.width*1.5)
-	{
-		touchPos.x -= yoshidaPos.x - designResolutionSize.width*1.5;
+		if (yoshidaPos.x >= designResolutionSize.width / 2)
+		{
+			touchPos.x += (yoshidaPos.x - designResolutionSize.width / 2);
+		}
+		if (yoshidaPos.x >= _scrollMAX.x - designResolutionSize.width / 2)
+		{
+			touchPos.x -= yoshidaPos.x - (_scrollMAX.x - designResolutionSize.width/2);
+		}
 	}
 
 	_kumomo->touchEndCall(touchPos);
 
 }
-
-
