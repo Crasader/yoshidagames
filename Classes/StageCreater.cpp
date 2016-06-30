@@ -57,10 +57,10 @@ bool StageCreater::init(Sprite *uekibati, int stagenum)
 		createStagePart0();
 		break;
 	case 1:
-		createStagePart1();
+		//createStagePart1();
 		break;
 	case 2:
-		createStagePart2();
+		//createStagePart2();
 		break;
 	default:
 		break;
@@ -158,7 +158,6 @@ void StageCreater::createStagePart0()
 	_itemManager->itemCreate(0, gate->getPosition(), gate);
 	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*0.3, designResolutionSize.height*0.18), NULL);
 
-	//.push_back(windmill1);
 	//------------------------------------------------------------------------------------------------------------------
 
 }

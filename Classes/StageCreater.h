@@ -29,8 +29,8 @@ public:
 	vector<Sprite*> getSyougaibutu();
 	vector<Item*> getItem();
 	void createStagePart0();
-	void createStagePart1();
-	void createStagePart2();
+	//void createStagePart1();
+	//void createStagePart2();
 
 	float _jimenHight;
 	ItemManager *_itemManager;
