@@ -38,7 +38,6 @@ bool HelloWorld::init(int StageNum)
 	}
 
 	_stageNum = StageNum;
-	log("%d", _stageNum);
 	_backGround = Sprite::create("pix/buck/stage.png");
 	_backGround->setAnchorPoint(Vec2(0.0f, 0.0f));
 	_backGround->setGlobalZOrder(-10.0f);
@@ -95,9 +94,10 @@ bool HelloWorld::init(int StageNum)
 	
 
 	_enemyManager = new EnemyManager();
+	_enemyManager->_itemManager = _itemManager;
+	_enemyManager->_syougaibutu = _stageCreater;
 	_enemyManager->init();
 	_enemyManager->autorelease();
-	_enemyManager->_itemManager = _itemManager;
 	addChild(_enemyManager);
 
 	_yosidaManeger = new YoshidasanNoManager();
