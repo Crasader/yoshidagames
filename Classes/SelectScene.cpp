@@ -46,6 +46,17 @@ bool SelectScene::init()
 	jimen->setAnchorPoint(Vec2(0.0f, 0.0f));
 	addChild(jimen, 5);
 
+
+	Sprite *kanban = Sprite::create("pix/stageSozai/StageSelect.png");
+	//kanban->setAnchorPoint(Vec2(0.0f, 0.0f));
+	kanban->setPosition(Vec2(designResolutionSize.width / 2, designResolutionSize.height*0.8));
+	addChild(kanban);
+	
+	Sprite *bo = Sprite::create("pix/stageSozai/swipeBoardB.png");
+	bo->setPosition(Vec2(designResolutionSize.width * 0.1, designResolutionSize.height*0.85));
+	bo->setRotation(-30);
+	addChild(bo);
+
 	_yoshida = Sprite::create("pix/actor/yoshidasan.png");
 	addChild(_yoshida);
 	_yoshida->setScale(0.3f);
@@ -55,8 +66,9 @@ bool SelectScene::init()
 
 	_uekibati.clear();
 	for (int i = 0; i < 3; i++)
-	{
-		Sprite *ueki = Sprite::create("pix/stageSozai/uekibati.png");
+	{	
+		String* StageNo = String::createWithFormat("pix/stageSozai/Stage%d.png",i+1);
+		Sprite *ueki = Sprite::create(StageNo->getCString());
 		addChild(ueki);
 		ueki->setAnchorPoint(Vec2(0.0f, 0.0f));
 		ueki->setPosition(Vec2(designResolutionSize.width*(0.1f + 0.3f * i),jimen->getBoundingBox().getMaxY() - 30));
