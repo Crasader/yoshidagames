@@ -30,7 +30,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_kusahayasu = kusahayasu;
 
 	//‹g“c‚³‚ñ‚Ì”
-	int yoshidaSuu = 30;
+	int yoshidaSuu = 1;
 
 	_goolRect = _stageCrater->getGoolRect();
 
@@ -40,7 +40,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 		const char * yoshidaPas;
 		//‹g“c‚ÌƒXƒe
 		bool yankiCheck = false;
-		float gravity = -0.8f;
+		float gravity = -0.5f;
 		int maxSpeed = 6;
 		int myNo = rand() % 4;
 
