@@ -1,24 +1,27 @@
 #include "EnemyManager.h"
 
-bool EnemyManager::init()
+bool EnemyManager::init(int stageNum)
 {
 	if (!Node::init())return false;
 
-	const char *enemyPas = "pix/actor/yoshidateki.png";
-	float gravity = 0.0f;
-	int maxSpeed = 10;
-	bool yankiCheck = false;
-	int myNo = 0;
+	
 
-	Enemy *enemy = new Enemy();
-	enemy->init(enemyPas, maxSpeed, gravity, yankiCheck, myNo);
-	enemy->autorelease();
-	addChild(enemy);
-	_enemyArr.pushBack(enemy);
-	enemy->setPosition(designResolutionSize.width, designResolutionSize.height * 0.9f);
+	switch (stageNum)
+	{
+	case 0:
+		break;
+	case 1:
+		break;
+	case 2:
+		stage2();
+		break;
+	default:
+		break;
+	}
+
+	
 	_syougaibutuArr.clear();
 	_syougaibutuArr = _syougaibutu->getSyougaibutu();
-	log("to%d",_syougaibutuArr.size());
 	// update‚ð–ˆƒtƒŒ[ƒ€ŽÀs‚·‚é‚æ‚¤‚É“o˜^‚·‚é
 	this->scheduleUpdate();
 
@@ -209,4 +212,29 @@ void EnemyManager::targetHitCheak()
 			}
 		}
 	}
+}
+
+void EnemyManager::stage2()
+{
+	const char *enemyPas = "pix/actor/yoshidateki.png";
+	float gravity = 0.0f;
+	int maxSpeed = 10;
+	bool yankiCheck = false;
+	int myNo = 0;
+
+	Enemy *enemy = new Enemy();
+	enemy->init(enemyPas, maxSpeed, gravity, yankiCheck, myNo);
+	enemy->autorelease();
+	addChild(enemy);
+	_enemyArr.pushBack(enemy);
+	enemy->setPosition(0, designResolutionSize.height * 0.9f);
+
+	Enemy *enemy2 = new Enemy();
+	enemy2->init(enemyPas, maxSpeed, gravity, yankiCheck, myNo);
+	enemy2->autorelease();
+	addChild(enemy2);
+	_enemyArr.pushBack(enemy2);
+	enemy2->setPosition(designResolutionSize.width * 3.8f, designResolutionSize.height * 0.9f);
+
+
 }

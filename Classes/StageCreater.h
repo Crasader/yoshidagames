@@ -36,5 +36,6 @@ public:
 	ItemManager *_itemManager;
 	vector<Sprite*> _syougaibutu;
 	vector<Item*> _itemArr;
+	Sprite *_uekibathi;
 };
 #endif

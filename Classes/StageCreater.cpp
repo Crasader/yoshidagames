@@ -5,18 +5,9 @@
 bool StageCreater::init(Sprite *uekibati, int stagenum)
 {
 	if (!Node::init())return false;
+	_uekibathi = uekibati;
 
-	Sprite *yajirushi = Sprite::create("pix/stageSozai/yajirushi.png");
-	yajirushi->setAnchorPoint(Vec2(0.0f, 0.0f));
-	yajirushi->setScale(0.7f);
-	yajirushi->setPosition(Vec2(designResolutionSize.width*1.48f, designResolutionSize.height*0.5f));
-	addChild(yajirushi);
-
-	auto upAct = MoveBy::create(0.5, Vec2(0, 20));
-	auto downAct = MoveBy::create(0.5, Vec2(0, -20));
-	auto seq = Sequence::create(upAct, downAct, nullptr);
-	auto rep = RepeatForever::create(seq);
-	yajirushi->runAction(rep);
+	
 
 	Sprite *yajirushi2 = Sprite::create("pix/stageSozai/yajirushi.png");
 	yajirushi2->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -62,7 +53,7 @@ bool StageCreater::init(Sprite *uekibati, int stagenum)
 		break;
 	}
 
-
+	
 	_syougaibutu.push_back(uekibati);
 	this->scheduleUpdate();
 	return true;
@@ -124,6 +115,20 @@ void StageCreater::createStagePart0()
 	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
 	kirikabu->setPosition(Vec2(designResolutionSize.width*1.46f, designResolutionSize.height*0.1f));
 	_syougaibutu.push_back(kirikabu);
+
+	_uekibathi->setPositionX(designResolutionSize.width * 1.5f);
+
+	Sprite *yajirushi = Sprite::create("pix/stageSozai/yajirushi.png");
+	yajirushi->setAnchorPoint(Vec2(0.0f, 0.0f));
+	yajirushi->setScale(0.7f);
+	yajirushi->setPosition(Vec2(designResolutionSize.width*1.46f, designResolutionSize.height*0.5f));
+	addChild(yajirushi);
+
+	auto upAct = MoveBy::create(0.5, Vec2(0, 20));
+	auto downAct = MoveBy::create(0.5, Vec2(0, -20));
+	auto seq = Sequence::create(upAct, downAct, nullptr);
+	auto rep = RepeatForever::create(seq);
+	yajirushi->runAction(rep);
 
 }
 
@@ -202,6 +207,8 @@ void StageCreater::createStagePart1()
 	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
 	kirikabu->setPosition(Vec2(designResolutionSize.width*2.8f, designResolutionSize.height*0.1f));
 	_syougaibutu.push_back(kirikabu);
+
+	_uekibathi->setPositionX(designResolutionSize.width * 2.8f);
 }
 
 void StageCreater::createStagePart2()
