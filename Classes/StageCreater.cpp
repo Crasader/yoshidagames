@@ -31,11 +31,7 @@ bool StageCreater::init(Sprite *uekibati, int stagenum)
 	auto rep2 = RepeatForever::create(seq2);
 	yajirushi2->runAction(rep2);
 
-	Sprite *kirikabu = Sprite::create("pix/stageSozai/kirikabu.png");
-	addChild(kirikabu);
-	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
-	kirikabu->setPosition(Vec2(designResolutionSize.width*1.46f, designResolutionSize.height*0.1f));
-	_syougaibutu.push_back(kirikabu);
+	
 
 	Sprite *jimen = Sprite::create("pix/stageSozai/ground.png");
 	jimen->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -123,10 +119,11 @@ void StageCreater::createStagePart0()
 
 	_itemManager->_syougaibutu = _syougaibutu;
 	
-	//_itemManager->itemCreate(1, Vec2(designResolutionSize.width*0.3, designResolutionSize.height*0.18), NULL);
-
-	//.push_back(windmill1);
-	//------------------------------------------------------------------------------------------------------------------
+	Sprite *kirikabu = Sprite::create("pix/stageSozai/kirikabu.png");
+	addChild(kirikabu);
+	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
+	kirikabu->setPosition(Vec2(designResolutionSize.width*1.46f, designResolutionSize.height*0.1f));
+	_syougaibutu.push_back(kirikabu);
 
 }
 
@@ -142,6 +139,26 @@ void StageCreater::createStagePart1()
 
 	//さぼ---------------------------------------------------------------------------------------------------------------
 
+	//banebu-------------------------------------------------------------------------------------------------------------
+
+	Sprite *banebu = Sprite::create("pix/actor/banebu.png");
+	banebu->setAnchorPoint(Vec2(0.5f, 0.0f));
+	banebu->setPosition(Vec2(designResolutionSize.width * 2.2, _jimenHight - 20));
+	addChild(banebu);
+	_syougaibutu.push_back(banebu);
+	banebu->setScale(0.7);
+	float actionTime = 0.5f;
+	auto act1 = ScaleBy::create(0.1, 1.2, 0.8);
+	auto act2 = JumpBy::create(actionTime, Vec2(0, 0), 400.0, 1);
+	auto act3 = ScaleBy::create(actionTime, 0.8, 1.3);
+	auto act4 = ScaleBy::create(0.1, 1.3, 0.8);
+	auto act5 = ScaleTo::create(0.1, 0.7, 0.7);
+	auto didi = DelayTime::create(actionTime);
+	auto spawn = Spawn::create(act2, act3, nullptr);	// アクションを同時に実行
+	auto sequence = Sequence::create(act1, spawn, act4, act5,didi, nullptr); // アクションを順番に実行
+	auto rere = RepeatForever::create(sequence);
+	banebu->runAction(rere);
+	//banebu-------------------------------------------------------------------------------------------------------------
 
 	//風車---------------------------------------------------------------------------------------------------------------
 	Sprite* windmillBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
@@ -179,6 +196,12 @@ void StageCreater::createStagePart1()
 	_syougaibutu.push_back(gate3);
 
 	_itemManager->itemCreate(0, gate->getPosition(), gate);
+
+	Sprite *kirikabu = Sprite::create("pix/stageSozai/kirikabu.png");
+	addChild(kirikabu);
+	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
+	kirikabu->setPosition(Vec2(designResolutionSize.width*2.8f, designResolutionSize.height*0.1f));
+	_syougaibutu.push_back(kirikabu);
 }
 
 void StageCreater::createStagePart2()
