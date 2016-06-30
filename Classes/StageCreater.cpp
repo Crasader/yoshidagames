@@ -162,3 +162,11 @@ void StageCreater::createStagePart0()
 	//------------------------------------------------------------------------------------------------------------------
 
 }
+
+void StageCreater::createStagePart1()
+{
+}
+
+void StageCreater::createStagePart2()
+{
+}

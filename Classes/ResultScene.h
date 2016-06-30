@@ -31,6 +31,7 @@ public:
 	const char * _mojiFontPas;
 	const char * _suujiFontPas;
 	
+
 };
 
 #endif /* defined(__Yoshida__ResultScene__) */

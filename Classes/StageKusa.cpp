@@ -24,16 +24,16 @@ bool StageKusa::init()
 	if (!Node::init())return false;
 
 	_kusaSozai.clear();
-	float kusaSumWidth = 0;
+	_kusaSumWidth = 0;
 	int counter = 0;
-	while (kusaSumWidth <= designResolutionSize.width * 2)
+	while (_kusaSumWidth <= designResolutionSize.width * 2)
 	{
 		Sprite *kusa = Sprite::create("pix/stageSozai/shitakusa.png");
 		addChild(kusa);
 		kusa->setScale(0.03f * random(1, 10));
 		kusa->setAnchorPoint(Vec2(0.5f, 0.0f));
-		kusa->setPosition(Vec2(kusaSumWidth, designResolutionSize.height * 0.14f));
-		kusaSumWidth += kusa->getBoundingBox().size.width / 1.5f;
+		kusa->setPosition(Vec2(_kusaSumWidth, designResolutionSize.height * 0.14f));
+		_kusaSumWidth += kusa->getBoundingBox().size.width / 1.5f;
 		_kusaSozai.pushBack(kusa);
 
 		auto del = DelayTime::create(0.03f * counter);
@@ -52,21 +52,25 @@ bool StageKusa::init()
 
 void StageKusa::update(float dt)
 {
-
+	float cameraX = _yoshiCame->getPositionX();
+	for (auto kusa : _kusaSozai) 
+	{
+		if (kusa->getPositionX() < cameraX - designResolutionSize.width)
+		{
+			kusa->setPositionX(_kusaSumWidth);
+			_kusaSumWidth += kusa->getBoundingBox().size.width / 1.5f;
+		}
+	}
 }
 
 void StageKusa::kazePatapata(Sprite *targetKusa, bool isLeft, float delayTime, float caleCnt)
 {
 	targetKusa->stopAllActions();
-	/*targetKusa->setScaleX(targetKusa->getScaleX()/ 1.25f);
-	targetKusa->setScaleY(targetKusa->getScaleX()/ 0.75f);*/
-	auto del = DelayTime::create(delayTime);
-	auto skewStartAction = SkewTo::create(0.3f, 30 * (isLeft * -2 + 1), 0);
-	/*targetKusa->setScaleX(targetKusa->getScaleX()* 1.25f);
-	targetKusa->setScaleY(targetKusa->getScaleX()* 0.75f);*/
 
-	float kaukau = 5;
-	int actionNum = (caleCnt - delayTime) / ACTIONTIME * 2 + 1;
+	auto del = DelayTime::create(delayTime);
+	auto skewStartAction = SkewTo::create(0.3f, 50 * (caleCnt - delayTime) / caleCnt * (isLeft * -2 + 1), 0);
+
+	float kaukau = 5 * (caleCnt - delayTime) / caleCnt;
 	auto hihi	= SkewBy::create(ACTIONTIME, kaukau * (isLeft * -2 + 1), 0);
 
 	auto mimimi = SkewBy::create(ACTIONTIME, -kaukau * (isLeft * -2 + 1), 0);
@@ -89,7 +93,7 @@ void StageKusa::kazeAtariKeisan(Vec2 touchStartPos, float windRange, float kumom
 	haniAngle += 30;
 	for (auto kusa : _kusaSozai)
 	{
-		Vec2 kusaPos = Vec2(kusa->getBoundingBox().getMidX(), kusa->getBoundingBox().getMaxY());
+		Vec2 kusaPos = Vec2(kusa->getBoundingBox().getMidX(), kusa->getBoundingBox().getMidY());
 		float kusaAngle = atan2(kusaPos.y - touchStartPos.y, kusaPos.x - touchStartPos.x) * 180.0f / M_PI;
 		kusaAngle += kusaAngle > 0 ? 0 : 360;
 

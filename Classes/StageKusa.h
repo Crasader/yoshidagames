@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 #include "MultiResolution.h"
+#include "YoshidaCamera.h"
+
 using namespace cocos2d;
 using namespace std;
 
@@ -17,7 +19,8 @@ public:
 	void kazeAtariKeisan(Vec2 touchStartPos, float windRange, float kumomoAngle, float caleCnt, int haniAngle);
 	void itumonoPatapata(Sprite * targetKusa, bool isLeft);
 	Vector<Sprite*> _kusaSozai;
-
+	YoshidaCamera *_yoshiCame;
+	float _kusaSumWidth;
 
 };
 
