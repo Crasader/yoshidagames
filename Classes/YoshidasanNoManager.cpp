@@ -176,7 +176,7 @@ void YoshidasanNoManager::yoshidaNoAtarihantei()
 				auto func = CallFunc::create([=]()
 				{
 					_kusahayasu->kusahayasu(
-						Vec2(_goolRect.getMinX() + 20 + rand() % (int)((_goolRect.getMaxX() - 20) - _goolRect.getMinX()), _goolRect.getMidY()));
+						Vec2(_goolRect.getMinX() + 30 + rand() % (int)((_goolRect.getMaxX() - 30) - _goolRect.getMinX()), _goolRect.getMidY()));
 					if (_yoshida.size() == 0)
 					{
 						_kusahayasu->goResult();
@@ -368,6 +368,7 @@ void YoshidasanNoManager::kazeKeisan()
 
 void YoshidasanNoManager::yoshidaCenterCall()
 {
+	if (_yoshida.size() <= 0)return;
 	_yoshidaCenterPos = Vec2(0, 0);
 	Vec2 sinkou = _yoshidaCamera->getPosition();
 	float torima = 0;

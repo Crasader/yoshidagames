@@ -57,10 +57,10 @@ bool StageCreater::init(Sprite *uekibati, int stagenum)
 		createStagePart0();
 		break;
 	case 1:
-		//createStagePart1();
+		createStagePart1();
 		break;
 	case 2:
-		//createStagePart2();
+		createStagePart2();
 		break;
 	default:
 		break;
@@ -103,21 +103,7 @@ vector<Item*> StageCreater::getItem()
 void StageCreater::createStagePart0()
 {
 
-	Sprite* windmillBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
-	windmillBordBar->setScale(1.0);
-	windmillBordBar->setAnchorPoint(Vec2(0.0f, 0.0f));
-	//windmillBord->setRotation(10);
-	windmillBordBar->setPosition(Vec2(designResolutionSize.width*0.9, _jimenHight - 20));
-	addChild(windmillBordBar);
-	_syougaibutu.push_back(windmillBordBar);
-
-	Sprite* windmillBord = Sprite::create("pix/stageSozai/windmillBoardA.png");
-	windmillBord->setScale(1.0);
-	windmillBord->setAnchorPoint(Vec2(0.0f, 0.0f));
-	//windmillBord->setRotation(10);
-	windmillBord->setPosition(Vec2(windmillBordBar->getPosition() + Vec2(-windmillBord->getBoundingBox().size.width*0.5 + windmillBordBar->getBoundingBox().size.width*0.5, windmillBordBar->getBoundingBox().size.height*0.6)));
-	addChild(windmillBord);
-	_syougaibutu.push_back(windmillBord);
+	
 
 	Sprite* swipeBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
 	swipeBordBar->setScale(1.0);
@@ -125,7 +111,7 @@ void StageCreater::createStagePart0()
 	//windmillBord->setRotation(10);
 	swipeBordBar->setPosition(Vec2(designResolutionSize.width*0.2, _jimenHight - 20));
 	addChild(swipeBordBar);
-	_syougaibutu.push_back(swipeBordBar);
+	//_syougaibutu.push_back(swipeBordBar);
 
 	Sprite* swipeBord = Sprite::create("pix/stageSozai/swipeBoardB.png");
 	swipeBord->setScale(1.0);
@@ -133,12 +119,40 @@ void StageCreater::createStagePart0()
 	//windmillBord->setRotation(10);
 	swipeBord->setPosition(Vec2(swipeBordBar->getPosition() + Vec2(-swipeBord->getBoundingBox().size.width*0.5 + swipeBordBar->getBoundingBox().size.width*0.5, swipeBordBar->getBoundingBox().size.height*0.6)));
 	addChild(swipeBord);
-	_syougaibutu.push_back(swipeBord);
+	//_syougaibutu.push_back(swipeBord);
+
+	_itemManager->_syougaibutu = _syougaibutu;
+	
+	//_itemManager->itemCreate(1, Vec2(designResolutionSize.width*0.3, designResolutionSize.height*0.18), NULL);
+
+	//.push_back(windmill1);
+	//------------------------------------------------------------------------------------------------------------------
+
+}
+
+void StageCreater::createStagePart1()
+{
+
+	Sprite* windmillBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
+	windmillBordBar->setScale(1.0);
+	windmillBordBar->setAnchorPoint(Vec2(0.0f, 0.0f));
+	//windmillBord->setRotation(10);
+	windmillBordBar->setPosition(Vec2(designResolutionSize.width*1.3, _jimenHight - 20));
+	addChild(windmillBordBar);
+	//_syougaibutu.push_back(windmillBordBar);
+
+	Sprite* windmillBord = Sprite::create("pix/stageSozai/windmillBoardA.png");
+	windmillBord->setScale(1.0);
+	windmillBord->setAnchorPoint(Vec2(0.0f, 0.0f));
+	//windmillBord->setRotation(10);
+	windmillBord->setPosition(Vec2(windmillBordBar->getPosition() + Vec2(-windmillBord->getBoundingBox().size.width*0.5 + windmillBordBar->getBoundingBox().size.width*0.5, windmillBordBar->getBoundingBox().size.height*0.6)));
+	addChild(windmillBord);
+	//_syougaibutu.push_back(windmillBord);
 
 	//•—ŽÔ---------------------------------------------------------------------------------------------------------------
 	Sprite* gate = Sprite::create("pix/stageSozai/windmillD.png");
 	gate->setAnchorPoint(Vec2(0.0f, 0.0f));
-	gate->setPosition(Vec2(designResolutionSize.width*0.4, _jimenHight + 100));
+	gate->setPosition(Vec2(designResolutionSize.width*1.5, _jimenHight + 100));
 	addChild(gate, -1);
 	_syougaibutu.push_back(gate);
 
@@ -154,20 +168,9 @@ void StageCreater::createStagePart0()
 	addChild(gate3);
 	_syougaibutu.push_back(gate3);
 
-	_itemManager->_syougaibutu = _syougaibutu;
 	_itemManager->itemCreate(0, gate->getPosition(), gate);
-	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*0.3, designResolutionSize.height*0.18), NULL);
-
-	//------------------------------------------------------------------------------------------------------------------
-
-}
-
-void StageCreater::createStagePart1()
-{
-
 }
 
 void StageCreater::createStagePart2()
 {
-
 }
