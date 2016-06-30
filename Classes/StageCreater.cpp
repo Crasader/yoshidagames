@@ -205,7 +205,7 @@ void StageCreater::createStagePart1()
 	Sprite *kirikabu = Sprite::create("pix/stageSozai/kirikabu.png");
 	addChild(kirikabu);
 	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
-	kirikabu->setPosition(Vec2(designResolutionSize.width*2.8f, designResolutionSize.height*0.1f));
+	kirikabu->setPosition(Vec2(designResolutionSize.width*2.76f, designResolutionSize.height*0.1f));
 	_syougaibutu.push_back(kirikabu);
 
 	_uekibathi->setPositionX(designResolutionSize.width * 2.8f);
@@ -213,4 +213,14 @@ void StageCreater::createStagePart1()
 
 void StageCreater::createStagePart2()
 {
+	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*0.8f, _jimenHight), NULL);
+
+	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*3.0f, _jimenHight), NULL);
+	Sprite *kirikabu = Sprite::create("pix/stageSozai/kirikabu.png");
+	addChild(kirikabu);
+	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
+	kirikabu->setPosition(Vec2(designResolutionSize.width*3.76f, designResolutionSize.height*0.1f));
+	_syougaibutu.push_back(kirikabu);
+
+	_uekibathi->setPositionX(designResolutionSize.width * 3.8f);
 }
