@@ -215,7 +215,7 @@ void StageCreater::createStagePart2()
 {
 	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*0.8f, _jimenHight), NULL);
 
-	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*3.0f, _jimenHight), NULL);
+	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*2.5f, _jimenHight), NULL);
 	Sprite *kirikabu = Sprite::create("pix/stageSozai/kirikabu.png");
 	addChild(kirikabu);
 	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -223,4 +223,60 @@ void StageCreater::createStagePart2()
 	_syougaibutu.push_back(kirikabu);
 
 	_uekibathi->setPositionX(designResolutionSize.width * 3.8f);
+
+
+	//banebu-------------------------------------------------------------------------------------------------------------
+
+	Sprite *banebu = Sprite::create("pix/actor/banebu.png");
+	banebu->setAnchorPoint(Vec2(0.5f, 0.0f));
+	banebu->setPosition(Vec2(designResolutionSize.width * 1.5, _jimenHight - 20));
+	addChild(banebu);
+	_syougaibutu.push_back(banebu);
+	banebu->setScale(0.7);
+	float actionTime = 0.5f;
+	auto act1 = ScaleBy::create(0.1, 1.2, 0.8);
+	auto act2 = JumpBy::create(actionTime, Vec2(0, 0), 400.0, 1);
+	auto act3 = ScaleBy::create(actionTime, 0.8, 1.3);
+	auto act4 = ScaleBy::create(0.1, 1.3, 0.8);
+	auto act5 = ScaleTo::create(0.1, 0.7, 0.7);
+	auto didi = DelayTime::create(actionTime);
+	auto spawn = Spawn::create(act2, act3, nullptr);	// アクションを同時に実行
+	auto sequence = Sequence::create(act1, spawn, act4, act5, didi, nullptr); // アクションを順番に実行
+	auto rere = RepeatForever::create(sequence);
+	banebu->runAction(rere);
+	//banebu-------------------------------------------------------------------------------------------------------------
+
+	//renga--------------------------------------------------------------------------------------------------------------
+	Sprite *rengaMini = Sprite::create("pix/stageSozai/renga2.png");
+	rengaMini->setAnchorPoint(Vec2(0.5f, 0.0f));
+	rengaMini->setPosition(Vec2(designResolutionSize.width * 2.0, _jimenHight - 20));
+	addChild(rengaMini);
+	_syougaibutu.push_back(rengaMini);
+
+	Sprite *rengaBig = Sprite::create("pix/stageSozai/renga1.png");
+	rengaBig->setAnchorPoint(Vec2(0.5f, 0.0f));
+	rengaBig->setPosition(Vec2(designResolutionSize.width * 2.14, _jimenHight - 20));
+	addChild(rengaBig);
+	_syougaibutu.push_back(rengaBig);
+	//renga--------------------------------------------------------------------------------------------------------------
+
+	Sprite* gate = Sprite::create("pix/stageSozai/windmillD.png");
+	gate->setAnchorPoint(Vec2(0.0f, 0.0f));
+	gate->setPosition(Vec2(designResolutionSize.width*2.9, _jimenHight + 100));
+	addChild(gate, -1);
+	_syougaibutu.push_back(gate);
+
+	Sprite* gate2 = Sprite::create("pix/stageSozai/windmillC.png");
+	gate2->setAnchorPoint(Vec2(0.0f, 0.0f));
+	gate2->setPosition(Vec2(gate->getPosition().x, _jimenHight - 10));
+	addChild(gate2);
+	_syougaibutu.push_back(gate2);
+
+	Sprite* gate3 = Sprite::create("pix/stageSozai/windmillB.png");
+	gate3->setAnchorPoint(Vec2(0.0f, 0.0f));
+	gate3->setPosition(Vec2(gate->getPosition().x - gate->getBoundingBox().size.width / 2, gate->getPosition().y + gate->getBoundingBox().size.height - 20));
+	addChild(gate3);
+	_syougaibutu.push_back(gate3);
+
+	_itemManager->itemCreate(0, gate->getPosition(), gate);
 }
