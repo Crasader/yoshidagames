@@ -23,13 +23,15 @@ bool StageCreater::init(Sprite *uekibati, int stagenum)
 	yajirushi2->runAction(rep2);
 
 	
-
-	Sprite *jimen = Sprite::create("pix/stageSozai/ground.png");
-	jimen->setAnchorPoint(Vec2(0.0f, 0.0f));
-	addChild(jimen, 5);
-	jimen->setTag(5);
-	_syougaibutu.push_back(jimen);
-	_jimenHight = jimen->getBoundingBox().size.height;
+	
+		Sprite *jimen = Sprite::create("pix/stageSozai/ground.png");
+		jimen->setAnchorPoint(Vec2(0.0f, 0.0f));
+		addChild(jimen, 5);
+		jimen->setTag(5);
+		_syougaibutu.push_back(jimen);
+		_jimenHight = jimen->getBoundingBox().size.height;
+	
+	
 
 	Sprite *jimen2 = Sprite::create("pix/stageSozai/ground.png");
 	jimen2->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -38,6 +40,20 @@ bool StageCreater::init(Sprite *uekibati, int stagenum)
 	jimen->setTag(5);
 	_syougaibutu.push_back(jimen2);
 
+	Sprite *jimen3 = Sprite::create("pix/stageSozai/ground.png");
+	jimen3->setAnchorPoint(Vec2(0.0f, 0.0f));
+	jimen3->setPosition(Vec2(jimen2->getBoundingBox().size.width * 2, 0));
+	addChild(jimen3, 5);
+	jimen3->setTag(5);
+	_syougaibutu.push_back(jimen3);
+
+	Sprite *jimen4 = Sprite::create("pix/stageSozai/ground.png");
+	jimen4->setAnchorPoint(Vec2(0.0f, 0.0f));
+	jimen4->setPosition(Vec2(jimen3->getBoundingBox().size.width * 3, 0));
+	addChild(jimen4, 5);
+	jimen4->setTag(5);
+
+	_syougaibutu.push_back(jimen4);
 	switch (stagenum)
 	{
 	case 0:
@@ -98,7 +114,6 @@ void StageCreater::createStagePart0()
 	//windmillBord->setRotation(10);
 	swipeBordBar->setPosition(Vec2(designResolutionSize.width*0.2, _jimenHight - 20));
 	addChild(swipeBordBar);
-	//_syougaibutu.push_back(swipeBordBar);
 
 	Sprite* swipeBord = Sprite::create("pix/stageSozai/swipeBoardB.png");
 	swipeBord->setScale(1.0);
@@ -113,15 +128,15 @@ void StageCreater::createStagePart0()
 	Sprite *kirikabu = Sprite::create("pix/stageSozai/kirikabu.png");
 	addChild(kirikabu);
 	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
-	kirikabu->setPosition(Vec2(designResolutionSize.width*1.46f, designResolutionSize.height*0.1f));
+	kirikabu->setPosition(Vec2(designResolutionSize.width*0.76f, designResolutionSize.height*0.1f));
 	_syougaibutu.push_back(kirikabu);
 
-	_uekibathi->setPositionX(designResolutionSize.width * 1.5f);
+	_uekibathi->setPositionX(designResolutionSize.width * 0.8f);
 
 	Sprite *yajirushi = Sprite::create("pix/stageSozai/yajirushi.png");
 	yajirushi->setAnchorPoint(Vec2(0.0f, 0.0f));
 	yajirushi->setScale(0.7f);
-	yajirushi->setPosition(Vec2(designResolutionSize.width*1.46f, designResolutionSize.height*0.5f));
+	yajirushi->setPosition(Vec2(designResolutionSize.width*0.78f, designResolutionSize.height*0.5f));
 	addChild(yajirushi);
 
 	auto upAct = MoveBy::create(0.5, Vec2(0, 20));
