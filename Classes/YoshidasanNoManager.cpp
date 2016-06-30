@@ -379,7 +379,6 @@ void YoshidasanNoManager::yoshidaCenterCall()
 	for (int i = 0; i < _yoshida.size(); i++)
 	{
 		Vec2 yoshidaPos = _yoshida.at(i)->getPosition();
-		log("%f,%f", sinkou.x, sinkou.x - designResolutionSize.width / 2 - 20);
 		if (yoshidaPos.x < (sinkou.x - designResolutionSize.width / 2 - 20))
 		{
 			_effectManager->watageBakusan(_yoshida.at(i)->getPosition());

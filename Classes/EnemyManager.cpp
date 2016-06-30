@@ -16,7 +16,9 @@ bool EnemyManager::init()
 	addChild(enemy);
 	_enemyArr.pushBack(enemy);
 	enemy->setPosition(designResolutionSize.width, designResolutionSize.height * 0.9f);
-
+	_syougaibutuArr.clear();
+	_syougaibutuArr = _syougaibutu->getSyougaibutu();
+	log("to%d",_syougaibutuArr.size());
 	// update‚ð–ˆƒtƒŒ[ƒ€ŽÀs‚·‚é‚æ‚¤‚É“o˜^‚·‚é
 	this->scheduleUpdate();
 
@@ -27,6 +29,7 @@ void EnemyManager::update(float dt)
 {
 	posCheck();
 	HitCheck();
+	targetHitCheak();
 }
 
 void EnemyManager::posCheck()
@@ -89,10 +92,10 @@ void EnemyManager::HitCheck()
 
 		for (auto item : _itemManager->_itemArr)
 		{
+			if (item->getTag() != 5)continue;
 			Rect itemRect = item->getBoundingBox();
 			if (enemyRect.intersectsRect(itemRect))
 			{
-
 				/*auto rot = RotateTo::create(1.0, 180);
 				auto fall = MoveTo::create(5.0, Vec2(_enemyArr.at(target)->getPosition().x, -100));
 				auto spawn = Spawn::create(rot, fall, nullptr);
@@ -129,6 +132,80 @@ void EnemyManager::HitCheck()
 				/*});
 				auto seq = Sequence::create(spawn, func, nullptr);
 				_enemyArr.at(target)->runAction(seq);*/
+			}
+		}
+	}
+}
+
+void EnemyManager::targetHitCheak()
+{
+	
+	for (auto enemy : _enemyArr)
+	{
+		Rect myRect = enemy->getBoundingBox();
+		//áŠQ•¨‚Æ“–‚½‚Á‚Ä‚¢‚é‚©
+		for (auto syougaibutu : _syougaibutuArr)
+		{
+			Rect syougaiRect = syougaibutu->getBoundingBox();
+			Size syougaiSize = Size(syougaiRect.size.width, syougaiRect.size.height);
+			syougaiRect = Rect{ syougaiRect.getMinX() + syougaiSize.width * 0.05f,
+				syougaiRect.getMinY(),
+				syougaiSize.width - syougaiSize.width * 0.1f,
+				syougaiSize.height + 5 };
+			if (myRect.intersectsRect(syougaiRect))
+			{
+				
+				int angleNum = 0;
+				float kyori = 100000;
+
+				if (myRect.getMinY() <= syougaiRect.getMaxY() &&			//ã
+					kyori >= syougaiRect.getMaxY() - myRect.getMinY())
+				{
+					angleNum = 1;
+					kyori = syougaiRect.getMaxY() - myRect.getMinY();
+				}
+
+				if (myRect.getMinX() <= syougaiRect.getMaxX() &&			//‰E
+					kyori >= syougaiRect.getMaxX() - myRect.getMinX())
+				{
+					angleNum = 2;
+					kyori = syougaiRect.getMaxX() - myRect.getMinX();
+				}
+
+				if (myRect.getMaxY() >= syougaiRect.getMinY() &&			//‰º
+					kyori >= myRect.getMaxY() - syougaiRect.getMinY())
+				{
+					angleNum = 3;
+					kyori = myRect.getMaxY() - syougaiRect.getMinY();
+				}
+
+				if (myRect.getMaxX() >= syougaiRect.getMinX() &&			//¶
+					kyori >= myRect.getMaxX() - syougaiRect.getMinX())
+				{
+					angleNum = 4;
+					kyori = myRect.getMaxX() - syougaiRect.getMinX();
+				}
+
+				switch (angleNum)
+				{
+				case 1://ã
+					enemy->setPosition(Vec2(enemy->getPosition().x,         enemy->getPosition().y + kyori));
+					break;
+				case 2://‰E
+					enemy->setPosition(Vec2(enemy->getPosition().x + kyori, enemy->getPosition().y        ));
+					break;
+				case 3://‰º
+					enemy->setPosition(Vec2(enemy->getPosition().x,         enemy->getPosition().y - kyori));
+					break;
+				case 4://¶
+					enemy->setPosition(Vec2(enemy->getPosition().x - kyori, enemy->getPosition().y        ));
+					break;
+
+				default:
+					break;
+				}
+				//isHit = true;
+				//break;
 			}
 		}
 	}

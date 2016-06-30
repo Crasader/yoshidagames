@@ -156,6 +156,7 @@ void ItemManager::stoneCreate(Vec2 itemPos)
 	stone->autorelease();
 	stone->_syougaibutu = _syougaibutu;
 	stone->setPosition(Vec2(itemPos));
-	addChild(stone);
+	stone->setTag(5);
+	addChild(stone,5);
 	_itemArr.push_back(stone);
 }

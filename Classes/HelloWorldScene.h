@@ -23,15 +23,13 @@ using namespace std;
 class HelloWorld : public cocos2d::Layer
 {
 public:
-    static cocos2d::Scene* createScene(int StageNum);
+    static Scene* createScene(int StageNum);
+	static HelloWorld * create(int StageNum);
 
-    virtual bool init();
-    
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
+    virtual bool init(int StageNum);
     
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+    //CREATE_FUNC(HelloWorld(0));
 
 	void update(float dt);
 

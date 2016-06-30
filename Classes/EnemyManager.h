@@ -14,6 +14,7 @@
 #include "Item.h"
 #include "ItemManager.h"
 #include "EffectManager.h"
+#include "StageCreater.h"
 
 
 using namespace cocos2d;
@@ -29,8 +30,12 @@ public:
 	void posCheck();
 	void HitCheck();
 
+	void targetHitCheak();
+
 	Vector<Enemy*> _enemyArr;
 	Vector<Yoshidasan*> _yoshidaArr;
+	vector<Sprite*> _syougaibutuArr;
+	StageCreater *_syougaibutu;
 	EffectManager *_effectManager;
 	ItemManager *_itemManager;
 	//vector<Item> *_itemArr;

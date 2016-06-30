@@ -2,23 +2,33 @@
 
 USING_NS_CC;
 
-Scene* HelloWorld::createScene(int StageNum)
+Scene *HelloWorld::createScene(int StageNum)
 {
 	auto scene = Scene::create();
-
-	// 'layer' is an autorelease object
-	auto layer = HelloWorld::create();
-	layer->_stageNum = StageNum;
-	
-	// add layer as a child to scene
-	scene->addChild(layer);
-
-	// return the scene
+	scene->addChild(HelloWorld::create(StageNum));
 	return scene;
 }
 
+HelloWorld *HelloWorld::create(int StageNum)
+{
+	HelloWorld *pRet = new HelloWorld();
+	if (pRet && pRet->init(StageNum))
+	{
+		pRet->autorelease();
+		return pRet;
+	}
+	else
+	{
+		delete pRet;
+		pRet = NULL;
+		return NULL;
+	}
+}
+
+
+
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool HelloWorld::init(int StageNum)
 {
 	//////////////////////////////
 	// 1. super init first
@@ -27,6 +37,7 @@ bool HelloWorld::init()
 		return false;
 	}
 
+	_stageNum = StageNum;
 	_backGround = Sprite::create("pix/buck/stage.png");
 	_backGround->setAnchorPoint(Vec2(0.0f, 0.0f));
 	_backGround->setGlobalZOrder(-10.0f);
@@ -42,7 +53,15 @@ bool HelloWorld::init()
 	ki->setGlobalZOrder(-5.0f);
 	addChild(ki);
 
-	_stageKusa = StageKusa::create();
+	_yoshidaCamera = new YoshidaCamera();
+	_yoshidaCamera->init();
+	_yoshidaCamera->autorelease();
+	addChild(_yoshidaCamera);
+
+	_stageKusa = new StageKusa();
+	_stageKusa->_yoshiCame = _yoshidaCamera;
+	_stageKusa->init();
+	_stageKusa->autorelease();
 	addChild(_stageKusa);
 	 
 	Sprite *uekibathi = Sprite::create("pix/stageSozai/uekibati.png");
@@ -72,15 +91,13 @@ bool HelloWorld::init()
 	_effectManger->autorelease();
 	addChild(_effectManger);
 
-	_yoshidaCamera = new YoshidaCamera();
-	_yoshidaCamera->init();
-	_yoshidaCamera->autorelease();
-	addChild(_yoshidaCamera);
+	
 
 	_enemyManager = new EnemyManager();
+	_enemyManager->_itemManager = _itemManager;
+	_enemyManager->_syougaibutu = _stageCreater;
 	_enemyManager->init();
 	_enemyManager->autorelease();
-	_enemyManager->_itemManager = _itemManager;
 	addChild(_enemyManager);
 
 	_yosidaManeger = new YoshidasanNoManager();
@@ -124,14 +141,6 @@ bool HelloWorld::init()
 }
 
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
-{
-	Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	exit(0);
-#endif
-}
 
 
 void HelloWorld::update(float dt)
