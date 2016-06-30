@@ -113,7 +113,7 @@ bool HelloWorld::init(int StageNum)
 	_enemyManager = new EnemyManager();
 	_enemyManager->_itemManager = _itemManager;
 	_enemyManager->_syougaibutu = _stageCreater;
-	_enemyManager->init();
+	_enemyManager->init(_stageNum);
 	_enemyManager->autorelease();
 	addChild(_enemyManager);
 

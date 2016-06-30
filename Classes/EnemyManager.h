@@ -25,7 +25,7 @@ using namespace std;
 class EnemyManager :public Node
 {
 public:
-	bool init();
+	bool init(int stageNum);
 	void update(float dt);
 	void posCheck();
 	void HitCheck();
@@ -38,6 +38,8 @@ public:
 	StageCreater *_syougaibutu;
 	EffectManager *_effectManager;
 	ItemManager *_itemManager;
+
+	void stage2();
 	//vector<Item> *_itemArr;
 
 
