@@ -29,7 +29,7 @@ using namespace std;
 class YoshidasanNoManager :public Node
 {
 public:
-	bool init(StageCreater *stageCrater, Kusahayasu *kusahayasu);
+	bool init(StageCreater *stageCrater, Kusahayasu *kusahayasu, int stageNum);
 	void update(float dt);
 	//static YoshidasanNoManager *create();
 	void touchEndCall(int haniAngle, float windRange, float angle, Vec2 touchStartPos, Vec2 windEndPos, float windTime);

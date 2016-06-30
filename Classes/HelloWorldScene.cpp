@@ -119,7 +119,7 @@ bool HelloWorld::init(int StageNum)
 
 	_yosidaManeger = new YoshidasanNoManager();
 	_yosidaManeger->_effectManager = _effectManger;
-	_yosidaManeger->init(_stageCreater, _kusahayasu);
+	_yosidaManeger->init(_stageCreater, _kusahayasu,_stageNum);
 	_yosidaManeger->autorelease();
 	_yosidaManeger->_yoshidaCamera = _yoshidaCamera;
 	_yosidaManeger->_enemyManager = _enemyManager;

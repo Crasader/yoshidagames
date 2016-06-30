@@ -227,7 +227,7 @@ void EnemyManager::stage2()
 	enemy->autorelease();
 	addChild(enemy);
 	_enemyArr.pushBack(enemy);
-	enemy->setPosition(0, designResolutionSize.height * 0.9f);
+	enemy->setPosition(designResolutionSize.width * 0.8f, designResolutionSize.height * 0.9f);
 
 	Enemy *enemy2 = new Enemy();
 	enemy2->init(enemyPas, maxSpeed, gravity, yankiCheck, myNo);

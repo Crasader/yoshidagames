@@ -23,13 +23,15 @@ bool StageCreater::init(Sprite *uekibati, int stagenum)
 	yajirushi2->runAction(rep2);
 
 	
-
-	Sprite *jimen = Sprite::create("pix/stageSozai/ground.png");
-	jimen->setAnchorPoint(Vec2(0.0f, 0.0f));
-	addChild(jimen, 5);
-	jimen->setTag(5);
-	_syougaibutu.push_back(jimen);
-	_jimenHight = jimen->getBoundingBox().size.height;
+	
+		Sprite *jimen = Sprite::create("pix/stageSozai/ground.png");
+		jimen->setAnchorPoint(Vec2(0.0f, 0.0f));
+		addChild(jimen, 5);
+		jimen->setTag(5);
+		_syougaibutu.push_back(jimen);
+		_jimenHight = jimen->getBoundingBox().size.height;
+	
+	
 
 	Sprite *jimen2 = Sprite::create("pix/stageSozai/ground.png");
 	jimen2->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -38,6 +40,20 @@ bool StageCreater::init(Sprite *uekibati, int stagenum)
 	jimen->setTag(5);
 	_syougaibutu.push_back(jimen2);
 
+	Sprite *jimen3 = Sprite::create("pix/stageSozai/ground.png");
+	jimen3->setAnchorPoint(Vec2(0.0f, 0.0f));
+	jimen3->setPosition(Vec2(jimen2->getBoundingBox().size.width * 2, 0));
+	addChild(jimen3, 5);
+	jimen3->setTag(5);
+	_syougaibutu.push_back(jimen3);
+
+	Sprite *jimen4 = Sprite::create("pix/stageSozai/ground.png");
+	jimen4->setAnchorPoint(Vec2(0.0f, 0.0f));
+	jimen4->setPosition(Vec2(jimen3->getBoundingBox().size.width * 3, 0));
+	addChild(jimen4, 5);
+	jimen4->setTag(5);
+
+	_syougaibutu.push_back(jimen4);
 	switch (stagenum)
 	{
 	case 0:
@@ -98,7 +114,6 @@ void StageCreater::createStagePart0()
 	//windmillBord->setRotation(10);
 	swipeBordBar->setPosition(Vec2(designResolutionSize.width*0.2, _jimenHight - 20));
 	addChild(swipeBordBar);
-	//_syougaibutu.push_back(swipeBordBar);
 
 	Sprite* swipeBord = Sprite::create("pix/stageSozai/swipeBoardB.png");
 	swipeBord->setScale(1.0);
@@ -113,16 +128,30 @@ void StageCreater::createStagePart0()
 	Sprite *kirikabu = Sprite::create("pix/stageSozai/kirikabu.png");
 	addChild(kirikabu);
 	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
-	kirikabu->setPosition(Vec2(designResolutionSize.width*1.46f, designResolutionSize.height*0.1f));
+	kirikabu->setPosition(Vec2(designResolutionSize.width*0.76f, designResolutionSize.height*0.1f));
 	_syougaibutu.push_back(kirikabu);
 
-	_uekibathi->setPositionX(designResolutionSize.width * 1.5f);
+	_uekibathi->setPositionX(designResolutionSize.width * 0.8f);
 
 	Sprite *yajirushi = Sprite::create("pix/stageSozai/yajirushi.png");
 	yajirushi->setAnchorPoint(Vec2(0.0f, 0.0f));
 	yajirushi->setScale(0.7f);
-	yajirushi->setPosition(Vec2(designResolutionSize.width*1.46f, designResolutionSize.height*0.5f));
+	yajirushi->setPosition(Vec2(designResolutionSize.width*0.78f, designResolutionSize.height*0.5f));
 	addChild(yajirushi);
+
+	Sprite* windmillBordBar2 = Sprite::create("pix/stageSozai/BoardBar.png");
+	windmillBordBar2->setScale(1.0);
+	windmillBordBar2->setAnchorPoint(Vec2(0.5f, 0.0f));
+	windmillBordBar2->setPosition(Vec2(designResolutionSize.width*0.7, _jimenHight - 20));
+	addChild(windmillBordBar2);
+
+	Sprite *ishikanban = Sprite::create("pix/stageSozai/goalBoard.png");
+	addChild(ishikanban);
+	ishikanban->setAnchorPoint(Vec2(0.0f, 0.0f));
+	ishikanban->setPosition(windmillBordBar2->getPosition() +
+		Vec2(-ishikanban->getBoundingBox().size.width*0.5 +
+			windmillBordBar2->getBoundingBox().size.width*0.5,
+			windmillBordBar2->getBoundingBox().size.height*0.6));
 
 	auto upAct = MoveBy::create(0.5, Vec2(0, 20));
 	auto downAct = MoveBy::create(0.5, Vec2(0, -20));
@@ -215,7 +244,7 @@ void StageCreater::createStagePart2()
 {
 	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*0.8f, _jimenHight), NULL);
 
-	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*3.0f, _jimenHight), NULL);
+	_itemManager->itemCreate(1, Vec2(designResolutionSize.width*2.5f, _jimenHight), NULL);
 	Sprite *kirikabu = Sprite::create("pix/stageSozai/kirikabu.png");
 	addChild(kirikabu);
 	kirikabu->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -223,4 +252,92 @@ void StageCreater::createStagePart2()
 	_syougaibutu.push_back(kirikabu);
 
 	_uekibathi->setPositionX(designResolutionSize.width * 3.8f);
+
+
+
+	Sprite* windmillBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
+	windmillBordBar->setScale(1.0);
+	windmillBordBar->setAnchorPoint(Vec2(0.5f, 0.0f));
+	windmillBordBar->setPosition(Vec2(designResolutionSize.width*0.2, _jimenHight - 20));
+	addChild(windmillBordBar);
+
+	Sprite *kikenkanban = Sprite::create("pix/stageSozai/enemyBoard.png");
+	addChild(kikenkanban);
+	kikenkanban->setAnchorPoint(Vec2(0.0f, 0.0f));
+	kikenkanban->setPosition(windmillBordBar->getPosition() + Vec2(-kikenkanban->getBoundingBox().size.width*0.5 + windmillBordBar->getBoundingBox().size.width*0.5, windmillBordBar->getBoundingBox().size.height*0.6));
+	
+	
+	Sprite* windmillBordBar2 = Sprite::create("pix/stageSozai/BoardBar.png");
+	windmillBordBar2->setScale(1.0);
+	windmillBordBar2->setAnchorPoint(Vec2(0.5f, 0.0f));
+	windmillBordBar2->setPosition(Vec2(designResolutionSize.width*0.9, _jimenHight - 20));
+	addChild(windmillBordBar2);
+
+	Sprite *ishikanban = Sprite::create("pix/stageSozai/stoneBoard.png");
+	addChild(ishikanban);
+	ishikanban->setAnchorPoint(Vec2(0.0f, 0.0f));
+	ishikanban->setPosition(windmillBordBar2->getPosition() +
+		Vec2(-ishikanban->getBoundingBox().size.width*0.5 +
+			windmillBordBar2->getBoundingBox().size.width*0.5, 
+			windmillBordBar2->getBoundingBox().size.height*0.6));
+
+
+
+
+
+
+	//banebu-------------------------------------------------------------------------------------------------------------
+
+	Sprite *banebu = Sprite::create("pix/actor/banebu.png");
+	banebu->setAnchorPoint(Vec2(0.5f, 0.0f));
+	banebu->setPosition(Vec2(designResolutionSize.width * 1.5, _jimenHight - 20));
+	addChild(banebu);
+	_syougaibutu.push_back(banebu);
+	banebu->setScale(0.7);
+	float actionTime = 0.5f;
+	auto act1 = ScaleBy::create(0.1, 1.2, 0.8);
+	auto act2 = JumpBy::create(actionTime, Vec2(0, 0), 400.0, 1);
+	auto act3 = ScaleBy::create(actionTime, 0.8, 1.3);
+	auto act4 = ScaleBy::create(0.1, 1.3, 0.8);
+	auto act5 = ScaleTo::create(0.1, 0.7, 0.7);
+	auto didi = DelayTime::create(actionTime);
+	auto spawn = Spawn::create(act2, act3, nullptr);	// アクションを同時に実行
+	auto sequence = Sequence::create(act1, spawn, act4, act5, didi, nullptr); // アクションを順番に実行
+	auto rere = RepeatForever::create(sequence);
+	banebu->runAction(rere);
+	//banebu-------------------------------------------------------------------------------------------------------------
+
+	//renga--------------------------------------------------------------------------------------------------------------
+	Sprite *rengaMini = Sprite::create("pix/stageSozai/renga2.png");
+	rengaMini->setAnchorPoint(Vec2(0.5f, 0.0f));
+	rengaMini->setPosition(Vec2(designResolutionSize.width * 2.0, _jimenHight - 20));
+	addChild(rengaMini);
+	_syougaibutu.push_back(rengaMini);
+
+	Sprite *rengaBig = Sprite::create("pix/stageSozai/renga1.png");
+	rengaBig->setAnchorPoint(Vec2(0.5f, 0.0f));
+	rengaBig->setPosition(Vec2(designResolutionSize.width * 2.14, _jimenHight - 20));
+	addChild(rengaBig);
+	_syougaibutu.push_back(rengaBig);
+	//renga--------------------------------------------------------------------------------------------------------------
+
+	Sprite* gate = Sprite::create("pix/stageSozai/windmillD.png");
+	gate->setAnchorPoint(Vec2(0.0f, 0.0f));
+	gate->setPosition(Vec2(designResolutionSize.width*2.9, _jimenHight + 100));
+	addChild(gate, -1);
+	_syougaibutu.push_back(gate);
+
+	Sprite* gate2 = Sprite::create("pix/stageSozai/windmillC.png");
+	gate2->setAnchorPoint(Vec2(0.0f, 0.0f));
+	gate2->setPosition(Vec2(gate->getPosition().x, _jimenHight - 10));
+	addChild(gate2);
+	_syougaibutu.push_back(gate2);
+
+	Sprite* gate3 = Sprite::create("pix/stageSozai/windmillB.png");
+	gate3->setAnchorPoint(Vec2(0.0f, 0.0f));
+	gate3->setPosition(Vec2(gate->getPosition().x - gate->getBoundingBox().size.width / 2, gate->getPosition().y + gate->getBoundingBox().size.height - 20));
+	addChild(gate3);
+	_syougaibutu.push_back(gate3);
+
+	_itemManager->itemCreate(0, gate->getPosition(), gate);
 }
