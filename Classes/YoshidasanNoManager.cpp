@@ -368,6 +368,7 @@ void YoshidasanNoManager::kazeKeisan()
 
 void YoshidasanNoManager::yoshidaCenterCall()
 {
+	if (_yoshida.size() <= 0)return ;
 	_yoshidaCenterPos = Vec2(0, 0);
 	Vec2 sinkou = _yoshidaCamera->getPosition();
 	float torima = 0;
@@ -393,6 +394,9 @@ void YoshidasanNoManager::yoshidaCenterCall()
 	}
 	_yoshidaCenterPos = _yoshidaCenterPos / _yoshida.size();
 	_yoshidaCenterPos = _yoshidaCenterPos.x < designResolutionSize.width / 2 ? designResolutionSize / 2 : _yoshidaCenterPos;
+	log("Y%f,C%f", _yoshidaCenterPos.x, _yoshidaCamera->_yoshidaCenterPos.x);
+	_yoshidaCenterPos = _yoshidaCamera->_yoshidaCenterPos.x - designResolutionSize.width > _yoshidaCenterPos.x ? 
+		_yoshidaCamera->_yoshidaCenterPos : _yoshidaCenterPos;
 	_yoshidaCamera->_yoshidaCenterPos = _yoshidaCenterPos;
 }
 
