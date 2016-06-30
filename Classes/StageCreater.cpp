@@ -132,7 +132,18 @@ void StageCreater::createStagePart0()
 
 void StageCreater::createStagePart1()
 {
+	//‚³‚Ú---------------------------------------------------------------------------------------------------------------
 
+	Sprite *sabo1 = Sprite::create("pix/stageSozai/saboten3.png");
+	sabo1->setAnchorPoint(Vec2(0.5f, 0.0f));
+	sabo1->setPosition(Vec2(designResolutionSize.width * 0.8, _jimenHight-20));
+	addChild(sabo1);
+	_syougaibutu.push_back(sabo1);
+
+	//‚³‚Ú---------------------------------------------------------------------------------------------------------------
+
+
+	//•—ŽÔ---------------------------------------------------------------------------------------------------------------
 	Sprite* windmillBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
 	windmillBordBar->setScale(1.0);
 	windmillBordBar->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -149,7 +160,6 @@ void StageCreater::createStagePart1()
 	addChild(windmillBord);
 	//_syougaibutu.push_back(windmillBord);
 
-	//•—ŽÔ---------------------------------------------------------------------------------------------------------------
 	Sprite* gate = Sprite::create("pix/stageSozai/windmillD.png");
 	gate->setAnchorPoint(Vec2(0.0f, 0.0f));
 	gate->setPosition(Vec2(designResolutionSize.width*1.5, _jimenHight + 100));
