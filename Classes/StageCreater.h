@@ -23,12 +23,16 @@ using namespace std;
 class StageCreater : public Node
 {
 public:
-	bool init(Sprite *uekibati);
+	bool init(Sprite *uekibati,int stagenum);
 	void update(float dt);
 	Rect getGoolRect();
 	vector<Sprite*> getSyougaibutu();
 	vector<Item*> getItem();
-	
+	void createStagePart0();
+	void createStagePart1();
+	void createStagePart2();
+
+	float _jimenHight;
 	ItemManager *_itemManager;
 	vector<Sprite*> _syougaibutu;
 	vector<Item*> _itemArr;

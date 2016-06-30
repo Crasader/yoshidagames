@@ -299,7 +299,7 @@ void Yoshidasan::kazekaiten(float actontime)
 	_isWind = true;
 	stopAllActions();
 	//rotateKeisan();
-	//log("%f", 1500 * actontime);
+	log("%f", 1500 * actontime);
 	//auto kaiten = RotateBy::create(actontime, 500 * actontime);
 	auto kaiten = RotateBy::create(1, -500);
 	auto eas = EaseOut::create(kaiten, 3);

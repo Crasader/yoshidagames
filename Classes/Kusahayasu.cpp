@@ -102,7 +102,7 @@ void Kusahayasu::reStart()
 {
 	if (!_isChangeScene)
 	{
-		Director::getInstance()->replaceScene(TransitionFade::create(1.5f, HelloWorld::createScene()));
+		Director::getInstance()->replaceScene(TransitionFade::create(1.5f, HelloWorld::createScene(0)));
 		_isChangeScene = true;
 	}
 }

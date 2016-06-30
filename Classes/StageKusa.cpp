@@ -26,7 +26,7 @@ bool StageKusa::init()
 	_kusaSozai.clear();
 	float kusaSumWidth = 0;
 	int counter = 0;
-	while (kusaSumWidth <= designResolutionSize.width)
+	while (kusaSumWidth <= designResolutionSize.width * 2)
 	{
 		Sprite *kusa = Sprite::create("pix/stageSozai/shitakusa.png");
 		addChild(kusa);

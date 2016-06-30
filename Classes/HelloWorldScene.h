@@ -23,7 +23,7 @@ using namespace std;
 class HelloWorld : public cocos2d::Layer
 {
 public:
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createScene(int StageNum);
 
     virtual bool init();
     
@@ -53,6 +53,7 @@ public:
 	StageKusa *_stageKusa;
 
 	Vec2 _scrollMAX;
+	int _stageNum;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

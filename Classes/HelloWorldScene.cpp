@@ -2,13 +2,14 @@
 
 USING_NS_CC;
 
-Scene* HelloWorld::createScene()
+Scene* HelloWorld::createScene(int StageNum)
 {
 	auto scene = Scene::create();
 
 	// 'layer' is an autorelease object
 	auto layer = HelloWorld::create();
-
+	layer->_stageNum = StageNum;
+	
 	// add layer as a child to scene
 	scene->addChild(layer);
 
@@ -25,8 +26,6 @@ bool HelloWorld::init()
 	{
 		return false;
 	}
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	_backGround = Sprite::create("pix/buck/stage.png");
 	_backGround->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -64,7 +63,7 @@ bool HelloWorld::init()
 	addChild(_itemManager);
 
 	_stageCreater->_itemManager = _itemManager;
-	_stageCreater->init(uekibathi);
+	_stageCreater->init(uekibathi,_stageNum);
 	_stageCreater->autorelease();
 
 
@@ -157,7 +156,7 @@ bool HelloWorld::onTouchBegan(Touch* pTouch, Event* pEvent)
 		touchPos.x -= yoshidaPos.x - designResolutionSize.width*1.5;
 	}
 	
-	if((touchPos.x <= 50) && (touchPos.y <= 50))Director::getInstance()->replaceScene(HelloWorld::createScene());
+	if((touchPos.x <= 50) && (touchPos.y <= 50))Director::getInstance()->replaceScene(HelloWorld::createScene(0));
 
 	if (_yoshidaCamera->_isMoved == false) 
 	{
@@ -209,4 +208,5 @@ void HelloWorld::onTouchEnded(Touch* pTouch, Event* pEvent)
 	_kumomo->touchEndCall(touchPos);
 
 }
+
 
