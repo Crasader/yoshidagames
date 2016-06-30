@@ -139,6 +139,20 @@ void StageCreater::createStagePart0()
 	yajirushi->setPosition(Vec2(designResolutionSize.width*0.78f, designResolutionSize.height*0.5f));
 	addChild(yajirushi);
 
+	Sprite* windmillBordBar2 = Sprite::create("pix/stageSozai/BoardBar.png");
+	windmillBordBar2->setScale(1.0);
+	windmillBordBar2->setAnchorPoint(Vec2(0.5f, 0.0f));
+	windmillBordBar2->setPosition(Vec2(designResolutionSize.width*0.7, _jimenHight - 20));
+	addChild(windmillBordBar2);
+
+	Sprite *ishikanban = Sprite::create("pix/stageSozai/goalBoard.png");
+	addChild(ishikanban);
+	ishikanban->setAnchorPoint(Vec2(0.0f, 0.0f));
+	ishikanban->setPosition(windmillBordBar2->getPosition() +
+		Vec2(-ishikanban->getBoundingBox().size.width*0.5 +
+			windmillBordBar2->getBoundingBox().size.width*0.5,
+			windmillBordBar2->getBoundingBox().size.height*0.6));
+
 	auto upAct = MoveBy::create(0.5, Vec2(0, 20));
 	auto downAct = MoveBy::create(0.5, Vec2(0, -20));
 	auto seq = Sequence::create(upAct, downAct, nullptr);
@@ -238,6 +252,38 @@ void StageCreater::createStagePart2()
 	_syougaibutu.push_back(kirikabu);
 
 	_uekibathi->setPositionX(designResolutionSize.width * 3.8f);
+
+
+
+	Sprite* windmillBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
+	windmillBordBar->setScale(1.0);
+	windmillBordBar->setAnchorPoint(Vec2(0.5f, 0.0f));
+	windmillBordBar->setPosition(Vec2(designResolutionSize.width*0.2, _jimenHight - 20));
+	addChild(windmillBordBar);
+
+	Sprite *kikenkanban = Sprite::create("pix/stageSozai/enemyBoard.png");
+	addChild(kikenkanban);
+	kikenkanban->setAnchorPoint(Vec2(0.0f, 0.0f));
+	kikenkanban->setPosition(windmillBordBar->getPosition() + Vec2(-kikenkanban->getBoundingBox().size.width*0.5 + windmillBordBar->getBoundingBox().size.width*0.5, windmillBordBar->getBoundingBox().size.height*0.6));
+	
+	
+	Sprite* windmillBordBar2 = Sprite::create("pix/stageSozai/BoardBar.png");
+	windmillBordBar2->setScale(1.0);
+	windmillBordBar2->setAnchorPoint(Vec2(0.5f, 0.0f));
+	windmillBordBar2->setPosition(Vec2(designResolutionSize.width*0.9, _jimenHight - 20));
+	addChild(windmillBordBar2);
+
+	Sprite *ishikanban = Sprite::create("pix/stageSozai/stoneBoard.png");
+	addChild(ishikanban);
+	ishikanban->setAnchorPoint(Vec2(0.0f, 0.0f));
+	ishikanban->setPosition(windmillBordBar2->getPosition() +
+		Vec2(-ishikanban->getBoundingBox().size.width*0.5 +
+			windmillBordBar2->getBoundingBox().size.width*0.5, 
+			windmillBordBar2->getBoundingBox().size.height*0.6));
+
+
+
+
 
 
 	//banebu-------------------------------------------------------------------------------------------------------------
