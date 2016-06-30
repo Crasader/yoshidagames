@@ -38,8 +38,11 @@ bool Yoshidasan::init(const char *fileName, int maxSpeed, float gravity, bool is
 
 void Yoshidasan::update(float dt)
 {
-	if (!_isGool)speedKeisan();
-	move();
+	if (!_isGool)
+	{
+		speedKeisan();
+		move();
+	}
 }
 
 //•—‚©‚ç‚ÌˆÚ“®—Ê‚ÌŒvZ
@@ -271,6 +274,7 @@ void Yoshidasan::allChangeReset()
 	setFlipY(false);
 	//setFlipX(false);
 	setRotation(0);
+	
 }
 
 //ƒS[ƒ‹‚µ‚½‚Ìˆ—
