@@ -277,7 +277,7 @@ void StageCreater::createStagePart2()
 	addChild(ishikanban);
 	ishikanban->setAnchorPoint(Vec2(0.0f, 0.0f));
 	ishikanban->setPosition(windmillBordBar2->getPosition() +
-		Vec2(-ishikanban->getBoundingBox().size.width*0.5 +
+		Vec2(+ishikanban->getBoundingBox().size.width*0.5 +
 			windmillBordBar2->getBoundingBox().size.width*0.5, 
 			windmillBordBar2->getBoundingBox().size.height*0.6));
 
