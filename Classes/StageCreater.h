@@ -23,7 +23,7 @@ using namespace std;
 class StageCreater : public Node
 {
 public:
-	bool init(Sprite *uekibati,int stagenum);
+	bool init(Sprite *uekibati,int stagenum,Vec2 scrollMax);
 	void update(float dt);
 	Rect getGoolRect();
 	vector<Sprite*> getSyougaibutu();
@@ -37,5 +37,7 @@ public:
 	vector<Sprite*> _syougaibutu;
 	vector<Item*> _itemArr;
 	Sprite *_uekibathi;
+
+	Vec2 _scrollMax;
 };
 #endif

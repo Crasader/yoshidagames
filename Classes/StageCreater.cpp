@@ -2,12 +2,12 @@
 
 
 
-bool StageCreater::init(Sprite *uekibati, int stagenum)
+bool StageCreater::init(Sprite *uekibati, int stagenum,Vec2 scrollMax)
 {
 	if (!Node::init())return false;
 	_uekibathi = uekibati;
 
-	
+	_scrollMax = scrollMax;
 
 	Sprite *yajirushi2 = Sprite::create("pix/stageSozai/yajirushi.png");
 	yajirushi2->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -52,8 +52,23 @@ bool StageCreater::init(Sprite *uekibati, int stagenum)
 	jimen4->setPosition(Vec2(jimen3->getBoundingBox().size.width * 3, 0));
 	addChild(jimen4, 5);
 	jimen4->setTag(5);
-
 	_syougaibutu.push_back(jimen4);
+
+	Sprite *jimen5 = Sprite::create("pix/stageSozai/ground.png");
+	jimen5->setAnchorPoint(Vec2(0.0f, 0.0f));
+	jimen5->setPosition(Vec2(jimen3->getBoundingBox().size.width * 4, 0));
+	addChild(jimen5, 5);
+	jimen5->setTag(5);
+	_syougaibutu.push_back(jimen5);
+
+	Sprite *kabe = Sprite::create();
+	kabe->setTextureRect(Rect(0, 0, 50, designResolutionSize.height*2));
+	kabe->setAnchorPoint(Vec2(0.0f, 0.0f));
+	kabe->setPosition(Vec2(_scrollMax.x, 0));
+	addChild(kabe, 5);
+	kabe->setTag(5);
+	_syougaibutu.push_back(kabe);
+
 	switch (stagenum)
 	{
 	case 0:
@@ -68,6 +83,7 @@ bool StageCreater::init(Sprite *uekibati, int stagenum)
 	default:
 		break;
 	}
+
 
 	
 	_syougaibutu.push_back(uekibati);
@@ -105,9 +121,6 @@ vector<Item*> StageCreater::getItem()
 
 void StageCreater::createStagePart0()
 {
-
-	
-
 	Sprite* swipeBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
 	swipeBordBar->setScale(1.0);
 	swipeBordBar->setAnchorPoint(Vec2(0.0f, 0.0f));
@@ -253,8 +266,6 @@ void StageCreater::createStagePart2()
 
 	_uekibathi->setPositionX(designResolutionSize.width * 3.8f);
 
-
-
 	Sprite* windmillBordBar = Sprite::create("pix/stageSozai/BoardBar.png");
 	windmillBordBar->setScale(1.0);
 	windmillBordBar->setAnchorPoint(Vec2(0.5f, 0.0f));
@@ -277,14 +288,9 @@ void StageCreater::createStagePart2()
 	addChild(ishikanban);
 	ishikanban->setAnchorPoint(Vec2(0.0f, 0.0f));
 	ishikanban->setPosition(windmillBordBar2->getPosition() +
-		Vec2(+ishikanban->getBoundingBox().size.width*0.5 +
+		Vec2(-ishikanban->getBoundingBox().size.width*0.5 +
 			windmillBordBar2->getBoundingBox().size.width*0.5, 
 			windmillBordBar2->getBoundingBox().size.height*0.6));
-
-
-
-
-
 
 	//banebu-------------------------------------------------------------------------------------------------------------
 

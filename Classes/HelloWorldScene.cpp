@@ -99,7 +99,7 @@ bool HelloWorld::init(int StageNum)
 	addChild(_itemManager);
 
 	_stageCreater->_itemManager = _itemManager;
-	_stageCreater->init(uekibathi, _stageNum);
+	_stageCreater->init(uekibathi, _stageNum, _scrollMAX);
 	_stageCreater->autorelease();
 
 
