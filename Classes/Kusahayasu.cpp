@@ -93,19 +93,19 @@ void Kusahayasu::goResult()
 {
 	if (!_isChangeScene)
 	{
-		Director::getInstance()->replaceScene(TransitionFade::create(1.0f, ResultScene::createScene(_goalYoshida, _goalGirl, _goalDebu, _goalYanki)));
+		
+		HelloWorld *_hello = (HelloWorld*)getParent();
+			//Director::getInstance()->replaceScene(TransitionFade::create(1.0f, ResultScene::createScene(_goalYoshida, _goalGirl, _goalDebu, _goalYanki)));
+		ResultScene *_result = ResultScene::create(_goalYoshida, _goalGirl, _goalDebu, _goalYanki);
+		_hello->addChild(_result,2);
+		_result->setPositionX(_hello->_yoshidaCamera->getPositionX() - visibleCenter.x);
+
+
 		_isChangeScene = true;
 	}
 }
 
-void Kusahayasu::reStart() 
-{
-	if (!_isChangeScene)
-	{
-		Director::getInstance()->replaceScene(TransitionFade::create(1.5f, HelloWorld::createScene(0)));
-		_isChangeScene = true;
-	}
-}
+
 
 void Kusahayasu::shiniHayasu(Vec2 shiniPos, int kakudoNum, Node *target)
 {

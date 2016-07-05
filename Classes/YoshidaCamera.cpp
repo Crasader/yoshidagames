@@ -41,8 +41,11 @@ void YoshidaCamera::update(float dt)
 {
 	if (_isMoved) 
 	{
-		this->setPosition(_yoshidaCenterPos);
-		//scrollMove();
+		if (_yoshidaCenterPos.x < (_scrollMAX.x - (designResolutionSize.width / 2)))
+		{
+			this->setPosition(_yoshidaCenterPos);
+			//scrollMove();
+		}
 	}
 }
 

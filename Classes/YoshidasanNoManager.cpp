@@ -30,7 +30,7 @@ bool YoshidasanNoManager::init(StageCreater *stageCrater, Kusahayasu *kusahayasu
 	_kusahayasu = kusahayasu;
 
 	//‹g“c‚³‚ñ‚Ì”
-	int yoshidaSuu = 10 * (stageNum+1);
+	int yoshidaSuu = 1 * (stageNum+1);
 
 	_goolRect = _stageCrater->getGoolRect();
 
@@ -388,7 +388,7 @@ void YoshidasanNoManager::yoshidaCenterCall()
 			_yoshida.erase(_yoshida.begin() + i);
 			if (_yoshida.size() == 0)
 			{
-				_kusahayasu->reStart();
+				_kusahayasu->goResult();
 			}
 		}
 	}
