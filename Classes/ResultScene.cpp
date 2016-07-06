@@ -42,7 +42,8 @@ bool ResultScene::init(int yoshida, int girl, int debu, int yanki)
 	Sprite *back = Sprite::create("pix/Result/result.png");
 	back->setAnchorPoint(Vec2::ZERO);
 	back->setPosition(Vec2::ZERO);
-	back->setTextureRect(Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+	back->setTextureRect(Rect(0, 0, designResolutionSize.width + 30, designResolutionSize.height));
+	back->setOpacity(150);
 	addChild(back);
 
 	vector<string> hyoujiMoji;

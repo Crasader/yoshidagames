@@ -61,13 +61,13 @@ bool HelloWorld::init(int StageNum)
 		Sprite *backGround = Sprite::create("pix/buck/stage.png");
 		backGround->setAnchorPoint(Vec2(0.0f, 0.0f));
 		backGround->setPosition(Vec2(backGround->getBoundingBox().size.width*i, 0));
-		backGround->setGlobalZOrder(-10.0f);
+		backGround->setGlobalZOrder(0.0f);
 		addChild(backGround);
 	}
 
 	Sprite *ki = Sprite::create("pix/buck/ki.png");
 	ki->setAnchorPoint(Vec2(0.0f, 0.0f));
-	ki->setGlobalZOrder(-5.0f);
+	ki->setGlobalZOrder(0.0f);
 	addChild(ki);
 
 	_yoshidaCamera = new YoshidaCamera();
@@ -85,7 +85,7 @@ bool HelloWorld::init(int StageNum)
 	addChild(uekibathi, 1);
 	uekibathi->setAnchorPoint(Vec2(0.0f, 0.0f));
 	uekibathi->setScale(0.7f);
-	uekibathi->setPosition(Vec2(_scrollMAX.x - designResolutionSize.width/2, designResolutionSize.height*0.24f));
+	uekibathi->setPosition(Vec2(_scrollMAX.x - designResolutionSize.width / 2, designResolutionSize.height*0.24f));
 
 	_kusahayasu = Kusahayasu::create();
 	addChild(_kusahayasu);
@@ -119,7 +119,7 @@ bool HelloWorld::init(int StageNum)
 
 	_yosidaManeger = new YoshidasanNoManager();
 	_yosidaManeger->_effectManager = _effectManger;
-	_yosidaManeger->init(_stageCreater, _kusahayasu,_stageNum);
+	_yosidaManeger->init(_stageCreater, _kusahayasu, _stageNum);
 	_yosidaManeger->autorelease();
 	_yosidaManeger->_yoshidaCamera = _yoshidaCamera;
 	_yosidaManeger->_enemyManager = _enemyManager;
@@ -185,11 +185,10 @@ bool HelloWorld::onTouchBegan(Touch* pTouch, Event* pEvent)
 		}
 	}
 
-	if ((touchPos.x <= 50) && (touchPos.y <= 50))Director::getInstance()->replaceScene(HelloWorld::createScene(0));
-		if (_yoshidaCamera->_isMoved == false)
-		{
-			_yoshidaCamera->_isMoved = true;
-		}
+	if (_yoshidaCamera->_isMoved == false)
+	{
+		_yoshidaCamera->_isMoved = true;
+	}
 	_kumomo->touchStartCall(touchPos);
 
 	return true;
@@ -234,7 +233,7 @@ void HelloWorld::onTouchEnded(Touch* pTouch, Event* pEvent)
 		}
 		if (yoshidaPos.x >= _scrollMAX.x - designResolutionSize.width / 2)
 		{
-			touchPos.x -= yoshidaPos.x - (_scrollMAX.x - designResolutionSize.width/2);
+			touchPos.x -= yoshidaPos.x - (_scrollMAX.x - designResolutionSize.width / 2);
 		}
 	}
 
