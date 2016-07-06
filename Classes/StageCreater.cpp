@@ -84,8 +84,6 @@ bool StageCreater::init(Sprite *uekibati, int stagenum,Vec2 scrollMax)
 		break;
 	}
 
-
-	
 	_syougaibutu.push_back(uekibati);
 	this->scheduleUpdate();
 	return true;
