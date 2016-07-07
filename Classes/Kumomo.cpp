@@ -50,6 +50,10 @@ bool Kumomo::init()
 	_itemManager->_windMaxTime = WINDCALLMAXTIME;
 	_itemManager->_windMaxRange = WINDMAXRANGE;
 
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	//audio->preloadEffect("windSE.mp3");
+	audio->preloadEffect("wind2.mp3");
+
 	this->scheduleUpdate();
 	return false;
 }
@@ -82,6 +86,9 @@ void Kumomo::touchEndCall(Vec2 touchPos)
 	_isTouch = false;
 	kumomoActhionTigimu();
 	_kazehaniSP->setVisible(false);
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	//audio->playEffect("windSE.mp3", false,0.8f);
+	audio->playEffect("wind2.mp3", false, 0.8f);
 }
 
 void Kumomo::yajirushiSet()

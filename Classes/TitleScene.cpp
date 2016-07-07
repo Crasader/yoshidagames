@@ -31,7 +31,7 @@ bool TitleScene::init()
 
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	audio->preloadBackgroundMusic("BGM.mp3");
-	audio->playBackgroundMusic("BGM.mp3");
+	audio->playBackgroundMusic("BGM.mp3",true);
 
 	Sprite *back = Sprite::create("pix/buck/stage.png");
 	back->setAnchorPoint(Vec2::ZERO);
