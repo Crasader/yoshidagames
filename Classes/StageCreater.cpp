@@ -184,6 +184,26 @@ void StageCreater::createStagePart1()
 
 	//さぼ---------------------------------------------------------------------------------------------------------------
 
+	Sprite *morione = Sprite::create("pix/actor/morione.png");
+	morione->setPosition(Vec2(designResolutionSize.width * 0.7, designResolutionSize.height*0.5));
+	morione->setScale(0.7);
+	addChild(morione);
+	_syougaibutu.push_back(morione);
+	float morioneactionTime = 0.5f;
+	auto morioneAct1 = ScaleBy::create(0.1, 1.2, 0.8);
+	auto morioneAct2 = MoveBy::create(morioneactionTime, Vec2(0,100));
+	auto morioneAct3 = ScaleBy::create(morioneactionTime, 0.8, 1.3);
+	auto morioneAct4 = MoveBy::create(0.8, Vec2(0, -200));
+	auto morioneAct5 = ScaleTo::create(0.1, 0.7, 0.7);
+	auto morioneAct6 = ScaleTo::create(0.8, 0.5,0.7);
+	auto morionedidi = DelayTime::create(morioneactionTime);
+	auto morionespawn = Spawn::create(morioneAct2, morioneAct3, nullptr);	// アクションを同時に実行
+	auto morionespawn2 = Spawn::create(morioneAct4, morioneAct6, nullptr);	// アクションを同時に実行
+	auto morionesequence = Sequence::create(morioneAct1, morionespawn,morionedidi, morioneAct1,morionespawn,morionedidi,morionespawn2,morionedidi,morioneAct5, nullptr); // アクションを順番に実行
+	auto morionerere = RepeatForever::create(morionesequence);
+	morione->runAction(morionerere);
+
+
 	//banebu-------------------------------------------------------------------------------------------------------------
 
 	Sprite *banebu = Sprite::create("pix/actor/banebu.png");
