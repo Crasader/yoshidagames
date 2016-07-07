@@ -235,9 +235,9 @@ void EnemyManager::targetHitCheak()
 
 void EnemyManager::stage0()
 {
-	IyanaYatsu *iyayatu = IyanaYatsu::create(Vec2(200, designResolutionSize.height*0.13f));
+	/*IyanaYatsu *iyayatu = IyanaYatsu::create(Vec2(200, designResolutionSize.height*0.13f));
 	addChild(iyayatu);
-	_iyanayatu.pushBack(iyayatu);
+	_iyanayatu.pushBack(iyayatu);*/
 }
 
 void EnemyManager::stage2()
