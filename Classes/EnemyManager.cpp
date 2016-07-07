@@ -9,6 +9,7 @@ bool EnemyManager::init(int stageNum)
 	switch (stageNum)
 	{
 	case 0:
+		stage0();
 		break;
 	case 1:
 		break;
@@ -70,7 +71,6 @@ void EnemyManager::posCheck()
 				futarinoAngle += futarinoAngle > 0 ? 0 : M_PI * 2;
 				futarinoAngle -= fmod(futarinoAngle, M_PI / 2) / 3.0f;
 				enemy->_myAngle += enemy->_myAngle > futarinoAngle ? -bendAngle : bendAngle;
-
 			}
 		}
 		else
@@ -82,8 +82,38 @@ void EnemyManager::posCheck()
 			futarinoAngle += futarinoAngle > 0 ? 0 : M_PI * 2;
 			enemy->_myAngle = futarinoAngle;
 		}
+	}
 
-
+	for (auto iyaty :_iyanayatu)
+	{
+		Vec2 iyanayatuPos = iyaty->getPosition();
+		float minVec = 20000;
+		Vec2 minYoshidaPos = Vec2(0, 0);
+		for (auto yoshida : _yoshidaArr)
+		{
+			Vec2 yoshidaPos = yoshida->getPosition();
+			float kyori = sqrt(pow(yoshidaPos.x - iyanayatuPos.x, 2) + pow(yoshidaPos.y - iyanayatuPos.y, 2));
+			if (minVec > kyori)
+			{
+				minVec = kyori;
+				minYoshidaPos = yoshidaPos;
+			}
+		}
+		if (minVec < 600)
+		{
+			float angle = atan2(iyaty->_head->getPositionY() - minYoshidaPos.y, minYoshidaPos.x - iyaty->_head->getPositionX()) * 180 / M_PI + 30;
+			if (angle < -90)angle = -90;
+			if (angle > 10)angle = 10;
+			iyaty->headRotateSet(angle);
+			if (minVec < 400)
+			{
+				iyaty->kazehukasu(_yoshidaArr);
+			}
+		}
+		else
+		{
+			iyaty->headRotateSet(0);
+		}
 	}
 }
 
@@ -95,16 +125,9 @@ void EnemyManager::HitCheck()
 
 		for (auto item : _itemManager->_itemArr)
 		{
-			if (item->getTag() != 5)continue;
 			Rect itemRect = item->getBoundingBox();
 			if (enemyRect.intersectsRect(itemRect))
 			{
-				/*auto rot = RotateTo::create(1.0, 180);
-				auto fall = MoveTo::create(5.0, Vec2(_enemyArr.at(target)->getPosition().x, -100));
-				auto spawn = Spawn::create(rot, fall, nullptr);
-
-				auto func = CCCallFunc::create([=]()
-				{*/
 				int kirasuu = 200;
 				float actionTime = 0.5f;
 				for (int i = 0; i < kirasuu; i++)
@@ -114,7 +137,6 @@ void EnemyManager::HitCheck()
 					kirakira->setTextureRect(Rect(0, 0, kiraSize, kiraSize));
 					Vec2 kirarandmPos = Vec2(random(-20, 20), random(-20, 20));
 					kirakira->setPosition(_enemyArr.at(target)->getPosition() + kirarandmPos);
-					//kirakira->setColor(Color3B(random(150,250), random(150, 250), random(150, 250)));
 					kirakira->setColor(Color3B::BLACK);
 					addChild(kirakira);
 
@@ -132,9 +154,6 @@ void EnemyManager::HitCheck()
 				}
 				_enemyArr.at(target)->removeFromParentAndCleanup(true);
 				_enemyArr.erase(_enemyArr.begin() + target);
-				/*});
-				auto seq = Sequence::create(spawn, func, nullptr);
-				_enemyArr.at(target)->runAction(seq);*/
 			}
 		}
 	}
@@ -214,6 +233,13 @@ void EnemyManager::targetHitCheak()
 	}
 }
 
+void EnemyManager::stage0()
+{
+	IyanaYatsu *iyayatu = IyanaYatsu::create(Vec2(200, designResolutionSize.height*0.13f));
+	addChild(iyayatu);
+	_iyanayatu.pushBack(iyayatu);
+}
+
 void EnemyManager::stage2()
 {
 	const char *enemyPas = "pix/actor/yoshidateki.png";
@@ -238,3 +264,4 @@ void EnemyManager::stage2()
 
 
 }
+

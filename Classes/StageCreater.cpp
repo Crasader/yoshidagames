@@ -172,6 +172,7 @@ void StageCreater::createStagePart0()
 	auto rep = RepeatForever::create(seq);
 	yajirushi->runAction(rep);
 
+	
 }
 
 void StageCreater::createStagePart1()

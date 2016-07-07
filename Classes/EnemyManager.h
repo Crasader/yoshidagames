@@ -15,6 +15,7 @@
 #include "ItemManager.h"
 #include "EffectManager.h"
 #include "StageCreater.h"
+#include "IyanaYatsu.h"
 
 
 using namespace cocos2d;
@@ -34,12 +35,14 @@ public:
 
 	Vector<Enemy*> _enemyArr;
 	Vector<Yoshidasan*> _yoshidaArr;
+	Vector<IyanaYatsu*> _iyanayatu;
 	vector<Sprite*> _syougaibutuArr;
 	StageCreater *_syougaibutu;
 	EffectManager *_effectManager;
 	ItemManager *_itemManager;
 
 	void stage2();
+	void stage0();
 	//vector<Item> *_itemArr;
 
 
