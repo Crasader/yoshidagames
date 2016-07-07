@@ -115,7 +115,7 @@ bool ResultScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 	{
 		_changeScene = false;
 
-		Director::getInstance()->replaceScene(TransitionPageTurn::create(0.8, TitleScene::createScene(), false));
+		Director::getInstance()->replaceScene(TransitionPageTurn::create(0.8, SelectScene::createScene(), false));
 	}
 
 	return true;
